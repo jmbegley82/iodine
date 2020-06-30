@@ -1,8 +1,32 @@
 CC=clang
+CXX=clang++
+MKDIR_P=mkdir -p
+CFLAGS=-g
+CXXFLAGS=-g
+CPPFLAGS=-I./src/
+LDFLAGS=
 
-all:
-	$(CC) -g -I./src src/*.c* -o iodine-test
-	$(MAKE) -f Makefile.testing doc
+BUILD_DIR=./build
+SRC_DIR=./src
+
+SRCS:=$(shell find $(SRC_DIR) -name *.cpp -or -name *.c)
+OBJS:=$(SRCS:%=$(BUILD_DIR)/%.o)
+DEPS:=$(OBJS:.o=.d)
+
+$(BUILD_DIR)/%.c.o: %.c
+	$(MKDIR_P) $(dir $@)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+
+$(BUILD_DIR)/%.cpp.o: %.cpp
+	$(MKDIR_P) $(dir $@)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+
+$(BUILD_DIR)/iodine-test: $(OBJS)
+	$(CC) $(OBJS) -o $@ $(LDFLAGS)
+
+#all:
+#	$(CC) -g $(CPPFLAGS) src/*.c* -o iodine-test
+#	$(MAKE) -f Makefile.testing doc
 
 doc:
 	doxygen

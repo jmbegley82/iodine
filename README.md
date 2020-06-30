@@ -1,7 +1,14 @@
-# iodine
+# Iodine
 There is currently no license, implied or otherwise, for anything in this repo.  Its purpose is educational only!
 
-Planning:
+# Building:
+Requirements for full package build:
+	Generic target:
+		Make (tested with GNU Make 4.2.1 and BSD Make)
+		C and C++ compilers (tested with GCC 9.3.0 and Clang 9.0.1)
+		Doxygen (tested with Doxygen 1.8.17)
+
+# Planning:
 1)  Project will be test-driven
 2)  Project will implement a scripting language and objects which can communicate with each other using it during runtime.
 3)  Project will target the following OS/architecture/build systems:
