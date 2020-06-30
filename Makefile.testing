@@ -22,11 +22,7 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 $(BUILD_DIR)/iodine-test: $(OBJS)
-	$(CC) $(OBJS) -o $@ $(LDFLAGS)
-
-#all:
-#	$(CC) -g $(CPPFLAGS) src/*.c* -o iodine-test
-#	$(MAKE) -f Makefile.testing doc
+	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
 
 doc:
 	doxygen
@@ -34,5 +30,5 @@ doc:
 .PHONY:	clean
 
 clean:
-	rm -rf iodine-test
+	rm -rf build
 	rm -rf doc

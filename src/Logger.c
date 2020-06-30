@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include "Logger.h"
 
-/** @brief Logger - writes debug information to designated area
- * @details Writes debug information to stdout and/or a file, with consideration
- * for being called by multiple threads at once (pending).
+/** @brief Write debug information to designated area
+ * @details by default logs to stdout, in the future optionally to a file or both, with consideration
+ * for being called by multiple threads at once, possibly by implementing a buffer (pending).
  *
- * @param str (const char*) the c-string to write to output
+ * @param str (const char*) the C-string to write to output
  * @return void
  */
 void Logger(const char* str) {
