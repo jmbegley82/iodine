@@ -1,2 +1,14 @@
+CC=clang
+
 all:
-	gcc -g -I./src src/*.c* -o iodine-test
+	$(CC) -g -I./src src/*.c* -o iodine-test
+	$(MAKE) -f Makefile.testing doc
+
+doc:
+	doxygen
+
+.PHONY:	clean
+
+clean:
+	rm -rf iodine-test
+	rm -rf doc

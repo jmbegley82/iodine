@@ -32,4 +32,6 @@
 *.app
 
 # random junk
+Makefile
 iodine-test
+doc
