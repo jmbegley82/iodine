@@ -13,6 +13,7 @@ Planning:
 	Android ICS+/arm?/Android Studio (version TBD)
 	FreeBSD 11+/amd64/BSD Make (+ maybe CMake)
 	OpenBSD 6.7+/amd64/BSD Make (+ maybe CMake)
+	A Generic target using a very plain (GNU or BSD) Makefile for testing purposes
 3.1)    (unless CMake starts being harder to utilize than Autotools; then, Autotools will be used instead)
 4)  Project will use libSDL2 for video display, audio playback and input.  Ideally, each platform will be using platform-specific
     timing code, but platforms where this becomes unreasonable could use libSDL2 for timing as well.
@@ -29,4 +30,5 @@ Planning:
 7.6)    Stop abusing the global variable.
 7.7)    Code will be threadsafe wherever possible, which means it needs to be as clean and legible as possible.
 8)  This Planning section of the README will be updated in a timely manner.
-
+9)  Project will be using Doxygen to generate documentation/call graphs/class diagrams/etc.  Note that this may only on certain
+    platforms and, as such, maybe shouldn't be the same mechanism that generates end-user-facing documentation.
