@@ -24,8 +24,12 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 $(BUILD_DIR)/iodine-test: $(OBJS)
 	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
 
+bin:	$(BUILD_DIR)/iodine-test
+
 doc:
 	doxygen
+
+all:	bin doc
 
 .PHONY:	clean
 
