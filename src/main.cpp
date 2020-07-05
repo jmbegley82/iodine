@@ -1,4 +1,5 @@
-/* Iodine tests
+/* main.cpp
+ * Iodine tests
  *
  */
 
@@ -10,6 +11,8 @@ using std::string;
 
 int main(int argc, char** argv) {
 	Logger("main entered.");
+
+	// start
 	Logger("a = new Atom() -- create a regular, self-naming Atom.");
 	Atom* a = new Atom();
 	string id = a->GetIdentity();
@@ -22,8 +25,16 @@ int main(int argc, char** argv) {
 	id = b->GetIdentity();
 	msg = "b->GetIdentity() returned: \"" + id + "\".";
 	Logger(msg.c_str());
+
+	CmdSink::Retval rv = b->Command("nonsense command that will be rejected anyway");
+	msg = "b->Command was fed gibberish and emitted the following: " + CmdSink::RetvalStr(rv);
+	Logger(msg.c_str());
+	Logger("CMD_INVALID was the expected response.");
+
 	Logger("deleting b...");
 	delete b;
+	// end
+
 	Logger("that's about enough for today.");
 	return 0;
 }

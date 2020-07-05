@@ -8,12 +8,12 @@
 #include <string>
 using std::string;
 
-//! Anything that needs a string-based identity can derive from this.
+//! Anything that needs a string-based identity should inherit this.
 class Identity {
 public:
 	string GetIdentity();			//!< Return the object's identity
 	void SetIdentity(string identity);	//!< Set the object's identity
-protected:
+private:
 	string _identity;			//!< The object's identity.
 };
 

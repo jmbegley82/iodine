@@ -12,7 +12,7 @@ There is currently no license, implied or otherwise, for anything in this repo. 
 	No (un)install script.
     Full build requires:
         Make (tested with GNU Make 4.2.1 and 4.3)
-        C and C++ compilers (tested with GCC 9.3.0 and Clang 8.0.1 and 9.0.1)
+        C and C++ compilers with support for C++11 (tested with GCC 9.3.0 and Clang 8.0.1 and 9.0.1)
         Doxygen (tested with Doxygen 1.8.17)
 
 # Planning:
@@ -48,4 +48,4 @@ There is currently no license, implied or otherwise, for anything in this repo. 
     platforms and, as such, maybe shouldn't be the same mechanism that generates end-user-facing documentation.
 10) Project will steer away from performance-impacting C++ features like function overloading, particularly in objects which
     will be used within loops.
-
+11) Project will attempt to stay within the confines of C++11.

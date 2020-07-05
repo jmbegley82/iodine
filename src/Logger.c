@@ -1,3 +1,7 @@
+/* Logger.c
+ *
+ */
+
 #include <stdio.h>
 #include "Logger.h"
 
