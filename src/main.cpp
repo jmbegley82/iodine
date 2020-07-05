@@ -26,8 +26,13 @@ int main(int argc, char** argv) {
 	msg = "b->GetIdentity() returned: \"" + id + "\".";
 	Logger(msg.c_str());
 
-	CmdSink::Retval rv = b->Command("nonsense command that will be rejected anyway");
-	msg = "b->Command was fed gibberish and emitted the following: " + CmdSink::RetvalStr(rv);
+	int rv = b->Command("gibberish");
+	msg = "b->Command was fed gibberish and emitted the following: " + Atom::RetvalStr(rv);
+	Logger(msg.c_str());
+	Logger("CMD_ERROR was the expected response.");
+
+	rv = b->Command("test-bypass");
+	msg = "b->Command was fed test-bypass and emitted the following: " + Atom::RetvalStr(rv);
 	Logger(msg.c_str());
 	Logger("CMD_INVALID was the expected response.");
 
