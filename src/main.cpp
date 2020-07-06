@@ -11,7 +11,7 @@
 using std::string;
 
 void* test_logger_thread(void *arg) {
-	int reps = 128;  // set to # of desired iterations
+	int reps = 90000;  // set to # of desired iterations
 	string tname = std::to_string((long int)arg);
 	for(int i=0; i<reps; i++) {
 		string currentRep = std::to_string(i);
@@ -22,7 +22,7 @@ void* test_logger_thread(void *arg) {
 }
 
 void test_logger() {
-	int threadcount = 10;  // set to # of desired concurrent testing threads
+	int threadcount = 100;  // set to # of desired concurrent testing threads
 	pthread_attr_t attr;
 	pthread_attr_init(&attr);
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);

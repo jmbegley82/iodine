@@ -3,17 +3,18 @@ There is currently no license, implied or otherwise, for anything in this repo. 
 
 # Building:
     Generic target:
-    Instructions:
-        For binary:         make (or gmake) -f Makefile.testing
-        For docs:           make (or gmake) -f Makefile.testing doc
-                                (or just run doxygen)
-        Binaries are in:    ./build
-        Docs are in:        ./doc
-	No (un)install script.
-    Full build requires:
-        Make (tested with GNU Make 4.2.1 and 4.3)
-        C and C++ compilers with support for C++11 (tested with GCC 9.3.0 and Clang 8.0.1 and 9.0.1)
-        Doxygen (tested with Doxygen 1.8.17)
+        Instructions:
+            Edit Makefile.testing CC and CXX variables as appropriate
+            For binary:         make (or gmake) -f Makefile.testing
+            For docs:           make (or gmake) -f Makefile.testing doc
+                                    (or just run doxygen)
+            Binaries are in:    ./build
+            Docs are in:        ./doc
+            No (un)install script.
+        Full build requires:
+            GNU Make (tested with 4.2.1 and 4.3)
+            C and C++ compilers with support for C++11 (tested with GCC 9.3.0 and Clang 8.0.1 and 9.0.1)
+            Doxygen (tested with 1.8.17)
 
 # Planning:
 1)  Project will be test-driven
