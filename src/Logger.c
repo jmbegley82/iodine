@@ -2,6 +2,7 @@
  *
  */
 
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,6 +18,7 @@
 #define MAX_LOGLINES 128
 #endif //MAX_LOGLINES
 
+static pthread_mutex_t _logMutex;
 static char* _logbuffer[MAX_LOGLINES];
 static int _logCurrentLine;
 
@@ -28,17 +30,20 @@ static int _logCurrentLine;
  * @return int 0 for everything went okay, -1 if it's already initialized
  */
 int Logger_init() {
+	pthread_mutex_init(&_logMutex, NULL);
+	pthread_mutex_lock(&_logMutex);
 	for(int i=0; i<MAX_LOGLINES; i++)
 		_logbuffer[i] = malloc(MAX_LINELENGTH);
 	_logCurrentLine = 0;
+	pthread_mutex_unlock(&_logMutex);
 	return 0;
 }
 
 /**
- * @brief Write pending buffered log entries and clear the buffer
- * @details This function will be primarily called internally but should be safe for general use.
+ * @brief Write pending buffered log entries and clear the buffer.
+ * @details This function should only be used internally because it does not lock the mutex!
  */
-void Logger_process() {
+void Logger_process_unsafe() {
 	for(int i=0; i<_logCurrentLine; i++) {
 		printf("%s\n", _logbuffer[i]);
 		free((void*)_logbuffer[i]);
@@ -48,13 +53,26 @@ void Logger_process() {
 }
 
 /**
+ * @brief Lock mutex, then call Logger_process_unsafe to write pending buffered log entries and clear the buffer
+ * @details This function will be primarily called internally but should be safe for general use.
+ */
+void Logger_process() {
+	pthread_mutex_lock(&_logMutex);
+	Logger_process_unsafe();
+	pthread_mutex_unlock(&_logMutex);
+}
+
+/**
  * @brief Flush the buffer and deinitialize things and such
  */
 void Logger_finish() {
-	Logger_process();
+	pthread_mutex_lock(&_logMutex);
+	Logger_process_unsafe();
 	for(int i=0; i<MAX_LOGLINES; i++) {
 		free((void*)_logbuffer[i]);
 	}
+	pthread_mutex_unlock(&_logMutex);
+	pthread_mutex_destroy(&_logMutex);
 }
 
 /**
@@ -67,15 +85,12 @@ void Logger_finish() {
  * @return void
  */
 void Logger(const char* str) {
-/*
-	// for now, dump to stdout
-	printf("%s\n", str);
-*/
+	pthread_mutex_lock(&_logMutex);
 	assert(_logCurrentLine < MAX_LOGLINES);
-	//_logbuffer[_logCurrentLine] = str;
 	strncpy(_logbuffer[_logCurrentLine], str, MAX_LINELENGTH);
 	_logbuffer[_logCurrentLine][MAX_LINELENGTH] = '\0';
 	_logCurrentLine++;
 	if(_logCurrentLine >= MAX_LOGLINES)
-		Logger_process();
+		Logger_process_unsafe();
+	pthread_mutex_unlock(&_logMutex);
 }

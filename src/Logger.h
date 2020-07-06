@@ -11,6 +11,7 @@ extern "C" {
 
 int Logger_init();
 void Logger_process();
+//void Logger_process_unsafe();
 void Logger_finish();
 void Logger(const char* str);
 

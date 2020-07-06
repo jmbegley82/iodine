@@ -4,7 +4,7 @@ MKDIR_P=mkdir -p
 CFLAGS=-g
 CXXFLAGS=-g
 CPPFLAGS=-I./src/
-LDFLAGS=
+LDFLAGS=-lpthread
 
 BUILD_DIR=./build
 SRC_DIR=./src
