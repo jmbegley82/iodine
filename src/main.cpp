@@ -7,42 +7,11 @@
 #include <string>
 #include "Logger.h"
 #include "Atom.h"
+#include "Timing.h"
 
 using std::string;
 
-void* test_logger_thread(void *arg) {
-	int reps = 90000;  // set to # of desired iterations
-	string tname = std::to_string((long int)arg);
-	for(int i=0; i<reps; i++) {
-		string currentRep = std::to_string(i);
-		string msg = "Thread#" + tname + ":  Bombardment#" + currentRep;
-		Logger(msg.c_str());
-	}
-	pthread_exit((void*)0);
-}
-
-void test_logger() {
-	int threadcount = 100;  // set to # of desired concurrent testing threads
-	pthread_attr_t attr;
-	pthread_attr_init(&attr);
-	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-	pthread_t threads[threadcount];
-	for(int i=0; i<threadcount; i++) {
-		pthread_create(&threads[i], &attr, test_logger_thread, (void*)(long int)i);
-	}
-	pthread_attr_destroy(&attr);
-	// wait for threads to end
-	void* status;
-	for(int i=0; i<threadcount; i++) {
-		pthread_join(threads[i], &status);
-	}
-}
-
-int main(int argc, char** argv) {
-	Logger_init();
-	Logger("main entered.");
-
-	// start
+void test_basics() {
 	Logger("a = new Atom() -- create a regular, self-naming Atom.");
 	Atom* a = new Atom();
 	string id = a->GetIdentity();
@@ -71,6 +40,64 @@ int main(int argc, char** argv) {
 
 	Logger("deleting b...");
 	delete b;
+}
+
+void* test_logger_thread(void *arg) {
+	int reps = 10;  // set to # of desired iterations
+	string tname = std::to_string((long int)arg);
+	for(int i=0; i<reps; i++) {
+		string currentRep = std::to_string(i);
+		string msg = "Thread#" + tname + ":  Bombardment#" + currentRep;
+		Logger(msg.c_str());
+	}
+	pthread_exit((void*)0);
+}
+
+void test_logger() {
+	int threadcount = 7;  // set to # of desired concurrent testing threads
+	pthread_attr_t attr;
+	pthread_attr_init(&attr);
+	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+	pthread_t threads[threadcount];
+	for(int i=0; i<threadcount; i++) {
+		pthread_create(&threads[i], &attr, test_logger_thread, (void*)(long int)i);
+	}
+	pthread_attr_destroy(&attr);
+	// wait for threads to end
+	void* status;
+	for(int i=0; i<threadcount; i++) {
+		pthread_join(threads[i], &status);
+	}
+}
+
+void test_timing() {
+	string msg = "";
+	Logger_now("There should be one second between the next few lines that are printed.");
+	SleepMsec(1000);
+	msg = "GetTimeInMsec:" + std::to_string(GetTimeInMsec());
+	Logger_now(msg.c_str());
+	SleepMsec(1000);
+	msg = "GetTimeInMsec:" + std::to_string(GetTimeInMsec());
+	Logger_now(msg.c_str());
+	SleepUsec(1000000);
+	msg = "GetTimeInMsec:" + std::to_string(GetTimeInMsec());
+	Logger_now(msg.c_str());
+	SleepMsec(1000);
+	msg = "GetTimeInMsec:" + std::to_string(GetTimeInMsec());
+	Logger_now(msg.c_str());
+	SleepUsec(1000000);
+	msg = "GetTimeInMsec:" + std::to_string(GetTimeInMsec());
+	Logger_now(msg.c_str());
+	SleepMsec(1000);
+	msg = "GetTimeInUsec:" + std::to_string(GetTimeInUsec());
+	Logger(msg.c_str());
+	msg = "GetTimeInMsec:" + std::to_string(GetTimeInMsec());
+	Logger_now(msg.c_str());
+}
+
+int main(int argc, char** argv) {
+	Logger_init();
+	Logger("main entered.");
 
 /*
 	// spam the log buffer to make sure it flushes correctly
@@ -78,7 +105,9 @@ int main(int argc, char** argv) {
 		Logger("testing the log buffer...");
 	}
 */
+	test_basics();
 	test_logger();
+	test_timing();
 	// end
 
 	Logger("that's about enough for today.");

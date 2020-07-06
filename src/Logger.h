@@ -13,7 +13,6 @@ extern "C" {
  * @brief Initialize the Logger
  * @details In the future, this will accept parameters that will specify console output, file output, path of output file
  * and will almost certainly initialize a mutex.
- *
  * @return int 0 for everything went okay, -1 if it's already initialized
  */
 int Logger_init();
@@ -34,11 +33,17 @@ void Logger_finish();
  * @details Once the entry is added to the buffer, the buffer size will be checked.  If it is over its predetermined
  * maximum length, Logger_process() will be called afterward to write the contents of the buffer and clear it, leaving us
  * with an empty buffer.
- *
  * @param str (const char*) the C-string to add to the log buffer
- * @return void
+ * @return int 0 = success, 1 = success and the buffer was emptied
  */
-void Logger(const char* str);
+int Logger(const char* str);
+
+/**
+ * @brief Print this message to the log right now
+ * @details Well, literally, add the line to the buffer and immediately flush it with Logger_process_unsafe
+ * @param str (const char*) the C-string to log
+ */
+void Logger_now(const char* str);
 
 #ifdef __cplusplus
 }

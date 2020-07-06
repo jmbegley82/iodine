@@ -41,10 +41,11 @@ int Logger_init() {
 void Logger_process_unsafe() {
 	for(int i=0; i<_logCurrentLine; i++) {
 		printf("%s\n", _logbuffer[i]);
-		//free((void*)_logbuffer[i]);
-		//_logbuffer[i] = malloc(MAX_LINELENGTH);
 		memset(_logbuffer[i], 0, MAX_LINELENGTH);
 	}
+#ifdef EXTRADEBUG
+	printf("Bawooooooosh!\n");
+#endif //EXTRADEBUG
 	_logCurrentLine = 0;
 }
 
@@ -64,13 +65,37 @@ void Logger_finish() {
 	pthread_mutex_destroy(&_logMutex);
 }
 
-void Logger(const char* str) {
-	pthread_mutex_lock(&_logMutex);
+/**
+ * @brief Add entry to _logbuffer the dangerous way
+ * @details Write str to _logbuffer[_logCurrentLine], increment _logCurrentLine, if it's over MAX_LOGLINES,
+ * flush it with Logger_process_unsafe.  Internal use only!
+ * @param str (const char*) the C-string to add to the log buffer
+ * @return int 0 = success, 1 = success and the buffer was emptied
+ */
+int Logger_unsafe(const char* str) {
+	int retval = 0;
 	assert(_logCurrentLine < MAX_LOGLINES);
 	strncpy(_logbuffer[_logCurrentLine], str, MAX_LINELENGTH);
 	_logbuffer[_logCurrentLine][MAX_LINELENGTH-1] = '\0';
 	_logCurrentLine++;
-	if(_logCurrentLine >= MAX_LOGLINES)
+	if(_logCurrentLine >= MAX_LOGLINES) {
 		Logger_process_unsafe();
+		retval = 1;
+	}
+	return retval;
+}
+
+int Logger(const char* str) {
+	pthread_mutex_lock(&_logMutex);
+	int retval = Logger_unsafe(str);
+	pthread_mutex_unlock(&_logMutex);
+	return retval;
+}
+
+void Logger_now(const char* str) {
+	pthread_mutex_lock(&_logMutex);
+	int status = Logger_unsafe(str);
+	// if the log didn't flush, do it now:
+	if(status != 1) Logger_process_unsafe();
 	pthread_mutex_unlock(&_logMutex);
 }
