@@ -25,8 +25,10 @@ static int _logCurrentLine;
 int Logger_init() {
 	pthread_mutex_init(&_logMutex, NULL);
 	pthread_mutex_lock(&_logMutex);
-	for(int i=0; i<MAX_LOGLINES; i++)
+	for(int i=0; i<MAX_LOGLINES; i++) {
 		_logbuffer[i] = malloc(MAX_LINELENGTH);
+		memset(_logbuffer[i], 0, MAX_LINELENGTH);
+	}
 	_logCurrentLine = 0;
 	pthread_mutex_unlock(&_logMutex);
 	return 0;
@@ -39,8 +41,9 @@ int Logger_init() {
 void Logger_process_unsafe() {
 	for(int i=0; i<_logCurrentLine; i++) {
 		printf("%s\n", _logbuffer[i]);
-		free((void*)_logbuffer[i]);
-		_logbuffer[i] = malloc(MAX_LINELENGTH);
+		//free((void*)_logbuffer[i]);
+		//_logbuffer[i] = malloc(MAX_LINELENGTH);
+		memset(_logbuffer[i], 0, MAX_LINELENGTH);
 	}
 	_logCurrentLine = 0;
 }
@@ -65,7 +68,7 @@ void Logger(const char* str) {
 	pthread_mutex_lock(&_logMutex);
 	assert(_logCurrentLine < MAX_LOGLINES);
 	strncpy(_logbuffer[_logCurrentLine], str, MAX_LINELENGTH);
-	_logbuffer[_logCurrentLine][MAX_LINELENGTH] = '\0';
+	_logbuffer[_logCurrentLine][MAX_LINELENGTH-1] = '\0';
 	_logCurrentLine++;
 	if(_logCurrentLine >= MAX_LOGLINES)
 		Logger_process_unsafe();
