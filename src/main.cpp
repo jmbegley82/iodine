@@ -3,11 +3,40 @@
  *
  */
 
+#include <pthread.h>
 #include <string>
 #include "Logger.h"
 #include "Atom.h"
 
 using std::string;
+
+void* test_logger_thread(void *arg) {
+	int reps = 128;  // set to # of desired iterations
+	string tname = std::to_string((long int)arg);
+	for(int i=0; i<reps; i++) {
+		string currentRep = std::to_string(i);
+		string msg = "Thread#" + tname + ":  Bombardment#" + currentRep;
+		Logger(msg.c_str());
+	}
+	pthread_exit((void*)0);
+}
+
+void test_logger() {
+	int threadcount = 10;  // set to # of desired concurrent testing threads
+	pthread_attr_t attr;
+	pthread_attr_init(&attr);
+	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+	pthread_t threads[threadcount];
+	for(int i=0; i<threadcount; i++) {
+		pthread_create(&threads[i], &attr, test_logger_thread, (void*)(long int)i);
+	}
+	pthread_attr_destroy(&attr);
+	// wait for threads to end
+	void* status;
+	for(int i=0; i<threadcount; i++) {
+		pthread_join(threads[i], &status);
+	}
+}
 
 int main(int argc, char** argv) {
 	Logger_init();
@@ -49,6 +78,7 @@ int main(int argc, char** argv) {
 		Logger("testing the log buffer...");
 	}
 */
+	test_logger();
 	// end
 
 	Logger("that's about enough for today.");
