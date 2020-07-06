@@ -45,8 +45,8 @@ There is currently no license, implied or otherwise, for anything in this repo. 
 7.6)    Stop abusing the global variable.
 7.7)    Code will be threadsafe wherever possible, which means it needs to be as clean and legible as possible.
 8)  This Planning section of the README will be updated in a timely manner.
-9)  Project will be using Doxygen to generate documentation/call graphs/class diagrams/etc.  Note that this may only on certain
-    platforms and, as such, maybe shouldn't be the same mechanism that generates end-user-facing documentation.
+9)  Project will be using Doxygen to generate documentation/call graphs/class diagrams/etc.  Doxygen-related comments should stay
+    within header files whenever possible.
 10) Project will steer away from performance-impacting C++ features like function overloading, particularly in objects which
     will be used within loops.
 11) Project will attempt to stay within the confines of C++11.
