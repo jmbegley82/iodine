@@ -37,8 +37,18 @@ int main(int argc, char** argv) {
 	Logger(msg.c_str());
 	Logger("CMD_INVALID was the expected response.");
 
+	Logger("Let's go ahead and manually flush _logbuffer while we're here");
+	Logger_process();
+
 	Logger("deleting b...");
 	delete b;
+
+/*
+	// spam the log buffer to make sure it flushes correctly
+	for(int i=0; i<1000; i++) {
+		Logger("testing the log buffer...");
+	}
+*/
 	// end
 
 	Logger("that's about enough for today.");

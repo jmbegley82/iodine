@@ -3,14 +3,21 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <assert.h>
 #include "Logger.h"
+
+
+#ifndef MAX_LINELENGTH
+#define MAX_LINELENGTH 4096
+#endif //MAX_LINELENGTH
 
 #ifndef MAX_LOGLINES
 #define MAX_LOGLINES 128
 #endif //MAX_LOGLINES
 
-static const char* _logbuffer[MAX_LOGLINES];
+static char* _logbuffer[MAX_LOGLINES];
 static int _logCurrentLine;
 
 /**
@@ -22,7 +29,7 @@ static int _logCurrentLine;
  */
 int Logger_init() {
 	for(int i=0; i<MAX_LOGLINES; i++)
-		_logbuffer[i] = 0;
+		_logbuffer[i] = malloc(MAX_LINELENGTH);
 	_logCurrentLine = 0;
 	return 0;
 }
@@ -34,7 +41,8 @@ int Logger_init() {
 void Logger_process() {
 	for(int i=0; i<_logCurrentLine; i++) {
 		printf("%s\n", _logbuffer[i]);
-		_logbuffer[i] = 0;
+		free((void*)_logbuffer[i]);
+		_logbuffer[i] = malloc(MAX_LINELENGTH);
 	}
 	_logCurrentLine = 0;
 }
@@ -44,6 +52,9 @@ void Logger_process() {
  */
 void Logger_finish() {
 	Logger_process();
+	for(int i=0; i<MAX_LOGLINES; i++) {
+		free((void*)_logbuffer[i]);
+	}
 }
 
 /**
@@ -61,7 +72,9 @@ void Logger(const char* str) {
 	printf("%s\n", str);
 */
 	assert(_logCurrentLine < MAX_LOGLINES);
-	_logbuffer[_logCurrentLine] = str;
+	//_logbuffer[_logCurrentLine] = str;
+	strncpy(_logbuffer[_logCurrentLine], str, MAX_LINELENGTH);
+	_logbuffer[_logCurrentLine][MAX_LINELENGTH] = '\0';
 	_logCurrentLine++;
 	if(_logCurrentLine >= MAX_LOGLINES)
 		Logger_process();
