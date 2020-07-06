@@ -7,7 +7,7 @@
 
 #if !defined CLOCK_MONOTONIC_RAW
 #include <sys/time.h>
-#endif //!CLOCK_MONOTONIC_RAW
+#endif // ndef CLOCK_MONOTONIC_RAW
 
 #include "Timing.h"
 
