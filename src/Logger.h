@@ -9,6 +9,9 @@
 extern "C" {
 #endif //__cplusplus
 
+int Logger_init();
+void Logger_process();
+void Logger_finish();
 void Logger(const char* str);
 
 #ifdef __cplusplus

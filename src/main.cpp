@@ -10,6 +10,7 @@
 using std::string;
 
 int main(int argc, char** argv) {
+	Logger_init();
 	Logger("main entered.");
 
 	// start
@@ -41,5 +42,6 @@ int main(int argc, char** argv) {
 	// end
 
 	Logger("that's about enough for today.");
+	Logger_finish();
 	return 0;
 }
