@@ -5,11 +5,15 @@
 #include <string>
 #include "Atom.h"
 #include "CmdSink.h"
+//#include "Timing.h"
 
 using std::string;
 
 Atom::Atom() {
-	SetIdentity("totallyrandomnamelol");
+	string identity = GetIdentity();
+	identity = identity.substr(2);  // remove the 'id' from the beginning...
+	identity = "Atom" + identity;   // and replace it with 'Atom'.
+	SetIdentity(identity);
 }
 
 Atom::Atom(string identity) {

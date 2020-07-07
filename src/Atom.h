@@ -14,9 +14,9 @@ using std::string;
 //! A generic every-object.
 class Atom : public Identity, public CmdSink {
 public:
-	Atom();			//!< Create a new Atom with a randomized identity.
-	Atom(string identity);	//!< Create a new Atom and specify its identity.
-	~Atom();		//!< Destruct the Atom.
+	Atom();					//!< Create a new Atom with a randomized identity.
+	Atom(string identity);			//!< Create a new Atom and specify its identity.
+	~Atom();				//!< Destruct the Atom.
 	virtual int Command(const string cmd);	//!< Attempts to consume cmd.  Let's just return CMD_ERROR for now.
 	static string RetvalStr(int val);	//!< Converts val into a string representation of the Retval.
 private:
