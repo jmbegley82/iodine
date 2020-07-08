@@ -8,6 +8,7 @@
 using std::string;
 
 int CmdSink::Command(const string cmd) {
+	if(cmd == "test") return CMD_SUCCESS;
 	return CMD_INVALID;
 }
 

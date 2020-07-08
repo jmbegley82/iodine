@@ -8,11 +8,12 @@
 #include <string>
 #include "Identity.h"
 #include "CmdSink.h"
+#include "Ticker.h"
 
 using std::string;
 
 //! A generic every-object.
-class Atom : public Identity, public CmdSink {
+class Atom : public Identity, public CmdSink, public Ticker {
 public:
 	Atom();					//!< Create a new Atom with a randomized identity.
 	Atom(string identity);			//!< Create a new Atom and specify its identity.

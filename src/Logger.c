@@ -11,10 +11,12 @@
 
 
 #ifndef MAX_LINELENGTH
+//! The maximum length of a logbuffer entry
 #define MAX_LINELENGTH 4096
 #endif //MAX_LINELENGTH
 
 #ifndef MAX_LOGLINES
+//! The maximum number of logbuffer entries
 #define MAX_LOGLINES 128
 #endif //MAX_LOGLINES
 

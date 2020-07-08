@@ -8,6 +8,7 @@
 #include "Logger.h"
 #include "Atom.h"
 #include "Timing.h"
+#include "Ticker.h"
 
 using std::string;
 
@@ -34,6 +35,11 @@ void test_basics() {
 	msg = "b->Command was fed test-bypass and emitted the following: " + Atom::RetvalStr(rv);
 	Logger(msg.c_str());
 	Logger("CMD_INVALID was the expected response.");
+
+	rv = b->Command("test");
+	msg = "b->Command was fed test and emitted the following: " + Atom::RetvalStr(rv);
+	Logger(msg.c_str());
+	Logger("CMD_SUCCESS was the expected response.");
 
 	Logger("Let's go ahead and manually flush _logbuffer while we're here");
 	Logger_process();
@@ -95,19 +101,38 @@ void test_timing() {
 	Logger_now(msg.c_str());
 }
 
+void test_ticker() {
+	Atom* a = new Atom("a");
+	string msg = "a->GetLastTickEnd() = " + std::to_string(a->GetLastTickEnd());
+	Logger_now(msg.c_str());
+	SleepMsec(1000);
+	a->Tick();
+	msg = "a->GetLastTickEnd() = " + std::to_string(a->GetLastTickEnd());
+	Logger_now(msg.c_str());
+	SleepMsec(1000);
+	a->Tick();
+	msg = "a->GetLastTickEnd() = " + std::to_string(a->GetLastTickEnd());
+	Logger_now(msg.c_str());
+	SleepMsec(1000);
+	a->Tick();
+	msg = "a->GetLastTickEnd() = " + std::to_string(a->GetLastTickEnd());
+	Logger_now(msg.c_str());
+	SleepMsec(1000);
+	a->Tick();
+	msg = "a->GetLastTickEnd() = " + std::to_string(a->GetLastTickEnd());
+	Logger_now(msg.c_str());
+	SleepMsec(1000);
+	a->Tick();
+}
+
 int main(int argc, char** argv) {
 	Logger_init();
 	Logger("main entered.");
 
-/*
-	// spam the log buffer to make sure it flushes correctly
-	for(int i=0; i<1000; i++) {
-		Logger("testing the log buffer...");
-	}
-*/
 	test_basics();
-	test_logger();
+	//test_logger();
 	test_timing();
+	test_ticker();
 	// end
 
 	Logger("that's about enough for today.");

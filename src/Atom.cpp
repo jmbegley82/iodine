@@ -5,7 +5,6 @@
 #include <string>
 #include "Atom.h"
 #include "CmdSink.h"
-//#include "Timing.h"
 
 using std::string;
 
