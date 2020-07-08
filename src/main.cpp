@@ -49,7 +49,7 @@ void test_basics() {
 }
 
 void* test_logger_thread(void *arg) {
-	int reps = 10;  // set to # of desired iterations
+	int reps = 100000;  // set to # of desired iterations
 	string tname = std::to_string((long int)arg);
 	for(int i=0; i<reps; i++) {
 		string currentRep = std::to_string(i);
@@ -130,7 +130,7 @@ int main(int argc, char** argv) {
 	Logger("main entered.");
 
 	test_basics();
-	//test_logger();
+	test_logger();
 	test_timing();
 	test_ticker();
 	// end

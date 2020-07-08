@@ -2,13 +2,14 @@
  *
  */
 
+//#define _GNU_SOURCE
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 #include "Logger.h"
-
+#include "Timing.h"
 
 #ifndef MAX_LINELENGTH
 //! The maximum length of a logbuffer entry
@@ -20,11 +21,31 @@
 #define MAX_LOGLINES 128
 #endif //MAX_LOGLINES
 
+#define LOG_STOPPED 0
+#define LOG_RUNNING 1
+#define LOG_EXITING 2
+
 static pthread_mutex_t _logMutex;
 static char* _logbuffer[MAX_LOGLINES];
 static int _logCurrentLine;
+static int _logStatus;
+pthread_t _logFlushThread;
+
+void* Logger_autoflush(void* arg) {
+	while(_logStatus != LOG_EXITING) {
+		if(_logStatus == LOG_RUNNING) {
+			Logger_process();
+		}
+		SleepMsec(100); // that seems reasonable and I base that on nothing
+	}
+#ifdef EXTRADEBUG
+	Logger("Logger_autoflush has begun to exit correctly.");
+#endif //EXTRADEBUG
+	pthread_exit((void*)0);
+}
 
 int Logger_init() {
+	_logStatus = LOG_STOPPED;
 	pthread_mutex_init(&_logMutex, NULL);
 	pthread_mutex_lock(&_logMutex);
 	for(int i=0; i<MAX_LOGLINES; i++) {
@@ -33,6 +54,9 @@ int Logger_init() {
 	}
 	_logCurrentLine = 0;
 	pthread_mutex_unlock(&_logMutex);
+	_logStatus = LOG_RUNNING;
+	pthread_create(&_logFlushThread, NULL, Logger_autoflush, NULL);
+	//pthread_setname_np(_logFlushThread, "LogFlusher");
 	return 0;
 }
 
@@ -58,6 +82,9 @@ void Logger_process() {
 }
 
 void Logger_finish() {
+	_logStatus = LOG_EXITING;
+	void* status;
+	pthread_join(_logFlushThread, &status);
 	pthread_mutex_lock(&_logMutex);
 	Logger_process_unsafe();
 	for(int i=0; i<MAX_LOGLINES; i++) {
