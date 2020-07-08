@@ -10,6 +10,17 @@ extern "C" {
 #endif //__cplusplus
 
 /**
+ * @brief These represent values returned from Logger_status and stored in _logStatus.
+ * @details They refer to various running states of the Logger_autoflush thread.  LOG_EXITING should probably never be
+ * used manually!  The others can be set externally via Logger_pause and Logger_unpause.
+ */
+enum LogStatuses {
+	LOG_STOPPED,	//!< Do not print anything via Logger_autoflush
+	LOG_RUNNING,	//!< Do print things via Logger_autoflush
+	LOG_EXITING	//!< Do not print anything via Logger_autoflush and cause its thread to exit
+};
+
+/**
  * @brief Initialize the Logger
  * @details In the future, this will accept parameters that will specify console output, file output, path of output file
  * and will almost certainly initialize a mutex.
@@ -44,6 +55,23 @@ int Logger(const char* str);
  * @param str (const char*) the C-string to log
  */
 void Logger_now(const char* str);
+
+/**
+ * @brief Pause the automatic log-processing thread
+ * @details Set _logStatus to LOG_STOPPED
+ */
+void Logger_pause();
+
+/**
+ * @brief Resume the automatic log-processing thread
+ * @details Set _logStatus to LOG_RUNNING
+ */
+void Logger_unpause();
+
+/**
+ * @brief return _logStatus
+ */
+int Logger_status();
 
 #ifdef __cplusplus
 }

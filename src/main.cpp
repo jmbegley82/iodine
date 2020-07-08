@@ -78,6 +78,7 @@ void test_logger() {
 
 void test_timing() {
 	string msg = "";
+	Logger_pause();
 	Logger_now("There should be one second between the next few lines that are printed.");
 	SleepMsec(1000);
 	msg = "GetTimeInMsec:" + std::to_string(GetTimeInMsec());
@@ -99,6 +100,7 @@ void test_timing() {
 	Logger(msg.c_str());
 	msg = "GetTimeInMsec:" + std::to_string(GetTimeInMsec());
 	Logger_now(msg.c_str());
+	Logger_unpause();
 }
 
 void test_ticker() {

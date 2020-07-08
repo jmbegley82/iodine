@@ -21,16 +21,17 @@
 #define MAX_LOGLINES 128
 #endif //MAX_LOGLINES
 
-#define LOG_STOPPED 0
-#define LOG_RUNNING 1
-#define LOG_EXITING 2
+pthread_mutex_t _logMutex;	//!< This mutex is used to cover _logbuffer and _logCurrentLine
+char* _logbuffer[MAX_LOGLINES];	//!< This buffer holds our log entries
+int _logCurrentLine;		//!< This index represents the next entry in _logbuffer that will be written
+int _logStatus;			//!< This is used to pause/resume/exit the Logger_autoflush thread
+pthread_t _logFlushThread;	//!< This pthread_t holds the Logger_autoflush thread
 
-static pthread_mutex_t _logMutex;
-static char* _logbuffer[MAX_LOGLINES];
-static int _logCurrentLine;
-static int _logStatus;
-pthread_t _logFlushThread;
-
+/**
+ * @brief Simple thread that calls Logger_process and then waits a specified amount of time
+ * @details If _logStatus is LOG_STOPPED, nothing will be printed.  If _logStatus is LOG_RUNNING,
+ * lines will be printed.  If _logStatus is LOG_EXITING, nothing will be printed and this thread will exit.
+ */
 void* Logger_autoflush(void* arg) {
 	while(_logStatus != LOG_EXITING) {
 		if(_logStatus == LOG_RUNNING) {
@@ -127,4 +128,16 @@ void Logger_now(const char* str) {
 	// if the log didn't flush, do it now:
 	if(status != 1) Logger_process_unsafe();
 	pthread_mutex_unlock(&_logMutex);
+}
+
+void Logger_pause() {
+	_logStatus = LOG_STOPPED;
+}
+
+void Logger_unpause() {
+	_logStatus = LOG_RUNNING;
+}
+
+int Logger_status() {
+	return _logStatus;
 }
