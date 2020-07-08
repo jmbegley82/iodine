@@ -22,7 +22,9 @@
 #endif //MAX_LOGLINES
 
 pthread_mutex_t _logMutex;	//!< This mutex is used to cover _logbuffer and _logCurrentLine
-char* _logbuffer[MAX_LOGLINES];	//!< This buffer holds our log entries
+char** _logbuffer;		//!< This buffer holds our log entries
+int _logMaxLength;
+int _logMaxLines;
 int _logCurrentLine;		//!< This index represents the next entry in _logbuffer that will be written
 int _logStatus;			//!< This is used to pause/resume/exit the Logger_autoflush thread
 pthread_t _logFlushThread;	//!< This pthread_t holds the Logger_autoflush thread
@@ -49,9 +51,13 @@ int Logger_init() {
 	_logStatus = LOG_STOPPED;
 	pthread_mutex_init(&_logMutex, NULL);
 	pthread_mutex_lock(&_logMutex);
-	for(int i=0; i<MAX_LOGLINES; i++) {
-		_logbuffer[i] = malloc(MAX_LINELENGTH);
-		memset(_logbuffer[i], 0, MAX_LINELENGTH);
+	_logMaxLength = MAX_LINELENGTH;
+	_logMaxLines = MAX_LOGLINES;
+	//calloc(_logbuffer, _logMaxLines * sizeof(_logbuffer));
+	_logbuffer = malloc(_logMaxLines * sizeof(_logbuffer));
+	for(int i=0; i<_logMaxLines; i++) {
+		_logbuffer[i] = malloc(_logMaxLength);
+		memset(_logbuffer[i], 0, _logMaxLength);
 	}
 	_logCurrentLine = 0;
 	pthread_mutex_unlock(&_logMutex);
@@ -68,7 +74,7 @@ int Logger_init() {
 void Logger_process_unsafe() {
 	for(int i=0; i<_logCurrentLine; i++) {
 		printf("%s\n", _logbuffer[i]);
-		memset(_logbuffer[i], 0, MAX_LINELENGTH);
+		memset(_logbuffer[i], 0, _logMaxLength);
 	}
 #ifdef EXTRADEBUG
 	printf("Bawooooooosh!\n");
@@ -88,27 +94,28 @@ void Logger_finish() {
 	pthread_join(_logFlushThread, &status);
 	pthread_mutex_lock(&_logMutex);
 	Logger_process_unsafe();
-	for(int i=0; i<MAX_LOGLINES; i++) {
+	for(int i=0; i<_logMaxLines; i++) {
 		free((void*)_logbuffer[i]);
 	}
+	free((void*)_logbuffer);
 	pthread_mutex_unlock(&_logMutex);
 	pthread_mutex_destroy(&_logMutex);
 }
 
 /**
  * @brief Add entry to _logbuffer the dangerous way
- * @details Write str to _logbuffer[_logCurrentLine], increment _logCurrentLine, if it's over MAX_LOGLINES,
+ * @details Write str to _logbuffer[_logCurrentLine], increment _logCurrentLine, if it's over _logMaxLines,
  * flush it with Logger_process_unsafe.  Internal use only!
  * @param str (const char*) the C-string to add to the log buffer
  * @return int 0 = success, 1 = success and the buffer was emptied
  */
 int Logger_unsafe(const char* str) {
 	int retval = 0;
-	assert(_logCurrentLine < MAX_LOGLINES);
-	strncpy(_logbuffer[_logCurrentLine], str, MAX_LINELENGTH);
-	_logbuffer[_logCurrentLine][MAX_LINELENGTH-1] = '\0';
+	assert(_logCurrentLine < _logMaxLines);
+	strncpy(_logbuffer[_logCurrentLine], str, _logMaxLength);
+	_logbuffer[_logCurrentLine][_logMaxLength-1] = '\0';
 	_logCurrentLine++;
-	if(_logCurrentLine >= MAX_LOGLINES) {
+	if(_logCurrentLine >= _logMaxLines) {
 		Logger_process_unsafe();
 		retval = 1;
 	}

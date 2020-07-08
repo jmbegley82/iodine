@@ -125,6 +125,7 @@ void test_ticker() {
 	Logger_now(msg.c_str());
 	SleepMsec(1000);
 	a->Tick();
+	delete a;
 }
 
 int main(int argc, char** argv) {
@@ -132,7 +133,7 @@ int main(int argc, char** argv) {
 	Logger("main entered.");
 
 	test_basics();
-	test_logger();
+	//test_logger();
 	test_timing();
 	test_ticker();
 	// end
