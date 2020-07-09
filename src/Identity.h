@@ -16,6 +16,7 @@ public:
 	string GetIdentity();			//!< Return the object's identity.
 	void SetIdentity(string identity);	//!< @brief Set the object's identity.
 						//!< @details Name collision checking not planned at this level.
+	static int Test();
 private:
 	string _identity;			//!< The object's identity.
 };

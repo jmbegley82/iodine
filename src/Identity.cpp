@@ -25,3 +25,7 @@ string Identity::GetIdentity() {
 void Identity::SetIdentity(string identity) {
 	_identity = identity;
 }
+
+int Identity::Test() {
+	return 0;
+}

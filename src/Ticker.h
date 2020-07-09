@@ -12,7 +12,8 @@ public:
 	virtual void Tick();		//!< @brief Sets _lastTickEnd to the current time in msec
 					//!< @details Make sure to call this at the end of any inheriting class's Tick!
 	double GetLastTickEnd();	//!< @brief Get timestamp saved at the end of the last call to Tick()
-					//!< @details Unless it hasn't been ticked yet; then the time at the end of construction.
+					//!< @details Unless it hasn't been ticked yet; then the time at end of construction.
+	static int Test();
 private:
 	double _lastTickEnd;
 };

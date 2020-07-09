@@ -115,79 +115,15 @@ void test_timing() {
 	Logger_unpause();
 }
 
-void test_ticker() {
-	Atom* a = new Atom("a");
-	string msg = "a->GetLastTickEnd() = " + std::to_string(a->GetLastTickEnd());
-	Logger(msg.c_str());
-	Logger_setflushdelay(60);
-	SleepMsec(1000);
-	a->Tick();
-	msg = "a->GetLastTickEnd() = " + std::to_string(a->GetLastTickEnd());
-	Logger(msg.c_str());
-	Logger_setflushdelay(120);
-	SleepMsec(1000);
-	a->Tick();
-	msg = "a->GetLastTickEnd() = " + std::to_string(a->GetLastTickEnd());
-	Logger(msg.c_str());
-	Logger_setflushdelay(240);
-	SleepMsec(1000);
-	a->Tick();
-	msg = "a->GetLastTickEnd() = " + std::to_string(a->GetLastTickEnd());
-	Logger(msg.c_str());
-	Logger_setflushdelay(480);
-	SleepMsec(1000);
-	a->Tick();
-	msg = "a->GetLastTickEnd() = " + std::to_string(a->GetLastTickEnd());
-	Logger(msg.c_str());
-	Logger_setflushdelay(960);
-	SleepMsec(1000);
-	a->Tick();
-	delete a;
-	Logger_setflushdelay(60);
-}
-
-void test_motion() {
-	Motion* m = new Motion({100,100}); // create new Motion with position (100,100)
-	coords c = m->GetPosition();
-	string msg = "test_motion:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
-	Logger(msg.c_str());
-	m->SetVelocity({1,-1}); // set velocity to (+1, -1)
-	m->UpdatePosition();
-	c = m->GetPosition();
-	msg = "test_motion:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
-	Logger(msg.c_str());
-	m->UpdatePosition();
-	c = m->GetPosition();
-	msg = "test_motion:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
-	Logger(msg.c_str());
-	m->UpdatePosition();
-	c = m->GetPosition();
-	msg = "test_motion:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
-	Logger(msg.c_str());
-	m->UpdatePosition();
-	c = m->GetPosition();
-	msg = "test_motion:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
-	Logger(msg.c_str());
-	m->UpdatePosition();
-	c = m->GetPosition();
-	msg = "test_motion:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
-	Logger(msg.c_str());
-	m->UpdatePosition();
-	c = m->GetPosition();
-	msg = "test_motion:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
-	Logger(msg.c_str());
-	delete m;
-}
-
 int main(int argc, char** argv) {
 	Logger_init();
 	Logger("main entered.");
 
 	test_basics();
-	test_logger();
+	//test_logger();
 	test_timing();
-	test_ticker();
-	test_motion();
+	Ticker::Test();
+	Motion::Test();
 	// end
 
 	Logger("that's about enough for today.");

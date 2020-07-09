@@ -17,3 +17,4 @@ void Ticker::Tick() {
 double Ticker::GetLastTickEnd() {
 	return _lastTickEnd;
 }
+

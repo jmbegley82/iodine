@@ -82,3 +82,4 @@ double Motion::PredictNextPositionX() {
 double Motion::PredictNextPositionY() {
 	return GetPositionY() + GetVelocityY();
 }
+

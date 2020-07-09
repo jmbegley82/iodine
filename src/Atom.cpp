@@ -32,3 +32,7 @@ string Atom::RetvalStr(int val) {
 	if(val == Atom::Retval::CMD_NOPE) return "CMD_NOPE";
 	return CmdSink::RetvalStr(val);
 }
+
+int Atom::Test() {
+	return 0;
+}

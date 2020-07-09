@@ -20,3 +20,7 @@ string CmdSink::RetvalStr(int val) {
 	retval += " out of bounds)";
 	return retval;
 }
+
+int CmdSink::Test() {
+	return 0;
+}

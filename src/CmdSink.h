@@ -13,6 +13,7 @@ class CmdSink {
 public:
 	virtual int Command(const string cmd);		//!< Attempts to consume cmd.  This base class just returns CMD_INVALID.
 	static string RetvalStr(int val);		//!< Converts val into a string representation of the Retval.
+	static int Test();
 private:
 	/**
 	 * Return values for Command

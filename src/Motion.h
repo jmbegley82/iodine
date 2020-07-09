@@ -28,6 +28,7 @@ public:
 	coords PredictNextPosition();		//!< Calculate next position (collision notwithstanding)
 	double PredictNextPositionX();		//!< Calculate next X position
 	double PredictNextPositionY();		//!< Calculate next Y position
+	static int Test();
 private:
 	coords _position;			//!< Struct that contains x and y positional coordinates
 	coords _velocity;			//!< Struct that contains x and y velocities
