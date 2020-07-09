@@ -11,21 +11,27 @@
 #include "Logger.h"
 #include "Timing.h"
 
-#ifndef MAX_LINELENGTH
-//! The maximum length of a logbuffer entry
-#define MAX_LINELENGTH 4096
-#endif //MAX_LINELENGTH
+#ifndef DEFAULT_MAXLINELENGTH
+//! The default maximum length of a logbuffer entry
+#define DEFAULT_MAXLINELENGTH 1024
+#endif //DEFAULT_MAXLINELENGTH
 
-#ifndef MAX_LOGLINES
-//! The maximum number of logbuffer entries
-#define MAX_LOGLINES 128
-#endif //MAX_LOGLINES
+#ifndef DEFAULT_MAXLINES
+//! The default maximum number of logbuffer entries
+#define DEFAULT_MAXLINES 128
+#endif //DEFAULT_MAXLINES
+
+#ifndef DEFAULT_AUTOFLUSHSLEEP
+//! The default number of milliseconds to sleep after a timed automatic flush of the buffer
+#define DEFAULT_AUTOFLUSHSLEEP 100
+#endif
 
 pthread_mutex_t _logMutex;	//!< This mutex is used to cover _logbuffer and _logCurrentLine
 char** _logbuffer;		//!< This buffer holds our log entries
-int _logMaxLength;
+int _logMaxLineLength;
 int _logMaxLines;
 int _logCurrentLine;		//!< This index represents the next entry in _logbuffer that will be written
+int _logAutoflushSleep;
 int _logStatus;			//!< This is used to pause/resume/exit the Logger_autoflush thread
 pthread_t _logFlushThread;	//!< This pthread_t holds the Logger_autoflush thread
 
@@ -39,29 +45,40 @@ void* Logger_autoflush(void* arg) {
 		if(_logStatus == LOG_RUNNING) {
 			Logger_process();
 		}
-		SleepMsec(100); // that seems reasonable and I base that on nothing
+		SleepMsec(_logAutoflushSleep);
 	}
-#ifdef EXTRADEBUG
+#if defined EXTRADEBUG
 	Logger("Logger_autoflush has begun to exit correctly.");
 #endif //EXTRADEBUG
 	pthread_exit((void*)0);
 }
 
-int Logger_init() {
-	_logStatus = LOG_STOPPED;
-	pthread_mutex_init(&_logMutex, NULL);
-	pthread_mutex_lock(&_logMutex);
-	_logMaxLength = MAX_LINELENGTH;
-	_logMaxLines = MAX_LOGLINES;
-	//calloc(_logbuffer, _logMaxLines * sizeof(_logbuffer));
+void Logger_createbuffer_unsafe() {
 	_logbuffer = malloc(_logMaxLines * sizeof(_logbuffer));
 	for(int i=0; i<_logMaxLines; i++) {
-		_logbuffer[i] = malloc(_logMaxLength);
-		memset(_logbuffer[i], 0, _logMaxLength);
+		_logbuffer[i] = malloc(_logMaxLineLength);
+		memset(_logbuffer[i], 0, _logMaxLineLength);
 	}
+}
+
+void Logger_destroybuffer_unsafe() {
+	for(int i=0; i<_logMaxLines; i++) {
+		free((void*)_logbuffer[i]);
+	}
+	free((void*)_logbuffer);
+}
+
+int Logger_init() {
+	pthread_mutex_init(&_logMutex, NULL);
+	pthread_mutex_lock(&_logMutex);
+	_logStatus = LOG_STOPPED;
+	_logMaxLineLength = DEFAULT_MAXLINELENGTH;
+	_logMaxLines = DEFAULT_MAXLINES;
+	_logAutoflushSleep = DEFAULT_AUTOFLUSHSLEEP;
+	Logger_createbuffer_unsafe();
 	_logCurrentLine = 0;
-	pthread_mutex_unlock(&_logMutex);
 	_logStatus = LOG_RUNNING;
+	pthread_mutex_unlock(&_logMutex);
 	pthread_create(&_logFlushThread, NULL, Logger_autoflush, NULL);
 	//pthread_setname_np(_logFlushThread, "LogFlusher");
 	return 0;
@@ -74,9 +91,9 @@ int Logger_init() {
 void Logger_process_unsafe() {
 	for(int i=0; i<_logCurrentLine; i++) {
 		printf("%s\n", _logbuffer[i]);
-		memset(_logbuffer[i], 0, _logMaxLength);
+		memset(_logbuffer[i], 0, _logMaxLineLength);
 	}
-#ifdef EXTRADEBUG
+#if defined EXTRADEBUG
 	printf("Bawooooooosh!\n");
 #endif //EXTRADEBUG
 	_logCurrentLine = 0;
@@ -94,10 +111,7 @@ void Logger_finish() {
 	pthread_join(_logFlushThread, &status);
 	pthread_mutex_lock(&_logMutex);
 	Logger_process_unsafe();
-	for(int i=0; i<_logMaxLines; i++) {
-		free((void*)_logbuffer[i]);
-	}
-	free((void*)_logbuffer);
+	Logger_destroybuffer_unsafe();
 	pthread_mutex_unlock(&_logMutex);
 	pthread_mutex_destroy(&_logMutex);
 }
@@ -112,8 +126,8 @@ void Logger_finish() {
 int Logger_unsafe(const char* str) {
 	int retval = 0;
 	assert(_logCurrentLine < _logMaxLines);
-	strncpy(_logbuffer[_logCurrentLine], str, _logMaxLength);
-	_logbuffer[_logCurrentLine][_logMaxLength-1] = '\0';
+	strncpy(_logbuffer[_logCurrentLine], str, _logMaxLineLength);
+	_logbuffer[_logCurrentLine][_logMaxLineLength-1] = '\0';
 	_logCurrentLine++;
 	if(_logCurrentLine >= _logMaxLines) {
 		Logger_process_unsafe();
@@ -147,4 +161,65 @@ void Logger_unpause() {
 
 int Logger_status() {
 	return _logStatus;
+}
+
+void Logger_setflushdelay(double ms) {
+	pthread_mutex_lock(&_logMutex);
+	if(ms > 0) _logAutoflushSleep = ms;
+	pthread_mutex_unlock(&_logMutex);
+}
+
+double Logger_getflushdelay() {
+	return _logAutoflushSleep;
+}
+
+/*
+void Logger_setmaxlines(int lines);
+void Logger_setmaxlinelength(int length);
+int Logger_getmaxlines();
+int Logger_getmaxlinelength();
+*/
+
+void Logger_setmaxlines(int lines) {
+	if(lines <= 0 || lines == _logMaxLines) return;
+	pthread_mutex_lock(&_logMutex);
+	_logStatus = LOG_STOPPED;
+	//flush
+	Logger_process_unsafe();
+	//destroy
+	Logger_destroybuffer_unsafe();
+#if defined EXTRADEBUG
+	printf("_logMaxLines is %d and is about to be %d\n", _logMaxLines, lines);
+#endif //EXTRADEBUG
+	_logMaxLines = lines;
+	//create
+	Logger_createbuffer_unsafe();
+	_logStatus = LOG_RUNNING;
+	pthread_mutex_unlock(&_logMutex);
+}
+
+void Logger_setmaxlinelength(int length) {
+	if(length <= 0 || length == _logMaxLineLength) return;
+	pthread_mutex_lock(&_logMutex);
+	_logStatus = LOG_STOPPED;
+	//flush
+	Logger_process_unsafe();
+	//destroy
+	Logger_destroybuffer_unsafe();
+#if defined EXTRADEBUG
+	printf("_logMaxLineLength is %d and is about to be %d\n", _logMaxLineLength, length);
+#endif //EXTRADEBUG
+	_logMaxLineLength = length;
+	//create
+	Logger_createbuffer_unsafe();
+	_logStatus = LOG_RUNNING;
+	pthread_mutex_unlock(&_logMutex);
+}
+
+int Logger_getmaxlines() {
+	return _logMaxLines;
+}
+
+int Logger_getmaxlinelength() {
+	return _logMaxLineLength;
 }

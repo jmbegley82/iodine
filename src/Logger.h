@@ -73,6 +73,23 @@ void Logger_unpause();
  */
 int Logger_status();
 
+/**
+ * @brief Set the amount of time between automatic logbuffer flushes
+ * @param ms (double) The amount of delay in milliseconds
+ */
+void Logger_setflushdelay(double ms);
+
+/**
+ * @brief Get the currently-set amount of time between automatic logbuffer flushes
+ * @return double The amount of delay in milliseconds
+ */
+double Logger_getflushdelay();
+
+void Logger_setmaxlines(int lines);
+void Logger_setmaxlinelength(int length);
+int Logger_getmaxlines();
+int Logger_getmaxlinelength();
+
 #ifdef __cplusplus
 }
 #endif //__cplusplus

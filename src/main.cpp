@@ -54,6 +54,14 @@ void* test_logger_thread(void *arg) {
 	for(int i=0; i<reps; i++) {
 		string currentRep = std::to_string(i);
 		string msg = "Thread#" + tname + ":  Bombardment#" + currentRep;
+		int r = rand() %200;
+		if(r == 30) {
+			// randomly resize the logbuffer because pain is fun
+			Logger_setmaxlines(rand()%1000 + 2);
+		} else if(r == 40) {
+			// randomly change logbuffer line length because chaos is also fun
+			Logger_setmaxlinelength(rand()%122+10);
+		}
 		Logger(msg.c_str());
 	}
 	pthread_exit((void*)0);
@@ -74,6 +82,8 @@ void test_logger() {
 	for(int i=0; i<threadcount; i++) {
 		pthread_join(threads[i], &status);
 	}
+	Logger_setmaxlinelength(80);
+	Logger_setmaxlines(128);
 }
 
 void test_timing() {
@@ -106,23 +116,28 @@ void test_timing() {
 void test_ticker() {
 	Atom* a = new Atom("a");
 	string msg = "a->GetLastTickEnd() = " + std::to_string(a->GetLastTickEnd());
-	Logger_now(msg.c_str());
+	Logger(msg.c_str());
+	Logger_setflushdelay(60);
 	SleepMsec(1000);
 	a->Tick();
 	msg = "a->GetLastTickEnd() = " + std::to_string(a->GetLastTickEnd());
-	Logger_now(msg.c_str());
+	Logger(msg.c_str());
+	Logger_setflushdelay(120);
 	SleepMsec(1000);
 	a->Tick();
 	msg = "a->GetLastTickEnd() = " + std::to_string(a->GetLastTickEnd());
-	Logger_now(msg.c_str());
+	Logger(msg.c_str());
+	Logger_setflushdelay(240);
 	SleepMsec(1000);
 	a->Tick();
 	msg = "a->GetLastTickEnd() = " + std::to_string(a->GetLastTickEnd());
-	Logger_now(msg.c_str());
+	Logger(msg.c_str());
+	Logger_setflushdelay(480);
 	SleepMsec(1000);
 	a->Tick();
 	msg = "a->GetLastTickEnd() = " + std::to_string(a->GetLastTickEnd());
-	Logger_now(msg.c_str());
+	Logger(msg.c_str());
+	Logger_setflushdelay(960);
 	SleepMsec(1000);
 	a->Tick();
 	delete a;
@@ -133,7 +148,7 @@ int main(int argc, char** argv) {
 	Logger("main entered.");
 
 	test_basics();
-	//test_logger();
+	test_logger();
 	test_timing();
 	test_ticker();
 	// end
