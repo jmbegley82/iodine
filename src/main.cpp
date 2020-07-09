@@ -19,11 +19,21 @@ int main(int argc, char** argv) {
 	Logger("main entered.");
 
 #if defined DEBUG
+#if defined DEBUGATOM
 	Atom::Test();
+#endif //DEBUGATOM
+#if defined DEBUGLOGGER
 	Logger_Test();
+#endif //DEBUGLOGGER
+#if defined DEBUGTIMING
 	Timing_Test();
+#endif //DEBUGTIMING
+#if defined DEBUGTICKER
 	Ticker::Test();
+#endif //DEBUGTICKER
+#if defined DEBUGMOTION
 	Motion::Test();
+#endif //DEBUGMOTION
 #endif //DEBUG
 
 	Logger("that's about enough for today.");

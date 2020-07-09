@@ -3,9 +3,14 @@ CXX         ?= c++
 MKDIR_P     ?= mkdir -p
 ## COMMONFLAGS:
 # -g is needed for debugging of any sort
-# -DDEBUG is pretty much compulsory since it enables ClassName::Test() functions
-# -DEXTRADEBUG adds extra output during tests
-COMMONFLAGS ?= -g -DDEBUG -DEXTRADEBUG
+# -DDEBUG enables building and execution of the following tests:
+# -DDEBUGATOM enables the Atom tests in Atom.Test.cpp
+# -DDEBUGLOGGER enables the Logger test in Logger.Test.c (lots of output, not enabled by default)
+# -DDEBUGMOTION enables the Motion object tests in Motion.Test.cpp
+# -DDEBUGTICKER enables the Ticker object tests in Ticker.Test.cpp
+# -DDEBUGTIMING enables the Timing function tests in Timing.Test.c
+# -DDEBUGEXTRA enables extra output during tests
+COMMONFLAGS ?= -g -DDEBUG -DDEBUGATOM -DDEBUGMOTION -DDEBUGTICKER -DDEBUGTIMING -DDEBUGEXTRA
 CFLAGS      ?= $(COMMONFLAGS)
 CXXFLAGS    ?= $(COMMONFLAGS)
 CPPFLAGS    ?= -I./src/

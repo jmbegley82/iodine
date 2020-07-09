@@ -47,9 +47,9 @@ void* Logger_autoflush(void* arg) {
 		}
 		SleepMsec(_logAutoflushSleep);
 	}
-#if defined EXTRADEBUG
+#if defined DEBUGEXTRA
 	Logger("Logger_autoflush has begun to exit correctly.");
-#endif //EXTRADEBUG
+#endif //DEBUGEXTRA
 	pthread_exit((void*)0);
 }
 
@@ -93,9 +93,9 @@ void Logger_process_unsafe() {
 		printf("%s\n", _logbuffer[i]);
 		memset(_logbuffer[i], 0, _logMaxLineLength);
 	}
-#if defined EXTRADEBUG
+#if defined DEBUGEXTRA
 	printf("Bawooooooosh!\n");
-#endif //EXTRADEBUG
+#endif //DEBUGEXTRA
 	_logCurrentLine = 0;
 }
 
@@ -188,9 +188,9 @@ void Logger_setmaxlines(int lines) {
 	Logger_process_unsafe();
 	//destroy
 	Logger_destroybuffer_unsafe();
-#if defined EXTRADEBUG
+#if defined DEBUGEXTRA
 	printf("_logMaxLines is %d and is about to be %d\n", _logMaxLines, lines);
-#endif //EXTRADEBUG
+#endif //DEBUGEXTRA
 	_logMaxLines = lines;
 	//create
 	Logger_createbuffer_unsafe();
@@ -206,9 +206,9 @@ void Logger_setmaxlinelength(int length) {
 	Logger_process_unsafe();
 	//destroy
 	Logger_destroybuffer_unsafe();
-#if defined EXTRADEBUG
+#if defined DEBUGEXTRA
 	printf("_logMaxLineLength is %d and is about to be %d\n", _logMaxLineLength, length);
-#endif //EXTRADEBUG
+#endif //DEBUGEXTRA
 	_logMaxLineLength = length;
 	//create
 	Logger_createbuffer_unsafe();
