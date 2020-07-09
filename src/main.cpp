@@ -9,6 +9,8 @@
 #include "Atom.h"
 #include "Timing.h"
 #include "Ticker.h"
+#include "Motion.h"
+#include "Types.h"
 
 using std::string;
 
@@ -141,6 +143,40 @@ void test_ticker() {
 	SleepMsec(1000);
 	a->Tick();
 	delete a;
+	Logger_setflushdelay(60);
+}
+
+void test_motion() {
+	Motion* m = new Motion({100,100}); // create new Motion with position (100,100)
+	coords c = m->GetPosition();
+	string msg = "test_motion:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
+	Logger(msg.c_str());
+	m->SetVelocity({1,-1}); // set velocity to (+1, -1)
+	m->UpdatePosition();
+	c = m->GetPosition();
+	msg = "test_motion:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
+	Logger(msg.c_str());
+	m->UpdatePosition();
+	c = m->GetPosition();
+	msg = "test_motion:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
+	Logger(msg.c_str());
+	m->UpdatePosition();
+	c = m->GetPosition();
+	msg = "test_motion:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
+	Logger(msg.c_str());
+	m->UpdatePosition();
+	c = m->GetPosition();
+	msg = "test_motion:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
+	Logger(msg.c_str());
+	m->UpdatePosition();
+	c = m->GetPosition();
+	msg = "test_motion:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
+	Logger(msg.c_str());
+	m->UpdatePosition();
+	c = m->GetPosition();
+	msg = "test_motion:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
+	Logger(msg.c_str());
+	delete m;
 }
 
 int main(int argc, char** argv) {
@@ -151,6 +187,7 @@ int main(int argc, char** argv) {
 	test_logger();
 	test_timing();
 	test_ticker();
+	test_motion();
 	// end
 
 	Logger("that's about enough for today.");
