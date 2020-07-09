@@ -37,6 +37,10 @@ void SleepMsec(double ms);
  */
 void SleepUsec(int us);
 
+#if defined DEBUG
+int Timing_Test();
+#endif //DEBUG
+
 #if defined __cplusplus
 }
 #endif //__cplusplus

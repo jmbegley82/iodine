@@ -90,6 +90,10 @@ void Logger_setmaxlinelength(int length);
 int Logger_getmaxlines();
 int Logger_getmaxlinelength();
 
+#if defined DEBUG
+int Logger_Test();
+#endif //DEBUG
+
 #if defined __cplusplus
 }
 #endif //__cplusplus
