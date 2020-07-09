@@ -21,6 +21,8 @@ string CmdSink::RetvalStr(int val) {
 	return retval;
 }
 
+#if defined DEBUG
 int CmdSink::Test() {
 	return 0;
 }
+#endif //DEBUG

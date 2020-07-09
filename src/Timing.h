@@ -2,10 +2,10 @@
  *
  */
 
-#ifndef TIMING_H
+#if !defined TIMING_H
 #define TIMING_H
 
-#ifdef __cplusplus
+#if defined __cplusplus
 extern "C" {
 #endif //__cplusplus
 
@@ -37,7 +37,7 @@ void SleepMsec(double ms);
  */
 void SleepUsec(int us);
 
-#ifdef __cplusplus
+#if defined __cplusplus
 }
 #endif //__cplusplus
 

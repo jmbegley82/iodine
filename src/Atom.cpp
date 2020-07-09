@@ -33,6 +33,8 @@ string Atom::RetvalStr(int val) {
 	return CmdSink::RetvalStr(val);
 }
 
+#if defined DEBUG
 int Atom::Test() {
 	return 0;
 }
+#endif //DEBUG

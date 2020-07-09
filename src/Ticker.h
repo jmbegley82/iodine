@@ -2,7 +2,7 @@
  *
  */
 
-#ifndef TICKER_H
+#if !defined TICKER_H
 #define TICKER_H
 
 //! A base class containing time-awareness related code
@@ -13,7 +13,9 @@ public:
 					//!< @details Make sure to call this at the end of any inheriting class's Tick!
 	double GetLastTickEnd();	//!< @brief Get timestamp saved at the end of the last call to Tick()
 					//!< @details Unless it hasn't been ticked yet; then the time at end of construction.
+#if defined DEBUG
 	static int Test();
+#endif //DEBUG
 private:
 	double _lastTickEnd;
 };

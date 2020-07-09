@@ -2,6 +2,7 @@
  *
  */
 
+#if defined DEBUG
 #include <string>
 #include "Motion.h"
 #include "Logger.h"
@@ -49,3 +50,4 @@ int Motion::Test() {
 	Logger("Test failed!");
 	return -1;
 }
+#endif //DEBUG

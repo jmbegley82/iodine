@@ -119,12 +119,13 @@ int main(int argc, char** argv) {
 	Logger_init();
 	Logger("main entered.");
 
+#if defined DEBUG
 	test_basics();
 	//test_logger();
 	test_timing();
 	Ticker::Test();
 	Motion::Test();
-	// end
+#endif //DEBUG
 
 	Logger("that's about enough for today.");
 	Logger_finish();

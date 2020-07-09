@@ -2,6 +2,8 @@
  *
  */
 
+#if defined DEBUG
+
 #include <string>
 #include "Ticker.h"
 #include "Timing.h"
@@ -41,3 +43,5 @@ int Ticker::Test() {
 	Logger_setflushdelay(60);
 	return 0;
 }
+
+#endif //DEBUG

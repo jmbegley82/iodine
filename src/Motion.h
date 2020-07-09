@@ -2,7 +2,7 @@
  *
  */
 
-#ifndef MOTION_H
+#if !defined MOTION_H
 #define MOTION_H
 
 #include "Types.h"
@@ -28,7 +28,9 @@ public:
 	coords PredictNextPosition();		//!< Calculate next position (collision notwithstanding)
 	double PredictNextPositionX();		//!< Calculate next X position
 	double PredictNextPositionY();		//!< Calculate next Y position
+#if defined DEBUG
 	static int Test();
+#endif //DEBUG
 private:
 	coords _position;			//!< Struct that contains x and y positional coordinates
 	coords _velocity;			//!< Struct that contains x and y velocities

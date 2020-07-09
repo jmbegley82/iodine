@@ -2,7 +2,7 @@
  *
  */
 
-#ifndef TYPES_H
+#if !defined TYPES_H
 #define TYPES_H
 
 struct _coords {

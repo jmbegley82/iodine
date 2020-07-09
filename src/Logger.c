@@ -11,17 +11,17 @@
 #include "Logger.h"
 #include "Timing.h"
 
-#ifndef DEFAULT_MAXLINELENGTH
+#if !defined DEFAULT_MAXLINELENGTH
 //! The default maximum length of a logbuffer entry
 #define DEFAULT_MAXLINELENGTH 1024
 #endif //DEFAULT_MAXLINELENGTH
 
-#ifndef DEFAULT_MAXLINES
+#if !defined DEFAULT_MAXLINES
 //! The default maximum number of logbuffer entries
 #define DEFAULT_MAXLINES 128
 #endif //DEFAULT_MAXLINES
 
-#ifndef DEFAULT_AUTOFLUSHSLEEP
+#if !defined DEFAULT_AUTOFLUSHSLEEP
 //! The default number of milliseconds to sleep after a timed automatic flush of the buffer
 #define DEFAULT_AUTOFLUSHSLEEP 100
 #endif

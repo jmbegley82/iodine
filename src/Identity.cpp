@@ -26,6 +26,8 @@ void Identity::SetIdentity(string identity) {
 	_identity = identity;
 }
 
+#if defined DEBUG
 int Identity::Test() {
 	return 0;
 }
+#endif //DEBUG

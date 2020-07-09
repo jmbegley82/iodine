@@ -2,7 +2,7 @@
  *
  */
 
-#ifndef IDENTITY_H
+#if !defined IDENTITY_H
 #define IDENTITY_H
 
 #include <string>
@@ -16,7 +16,9 @@ public:
 	string GetIdentity();			//!< Return the object's identity.
 	void SetIdentity(string identity);	//!< @brief Set the object's identity.
 						//!< @details Name collision checking not planned at this level.
+#if defined DEBUG
 	static int Test();
+#endif //DEBUG
 private:
 	string _identity;			//!< The object's identity.
 };

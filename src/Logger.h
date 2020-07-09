@@ -2,10 +2,10 @@
  *
  */
 
-#ifndef LOGGER_H
+#if !defined LOGGER_H
 #define LOGGER_H
 
-#ifdef __cplusplus
+#if defined __cplusplus
 extern "C" {
 #endif //__cplusplus
 
@@ -90,7 +90,7 @@ void Logger_setmaxlinelength(int length);
 int Logger_getmaxlines();
 int Logger_getmaxlinelength();
 
-#ifdef __cplusplus
+#if defined __cplusplus
 }
 #endif //__cplusplus
 

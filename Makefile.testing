@@ -1,7 +1,11 @@
 CC=clang
 CXX=clang++
 MKDIR_P=mkdir -p
-COMMONFLAGS=-g -DEXTRADEBUG
+## COMMONFLAGS:
+# -g is needed for debugging of any sort
+# -DDEBUG is pretty much compulsory since it enables ClassName::Test() functions
+# -DEXTRADEBUG adds extra output during tests
+COMMONFLAGS=-g -DDEBUG
 CFLAGS=$(COMMONFLAGS)
 CXXFLAGS=$(COMMONFLAGS)
 CPPFLAGS=-I./src/

@@ -2,7 +2,7 @@
  *
  */
 
-#ifndef CMDSINK_H
+#if !defined CMDSINK_H
 #define CMDSINK_H
 
 #include <string>
@@ -13,7 +13,9 @@ class CmdSink {
 public:
 	virtual int Command(const string cmd);		//!< Attempts to consume cmd.  This base class just returns CMD_INVALID.
 	static string RetvalStr(int val);		//!< Converts val into a string representation of the Retval.
+#if defined DEBUG
 	static int Test();
+#endif //DEBUG
 private:
 	/**
 	 * Return values for Command
