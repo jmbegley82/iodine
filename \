@@ -1,5 +1,5 @@
-CC          ?= cc
-CXX         ?= c++
+CC          ?= clang
+CXX         ?= clang++
 MKDIR_P     ?= mkdir -p
 ## COMMONFLAGS:
 # -g is needed for debugging of any sort
