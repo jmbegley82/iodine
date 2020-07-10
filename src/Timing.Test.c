@@ -32,5 +32,6 @@ int Timing_Test() {
 	sprintf(msg, "Timing_Test:  GetTimeInUsec: %f", GetTimeInUsec());
 	Logger_now(msg);
 	Logger_unpause();
+	return 0;
 }
 #endif //DEBUG
