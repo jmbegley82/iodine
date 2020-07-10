@@ -13,7 +13,7 @@
 
 #if !defined DEFAULT_MAXLINELENGTH
 //! The default maximum length of a logbuffer entry
-#define DEFAULT_MAXLINELENGTH 1024
+#define DEFAULT_MAXLINELENGTH 128
 #endif //DEFAULT_MAXLINELENGTH
 
 #if !defined DEFAULT_MAXLINES
@@ -118,20 +118,21 @@ void Logger_finish() {
 
 /**
  * @brief Add entry to _logbuffer the dangerous way
- * @details Write str to _logbuffer[_logCurrentLine], increment _logCurrentLine, if it's over _logMaxLines,
+ * @details Break str into _logMaxLineLength-sized chunks and add them to _logbuffer.  When necessary,
  * flush it with Logger_process_unsafe.  Internal use only!
  * @param str (const char*) the C-string to add to the log buffer
- * @return int 0 = success, 1 = success and the buffer was emptied
+ * @return int 0 = success, 1 = success and the buffer was emptied after the last line was added
  */
 int Logger_unsafe(const char* str) {
 	int retval = 0;
-	assert(_logCurrentLine < _logMaxLines);
-	strncpy(_logbuffer[_logCurrentLine], str, _logMaxLineLength);
-	_logbuffer[_logCurrentLine][_logMaxLineLength-1] = '\0';
-	_logCurrentLine++;
-	if(_logCurrentLine >= _logMaxLines) {
-		Logger_process_unsafe();
-		retval = 1;
+	assert(_logCurrentLine < _logMaxLines);  // if at any point this happens, something is very wrong
+	for(int i=0; i<strlen(str); i += _logMaxLineLength) {
+		strncpy(_logbuffer[_logCurrentLine], str+i, _logMaxLineLength);
+		_logCurrentLine++;
+		if(_logCurrentLine >= _logMaxLines) {
+			Logger_process_unsafe();
+			retval = 1;
+		} else retval = 0;
 	}
 	return retval;
 }

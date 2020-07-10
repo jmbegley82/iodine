@@ -33,6 +33,7 @@ int Geometry::Test() {
 	pair = g->GetBottomRight();
 	sprintf(msg, "Geometry::Test:  Bottom Right corner X=%5.1f, Y=%5.1f", pair.x, pair.y);
 	Logger(msg);
+	delete g;
 	return 0;
 }
 

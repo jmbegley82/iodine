@@ -27,7 +27,7 @@ void* Logger_Test_Thread(void *arg) {
 	pthread_exit((void*)0);
 }
 
-int Logger_Test() {
+int Logger_Test_Old() {
 	int threadcount = 7;  // set to # of desired concurrent testing threads
 	pthread_attr_t attr;
 	pthread_attr_init(&attr);
@@ -46,4 +46,14 @@ int Logger_Test() {
 	Logger_setmaxlines(128);
 	return 0;
 }
+
+int Logger_Test() {
+	Logger_setmaxlinelength(20);
+	Logger_setmaxlines(4);
+	Logger("This line should be written to the log in chunks of 20 characters.  No characters should be missing.  If for any reason characters are missing, it is probably because the algorithm used to chunk up the text is flawed.  This flaw was presumably introduced on July 10th just after midnight.  Also this line should now be long enought to trigger a buffer flush.  But just in case it isn't, please consider the following:  Two eyeballs can be just as useless as three.");
+	Logger_setmaxlinelength(128);
+	Logger_setmaxlines(128);
+	return 0;
+}
+
 #endif //DEBUG
