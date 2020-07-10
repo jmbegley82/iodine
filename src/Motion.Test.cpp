@@ -10,7 +10,8 @@
 using std::string;
 
 int Motion::Test() {
-	Motion* m = new Motion({100,100}); // create new Motion with position (100,100)
+	Motion* m = new Motion(); // create new Motion...
+	m->SetPosition({100.0, 100.0}); // with position (100,100)
 	coords c = m->GetPosition();
 	string msg = "Motion::Test:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
 	Logger(msg.c_str());

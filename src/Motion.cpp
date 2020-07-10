@@ -5,30 +5,11 @@
 #include "Motion.h"
 
 Motion::Motion() {
-	SetPosition({0.0, 0.0});
-	SetVelocity({0.0, 0.0});
-}
-
-Motion::Motion(coords val) {
-	SetPosition(val);
 	SetVelocity({0.0, 0.0});
 }
 
 void Motion::UpdatePosition() {
 	SetPosition(PredictNextPosition());
-}
-
-void Motion::SetPosition(coords val) {
-	SetPositionX(val.x);
-	SetPositionY(val.y);
-}
-
-void Motion::SetPositionX(double val) {
-	_position.x = val;
-}
-
-void Motion::SetPositionY(double val) {
-	_position.y = val;
 }
 
 void Motion::SetVelocity(coords val) {
@@ -42,18 +23,6 @@ void Motion::SetVelocityX(double val) {
 
 void Motion::SetVelocityY(double val) {
 	_velocity.y = val;
-}
-
-coords Motion::GetPosition() {
-	return _position;
-}
-
-double Motion::GetPositionX() {
-	return _position.x;
-}
-
-double Motion::GetPositionY() {
-	return _position.y;
 }
 
 coords Motion::GetVelocity() {
