@@ -11,14 +11,9 @@
 
 void* Logger_Test_Thread(void *arg) {
 	int reps = 100000;  // set to # of desired iterations
-	//string tname = std::to_string((long int)arg);
-	//char tname[5] = {};  // surely 5 digits is enough for the thread count...
-	//sprintf(tname, "%d", (long int)arg);
 	for(int i=0; i<reps; i++) {
-		//string currentRep = std::to_string(i);
-		//string msg = "Thread#" + tname + ":  Bombardment#" + currentRep;
 		char msg[128] = {};
-		sprintf(msg, "Thread#%05ld:  Bombardment#%d", (long int)arg, i);
+		sprintf(msg, "Logger_Test:  Thread#%05ld:  Bombardment#%05d", (long int)arg, i);
 		int r = rand() %200;
 		if(r == 30) {
 			// randomly resize the logbuffer because pain is fun

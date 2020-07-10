@@ -29,7 +29,7 @@ public:
 	double PredictNextPositionX();		//!< Calculate next X position
 	double PredictNextPositionY();		//!< Calculate next Y position
 #if defined DEBUG
-	static int Test();
+	static int Test();			//!< Run internal tests
 #endif //DEBUG
 private:
 	coords _position;			//!< Struct that contains x and y positional coordinates

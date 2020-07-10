@@ -38,7 +38,7 @@ void SleepMsec(double ms);
 void SleepUsec(int us);
 
 #if defined DEBUG
-int Timing_Test();
+int Timing_Test();	//!< Run internal tests
 #endif //DEBUG
 
 #if defined __cplusplus

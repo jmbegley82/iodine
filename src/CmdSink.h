@@ -14,7 +14,7 @@ public:
 	virtual int Command(const string cmd);		//!< Attempts to consume cmd.  This base class returns CMD_INVALID.
 	static string RetvalStr(int val);		//!< Converts val into a string representation of the Retval.
 #if defined DEBUG
-	static int Test();
+	static int Test();				//!< Run internal tests
 #endif //DEBUG
 private:
 	/**

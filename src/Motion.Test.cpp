@@ -42,12 +42,12 @@ int Motion::Test() {
 	coords test = m->GetPosition();
 	delete m;
 	if(test.x == 106.0 && test.y == 94.0) {
-		Logger("Test passed!");
+		Logger("Motion::Test:  Test passed!");
 		return 0;
 	}
 	msg = "Motion::Test:  test.x=" + std::to_string(test.x) + ", .y=" + std::to_string(test.y);
 	Logger(msg.c_str());
-	Logger("Test failed!");
+	Logger("Motion::Test:  Test failed!");
 	return -1;
 }
 #endif //DEBUG

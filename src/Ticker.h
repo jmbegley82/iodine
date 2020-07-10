@@ -14,7 +14,7 @@ public:
 	double GetLastTickEnd();	//!< @brief Get timestamp saved at the end of the last call to Tick()
 					//!< @details Unless it hasn't been ticked yet; then the time at end of construction.
 #if defined DEBUG
-	static int Test();
+	static int Test();		//!< Run internal tests
 #endif //DEBUG
 private:
 	double _lastTickEnd;

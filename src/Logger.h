@@ -85,13 +85,13 @@ void Logger_setflushdelay(double ms);
  */
 double Logger_getflushdelay();
 
-void Logger_setmaxlines(int lines);
-void Logger_setmaxlinelength(int length);
-int Logger_getmaxlines();
-int Logger_getmaxlinelength();
+void Logger_setmaxlines(int lines);		//!< Set maximum logbuffer line count
+void Logger_setmaxlinelength(int length);	//!< Set maximum logbuffer line length
+int Logger_getmaxlines();			//!< Get current maximum logbuffer line count
+int Logger_getmaxlinelength();			//!< Get current maximum logbuffer line length
 
 #if defined DEBUG
-int Logger_Test();
+int Logger_Test();				//!< Run internal tests
 #endif //DEBUG
 
 #if defined __cplusplus
