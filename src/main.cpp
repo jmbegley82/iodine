@@ -10,6 +10,7 @@
 #include "Timing.h"
 #include "Ticker.h"
 #include "Motion.h"
+#include "Geometry.h"
 #include "Types.h"
 
 using std::string;
@@ -34,6 +35,9 @@ int main(int argc, char** argv) {
 #if defined DEBUGMOTION
 	Motion::Test();
 #endif //DEBUGMOTION
+#if defined DEBUGGEOMETRY
+	Geometry::Test();
+#endif //DEBUGGEOMETRY
 #endif //DEBUG
 
 	Logger("that's about enough for today.");

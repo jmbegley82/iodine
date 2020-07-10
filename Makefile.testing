@@ -9,8 +9,9 @@ MKDIR_P     ?= mkdir -p
 # -DDEBUGMOTION enables the Motion object tests in Motion.Test.cpp
 # -DDEBUGTICKER enables the Ticker object tests in Ticker.Test.cpp
 # -DDEBUGTIMING enables the Timing function tests in Timing.Test.c
+# -DDEBUGGEOMETRY enables the Geometry object tests in Geometry.Test.cpp
 # -DDEBUGEXTRA enables extra output during tests
-COMMONFLAGS ?= -g -DDEBUG -DDEBUGATOM -DDEBUGMOTION -DDEBUGTICKER -DDEBUGTIMING -DDEBUGEXTRA
+COMMONFLAGS ?= -g -DDEBUG -DDEBUGATOM -DDEBUGMOTION -DDEBUGTICKER -DDEBUGTIMING -DDEBUGGEOMETRY -DDEBUGEXTRA
 CFLAGS      ?= $(COMMONFLAGS)
 CXXFLAGS    ?= $(COMMONFLAGS)
 CPPFLAGS    ?= -I./src/

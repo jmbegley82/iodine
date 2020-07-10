@@ -92,3 +92,35 @@ double Geometry::GetCenterX() {
 double Geometry::GetCenterY() {
 	return _center.y;
 }
+
+double Geometry::GetXLeft() {
+	return GetPositionX() + GetCenterX();
+}
+
+double Geometry::GetXRight() {
+	return GetPositionX() + GetCenterX() + GetSizeW();
+}
+
+double Geometry::GetYTop() {
+	return GetPositionY() + GetCenterY();
+}
+
+double Geometry::GetYBottom() {
+	return GetPositionY() + GetCenterY() + GetSizeH();
+}
+
+coords Geometry::GetTopLeft() {
+	return {GetXLeft(), GetYTop()};
+}
+
+coords Geometry::GetTopRight() {
+	return {GetXRight(), GetYTop()};
+}
+
+coords Geometry::GetBottomLeft() {
+	return {GetXLeft(), GetYBottom()};
+}
+
+coords Geometry::GetBottomRight() {
+	return {GetXRight(), GetYBottom()};
+}
