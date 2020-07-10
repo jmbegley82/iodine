@@ -56,8 +56,8 @@ void* Logger_autoflush(void* arg) {
 void Logger_createbuffer_unsafe() {
 	_logbuffer = malloc(_logMaxLines * sizeof(_logbuffer));
 	for(int i=0; i<_logMaxLines; i++) {
-		_logbuffer[i] = malloc(_logMaxLineLength);
-		memset(_logbuffer[i], 0, _logMaxLineLength);
+		_logbuffer[i] = malloc(_logMaxLineLength+1);
+		memset(_logbuffer[i], 0, _logMaxLineLength+1);
 	}
 }
 
