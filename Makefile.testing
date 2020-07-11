@@ -10,8 +10,10 @@ MKDIR_P     ?= mkdir -p
 # -DDEBUGTICKER enables the Ticker object tests in Ticker.Test.cpp
 # -DDEBUGTIMING enables the Timing function tests in Timing.Test.c
 # -DDEBUGGEOMETRY enables the Geometry object tests in Geometry.Test.cpp
+# -DDEBUGPLATFORM enables tests in Platform.Test.c
 # -DDEBUGEXTRA enables extra output during tests
-COMMONFLAGS ?= -g -DDEBUG -DDEBUGLOGGER -DDEBUGATOM -DDEBUGMOTION -DDEBUGTICKER -DDEBUGTIMING -DDEBUGGEOMETRY -DDEBUGEXTRA
+COMMONFLAGS ?= -g -DDEBUG -DDEBUGLOGGER -DDEBUGATOM -DDEBUGMOTION -DDEBUGTICKER -DDEBUGTIMING -DDEBUGGEOMETRY \
+		  -DDEBUGPLATFORM -DDEBUGEXTRA
 CFLAGS      ?= $(COMMONFLAGS)
 CXXFLAGS    ?= $(COMMONFLAGS)
 CPPFLAGS    ?= -I./src/

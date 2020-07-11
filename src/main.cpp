@@ -12,6 +12,7 @@
 #include "Motion.h"
 #include "Geometry.h"
 #include "Types.h"
+#include "Platform.h"
 
 using std::string;
 
@@ -38,6 +39,9 @@ int main(int argc, char** argv) {
 #if defined DEBUGGEOMETRY
 	Geometry::Test();
 #endif //DEBUGGEOMETRY
+#if defined DEBUGPLATFORM
+	Platform_Test();
+#endif //DEBUGPLATFORM
 #endif //DEBUG
 
 	Logger("that's about enough for today.");
