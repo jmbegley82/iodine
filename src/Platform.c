@@ -17,7 +17,7 @@ static const char* _tmpdir = 0;
 
 const char* GetHomeDir() {
 	if(!_homedir) { 
-#if defined __linux__
+#if defined (__linux__) || defined (__OpenBSD__)
 		_homedir = getenv("HOME");
 #else
 #error Platform support not written yet!
@@ -28,7 +28,7 @@ const char* GetHomeDir() {
 
 const char* GetTmpDir() {
 	if(!_tmpdir) {
-#if defined __linux__
+#if defined (__linux__) || defined (__OpenBSD__)
 		_tmpdir = "/tmp";
 #else
 #error Platform support not written yet!

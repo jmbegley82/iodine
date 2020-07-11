@@ -23,12 +23,12 @@ Atom::~Atom() {
 }
 
 int Atom::Command(const string cmd) {
-	if(cmd == "gibberish") return Atom::Retval::CMD_ERROR;
+	if(cmd == "gibberish") return CMD_ERROR;
 	return CmdSink::Command(cmd);
 }
 
 string Atom::RetvalStr(int val) {
-	if(val == Atom::Retval::CMD_ERROR) return "CMD_ERROR";
-	if(val == Atom::Retval::CMD_NOPE) return "CMD_NOPE";
+	if(val == CMD_ERROR) return "CMD_ERROR";
+	if(val == CMD_NOPE) return "CMD_NOPE";
 	return CmdSink::RetvalStr(val);
 }
