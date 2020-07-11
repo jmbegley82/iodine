@@ -26,7 +26,6 @@ public:
 	static int Test();			//!< Run internal tests
 #endif //DEBUG
 private:
-
 	coords _velocity;			//!< Struct that contains x and y velocities
 };
 

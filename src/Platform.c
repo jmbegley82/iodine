@@ -12,33 +12,27 @@
 #include "Logger.h"
 #endif //DEBUGEXTRA
 
-void GetUserHomeDir(char* dir) {
-	char* home;
+static const char* _homedir = 0;
+static const char* _tmpdir = 0;
+
+const char* GetHomeDir() {
+	if(!_homedir) { 
 #if defined __linux__
-	home = getenv("HOME");  // should we be using getpwuid(getuid())->pw_dir for this instead?
+		_homedir = getenv("HOME");
 #else
 #error Platform support not written yet!
 #endif //platforms
-#if defined DEBUGEXTRA
-	char msg[128];
-	sprintf(msg, "Platform:  GetUserHomeDir:  home=%s", home);
-	Logger(msg);
-#endif //DEBUGEXTRA
-	strcpy(dir, home);
+	}
+	return _homedir;
 }
 
-void GetWritableTmpDir(char* dir) {
-	char* tmp;
+const char* GetTmpDir() {
+	if(!_tmpdir) {
 #if defined __linux__
-	tmp = "/tmp";  // TODO:  there's *got* to be a better way
+		_tmpdir = "/tmp";
 #else
 #error Platform support not written yet!
 #endif //platforms
-#if defined DEBUGEXTRA
-	char msg[128];
-	sprintf(msg, "Platform:  GetWritableTmpDir:  tmp=%s", tmp);
-	Logger(msg);
-#endif //DEBUGEXTRA
-	strcpy(dir, tmp);
+	}
+	return _tmpdir;
 }
-

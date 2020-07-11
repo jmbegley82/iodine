@@ -9,8 +9,8 @@
 extern "C" {
 #endif //__cplusplus
 
-void GetUserHomeDir(char* dir);
-void GetWritableTmpDir(char* dir);
+const char* GetHomeDir();
+const char* GetTmpDir();
 
 #if defined DEBUG
 int Platform_Test();

@@ -8,14 +8,10 @@
 
 #if defined DEBUG
 int Platform_Test() {
-	char homedir[64];
-	char tmpdir[64];
-	GetUserHomeDir(homedir);
-	GetWritableTmpDir(tmpdir);
 	char msg[128];
-	sprintf(msg, "Platform_Test:  homedir=%s", homedir);
+	sprintf(msg, "Platform_Test:  homedir=%s", GetHomeDir());
 	Logger(msg);
-	sprintf(msg, "Platform_Test:  tmpdir=%s", tmpdir);
+	sprintf(msg, "Platform_Test:  tmpdir=%s", GetTmpDir());
 	Logger(msg);
 	Logger("Platform_Test:  Please check accuracy manually!");
 	return 0;

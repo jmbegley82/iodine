@@ -13,41 +13,43 @@ int Motion::Test() {
 	Motion* m = new Motion(); // create new Motion...
 	m->SetPosition({100.0, 100.0}); // with position (100,100)
 	coords c = m->GetPosition();
-	string msg = "Motion::Test:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
-	Logger(msg.c_str());
+	char msg[128];
+	char msgfmt[] = "Motion::Test:  m->GetPosition().x=%5.1f, .y=%5.1f";
+	sprintf(msg, msgfmt, c.x, c.y);
+	Logger(msg);	
 	m->SetVelocity({1,-1}); // set velocity to (+1, -1)
 	m->UpdatePosition();
 	c = m->GetPosition();
-	msg = "Motion::Test:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
-	Logger(msg.c_str());
+	sprintf(msg, msgfmt, c.x, c.y);
+	Logger(msg);	
 	m->UpdatePosition();
 	c = m->GetPosition();
-	msg = "Motion::Test:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
-	Logger(msg.c_str());
+	sprintf(msg, msgfmt, c.x, c.y);
+	Logger(msg);	
 	m->UpdatePosition();
 	c = m->GetPosition();
-	msg = "Motion::Test:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
-	Logger(msg.c_str());
+	sprintf(msg, msgfmt, c.x, c.y);
+	Logger(msg);	
 	m->UpdatePosition();
 	c = m->GetPosition();
-	msg = "Motion::Test:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
-	Logger(msg.c_str());
+	sprintf(msg, msgfmt, c.x, c.y);
+	Logger(msg);	
 	m->UpdatePosition();
 	c = m->GetPosition();
-	msg = "Motion::Test:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
-	Logger(msg.c_str());
+	sprintf(msg, msgfmt, c.x, c.y);
+	Logger(msg);	
 	m->UpdatePosition();
 	c = m->GetPosition();
-	msg = "Motion::Test:  m->GetVelocity().x=" + std::to_string(c.x) + ", .y=" + std::to_string(c.y);
-	Logger(msg.c_str());
+	sprintf(msg, msgfmt, c.x, c.y);
+	Logger(msg);	
 	coords test = m->GetPosition();
 	delete m;
 	if(test.x == 106.0 && test.y == 94.0) {
 		Logger("Motion::Test:  Test passed!");
 		return 0;
 	}
-	msg = "Motion::Test:  test.x=" + std::to_string(test.x) + ", .y=" + std::to_string(test.y);
-	Logger(msg.c_str());
+	sprintf(msg, "Motion::Test:  m->GetPosition().x=%5.1f, .y=%5.1f", test.x, test.y);
+	Logger(msg);	
 	Logger("Motion::Test:  Test failed!");
 	return -1;
 }
