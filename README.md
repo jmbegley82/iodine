@@ -57,5 +57,17 @@ There is currently no license, implied or otherwise, for anything in this repo. 
 13) Before any version is finalized, it must:
     - Build without warnings
     - Pass all built-in tests
-    - valgrind memcheck must be clean with no leaks/errors
+    - valgrind memcheck should be as clean as possible
 
+# Current Tasks (as of commit 2020/07/12):
+- Reduce number of valgrind complains on OpenBSD (back burner, may be due to libpthread?)
+- Container base class for objects which will contain multiple Atoms (in progress)
+    - Should Container be more generic than this?
+- A class for the storage/retrieval of variables
+- Determine how best to approach a layered screen system
+    - One approach is to give each on-screen entity's class a layer index, since Atma's layered system eventually evolved to
+    have objects in different layers interacting anyway
+    - There's the Atma method, which separated layers into distinct collections of objects, and had the advantages of easy
+    implementation of a menu overlay on top of scrolling/repeating/tiled/different-resolution/etc. backgrounds
+- The dreaded collision detection/handling mechanisms
+- Classes/structs for single animation cels, collections of cels (animations), collections of animations

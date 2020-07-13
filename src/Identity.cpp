@@ -9,9 +9,7 @@
 using std::string;
 
 Identity::Identity() {
-	string identity = "id";
-	identity += std::to_string((unsigned int)GetTimeInUsec());
-	SetIdentity(identity);
+	SetArbitraryIdentity();
 }
 
 Identity::Identity(string identity) {
@@ -24,6 +22,12 @@ string Identity::GetIdentity() {
 
 void Identity::SetIdentity(string identity) {
 	_identity = identity;
+}
+
+void Identity::SetArbitraryIdentity() {
+	string identity = "id";
+	identity += std::to_string((unsigned int)GetTimeInUsec());
+	SetIdentity(identity);
 }
 
 #if defined DEBUG

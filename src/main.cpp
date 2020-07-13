@@ -11,6 +11,7 @@
 #include "Ticker.h"
 #include "Motion.h"
 #include "Geometry.h"
+#include "Container.h"
 #include "Types.h"
 #include "Platform.h"
 
@@ -42,6 +43,9 @@ int main(int argc, char** argv) {
 #if defined DEBUGPLATFORM
 	Platform_Test();
 #endif //DEBUGPLATFORM
+#if defined DEBUGCONTAINER
+	Container::Test();
+#endif //DEBUGCONTAINER
 #endif //DEBUG
 
 	Logger("that's about enough for today.");

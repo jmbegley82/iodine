@@ -11,9 +11,10 @@ MKDIR_P     ?= mkdir -p
 # -DDEBUGTIMING enables the Timing function tests in Timing.Test.c
 # -DDEBUGGEOMETRY enables the Geometry object tests in Geometry.Test.cpp
 # -DDEBUGPLATFORM enables tests in Platform.Test.c
+# -DDEBUGCONTAINER enables tests in Container.Test.cpp
 # -DDEBUGEXTRA enables extra output during tests
-COMMONFLAGS ?= -g -DDEBUG -DDEBUGLOGGER -DDEBUGATOM -DDEBUGMOTION -DDEBUGTICKER -DDEBUGTIMING -DDEBUGGEOMETRY \
-		  -DDEBUGPLATFORM -DDEBUGEXTRA
+COMMONFLAGS ?= -g -DDEBUG -DDEBUGLOGGER -DDEBUGATOM -DDEBUGMOTION \
+		  -DDEBUGPLATFORM -DDEBUGCONTAINER -DDEBUGEXTRA
 CFLAGS      ?= $(COMMONFLAGS)
 CXXFLAGS    ?= $(COMMONFLAGS)
 CPPFLAGS    ?= -I./src/

@@ -9,10 +9,7 @@
 using std::string;
 
 Atom::Atom() {
-	string identity = GetIdentity();
-	identity = identity.substr(2);  // remove the 'id' from the beginning...
-	identity = "Atom" + identity;   // and replace it with 'Atom'.
-	SetIdentity(identity);
+	SetArbitraryIdentity();
 }
 
 Atom::Atom(string identity) {
@@ -20,6 +17,14 @@ Atom::Atom(string identity) {
 }
 
 Atom::~Atom() {
+}
+
+void Atom::SetArbitraryIdentity() {
+	Identity::SetArbitraryIdentity();
+	string identity = GetIdentity();
+	identity = identity.substr(2);  // remove the 'id' from the beginning...
+	identity = "Atom" + identity;   // and replace it with 'Atom'.
+	SetIdentity(identity);
 }
 
 int Atom::Command(const string cmd) {
