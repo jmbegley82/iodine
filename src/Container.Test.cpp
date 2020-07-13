@@ -26,6 +26,7 @@ int Container::Test() {
 	Atom* c = new Atom("Test3");
 	Atom* d = new Atom("Test4");
 	Atom* e = new Atom("Test5");
+	Atom* f = new Atom("Test6");
 	tester.AddAtom(a);
 	tester.AddAtom(b);
 	tester.AddAtom(c);
@@ -39,12 +40,7 @@ int Container::Test() {
 	cttestloop(&tester);
 	tester.AddAtom(d);
 	cttestloop(&tester);
-
-	//tester.MakeContiguous();
-//	char msg[128];
-//	sprintf(msg, "Container::Test:  _count=%d, _countMax=%d", tester.GetCount(), tester.GetCountMax());
-//	Logger(msg);
-	
+	tester.AddAtom(f);
 	cttestloop(&tester);
 
 	//end section
