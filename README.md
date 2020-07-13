@@ -61,9 +61,8 @@ There is currently no license, implied or otherwise, for anything in this repo. 
 
 # Current Tasks (as of commit 2020/07/12):
 - Reduce number of valgrind complains on OpenBSD (back burner, may be due to libpthread?)
-- Container base class for objects which will contain multiple Atoms (in progress)
-    - Should Container be more generic than this?
-- A class for the storage/retrieval of variables
+- Container base class for objects which will contain multiple Atoms (needs testing)
+- A class for the storage/retrieval of variables (in progress)
 - Determine how best to approach a layered screen system
     - One approach is to give each on-screen entity's class a layer index, since Atma's layered system eventually evolved to
     have objects in different layers interacting anyway

@@ -11,7 +11,7 @@ using std::string;
 //! Anything that can execute a Command string should inherit this.
 class CmdSink {
 public:
-	virtual int Command(const string cmd);		//!< Attempts to consume cmd.  This base class returns CMD_INVALID.
+	virtual int Command(const string& cmd);		//!< Attempts to consume cmd.  This base class returns CMD_INVALID.
 	static string RetvalStr(int val);		//!< Converts val into a string representation of the Retval.
 #if defined DEBUG
 	static int Test();				//!< Run internal tests

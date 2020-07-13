@@ -12,7 +12,7 @@ Atom::Atom() {
 	SetArbitraryIdentity();
 }
 
-Atom::Atom(string identity) {
+Atom::Atom(const string& identity) {
 	SetIdentity(identity);
 }
 
@@ -27,7 +27,7 @@ void Atom::SetArbitraryIdentity() {
 	SetIdentity(identity);
 }
 
-int Atom::Command(const string cmd) {
+int Atom::Command(const string& cmd) {
 	if(cmd == "gibberish") return CMD_ERROR;
 	return CmdSink::Command(cmd);
 }

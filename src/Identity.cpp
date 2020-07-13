@@ -12,7 +12,7 @@ Identity::Identity() {
 	SetArbitraryIdentity();
 }
 
-Identity::Identity(string identity) {
+Identity::Identity(const string& identity) {
 	SetIdentity(identity);
 }
 
@@ -20,7 +20,7 @@ string Identity::GetIdentity() {
 	return _identity;
 }
 
-void Identity::SetIdentity(string identity) {
+void Identity::SetIdentity(const string& identity) {
 	_identity = identity;
 }
 

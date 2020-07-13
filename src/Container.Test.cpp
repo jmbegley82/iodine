@@ -43,6 +43,11 @@ int Container::Test() {
 	tester.AddAtom(f);
 	cttestloop(&tester);
 
+	tester.DestroyAtomByName("Test1");
+	tester.DestroyAtomByName("Test3");
+	tester.DestroyAtomByName("Test5");
+	cttestloop(&tester);
+
 	//end section
 	Logger("Container::Test:  attempting to DestroyAllAtoms()...");
 	tester.DestroyAllAtoms();
