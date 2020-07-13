@@ -1,5 +1,6 @@
 /* Variable.cpp
  *
+public:
 	Variable();
 	~Variable();
 	int Command(const string& cmd);
@@ -9,7 +10,7 @@
 	string GetValueAsString();
 	int GetValueAsInt();
 	double GetValueAsDouble();
-	bool IsValidNumericData();
+	bool IsValidNumericData(const string& val);
 	void Clear();
 #if defined DEBUG
 	static int Test();
@@ -21,11 +22,17 @@ private:
 		DOUBLE,
 		INTEGER
 	};
-	void* _data;
+	//void* _data;
+	string _dataStr;
+	int _dataInt;
+	double _dataDbl;
 	dtype _type;
+	bool _containsNumericData;
+	bool _hasBeenAllocated;
  */
 
 #include <string>
+#include <cassert>
 #include <cctype>
 #include <cmath>
 #include <cstdlib>
@@ -35,12 +42,11 @@ private:
 using std::string;
 
 Variable::Variable() {
-	_hasBeenAllocated = false;
 	Clear();
 }
 
 Variable::~Variable() {
-	free(_data);
+	Clear();
 }
 
 int Variable::Command(const string& cmd) {
@@ -50,38 +56,43 @@ int Variable::Command(const string& cmd) {
 void Variable::SetValueAsString(const string& val) {
 	Clear();
 	_type = STRING;
-	_data = malloc(val.length() * sizeof(val.c_str()[0]));
-	_hasBeenAllocated = true;
-	strncpy((char*)_data, val.c_str(), sizeof(val.c_str()[0]));
+	_dataStr = val;
+	if(IsValidNumericData(val)) {
+		_containsNumericData = true;
+		_dataInt = std::stoi(val);
+		_dataDbl = std::stod(val);
+	} else {
+		_containsNumericData = false;
+		_dataInt = 0;
+		_dataDbl = 0.0;
+	}
 }
 
 void Variable::SetValueAsInt(int val) {
 	Clear();
 	_type = INTEGER;
-	_data = malloc(sizeof(val));
-	_hasBeenAllocated = true;
-	_data = (void*)val;  //static_cast<char*>(val);
+	_containsNumericData = true;
+	_dataStr = std::to_string(val);
+	_dataInt = val;
+	_dataDbl = static_cast<double>(val);
 }
 
 void Variable::SetValueAsDouble(double val) {
 	Clear();
 	_type = DOUBLE;
-	_data = malloc(sizeof(val));
-	_hasBeenAllocated = true;
-	_data = val;  //static_cast<char*>(val);
+	_containsNumericData = true;
+	_dataStr = std::to_string(val);
+	_dataInt = static_cast<int>(round(val));
+	_dataDbl = val;
 }
 
 string Variable::GetValueAsString() {
 	string retval;
 	switch(_type) {
 	case STRING:
-		retval = string((char*)_data);
-		break;
 	case INTEGER:
-		retval = std::to_string((int)_data);  //static_cast<int>(val));
-		break;
 	case DOUBLE:
-		retval = std::to_string((double)_data);  //static_cast<double>(val));
+		retval = _dataStr;
 		break;
 	case NONE:
 	default:
@@ -94,16 +105,14 @@ int Variable::GetValueAsInt() {
 	int retval = 0;
 	switch(_type) {
 	case STRING:
-		retval = atoi((char*)_data);
-		break;
 	case INTEGER:
-		retval = (int)_data;  //static_cast<int>(_data);
-		break;
 	case DOUBLE:
-		retval = round((double)_data);  //static_cast<double>(_data));
+		if(_containsNumericData)
+			retval = _dataInt;
 		break;
 	case NONE:
 	default:
+		break;
 	}
 	return retval;
 }
@@ -112,49 +121,36 @@ double Variable::GetValueAsDouble() {
 	double retval = 0.0;
 	switch(_type) {
 	case STRING:
-		retval = strtod((char*)_data, NULL);
-		break;
 	case INTEGER:
-		retval = (double)_data;  //static_cast<double>(_data);
-		break;
 	case DOUBLE:
-		retval = (double)_data;  //static_cast<double>(_data);
+		if(_containsNumericData)
+			retval = _dataDbl;
 		break;
 	case NONE:
 	default:
+		break;
 	}
 	return retval;
 }
 
-bool Variable::IsValidNumericData() {
+bool Variable::IsValidNumericData(const string& val) {
 	bool retval = false;
 	bool keepgoing = true;
-	char* as_cstr = (void*)_data;
-	switch(_type) {
-	case STRING:
-		for(int i=0; i<strlen(as_cstr) && keepgoing; i++) {
-			if(as_cstr[i] != '-' && as_cstr[i] != '+' && as_cstr[i] != '.'
-				&& !isdigit(as_cstr[i]))
-				keepgoing = false;
+	const char* str = val.c_str();
+	for(int i=0; i<strlen(str) && keepgoing; i++) {
+		if(str[i] != '-' && str[i] != '+' && str[i] != '.' && !isdigit(str[i])) {
+			keepgoing = false;
 		}
-		if(keepgoing) retval = true;
-		break;
-	case INTEGER:
-		retval = true;
-		break;
-	case DOUBLE:
-		retval = true;
-		break;
-	case NONE:
-	default:
 	}
+	if(keepgoing) retval = true;
 	return retval;
 }
 
 void Variable::Clear() {
+	_dataStr = "";
+	_dataInt = 0;
+	_dataDbl = 0.0;
+	_hasBeenAllocated = false;
+	_containsNumericData = false;
 	_type = NONE;
-	if(_hasBeenAllocated) {
-		free(_data);
-		_hasBeenAllocated = false;
-	}
 }

@@ -21,7 +21,7 @@ public:
 	string GetValueAsString();
 	int GetValueAsInt();
 	double GetValueAsDouble();
-	bool IsValidNumericData();
+	static bool IsValidNumericData(const string& val);
 	void Clear();
 #if defined DEBUG
 	static int Test();
@@ -33,8 +33,12 @@ private:
 		DOUBLE,
 		INTEGER
 	};
-	void* _data;
+	//void* _data;
+	string _dataStr;
+	int _dataInt;
+	double _dataDbl;
 	dtype _type;
+	bool _containsNumericData;
 	bool _hasBeenAllocated;
 };
 

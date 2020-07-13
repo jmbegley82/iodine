@@ -12,6 +12,7 @@
 #include "Motion.h"
 #include "Geometry.h"
 #include "Container.h"
+#include "Variable.h"
 #include "Types.h"
 #include "Platform.h"
 
@@ -46,6 +47,9 @@ int main(int argc, char** argv) {
 #if defined DEBUGCONTAINER
 	Container::Test();
 #endif //DEBUGCONTAINER
+#if defined DEBUGVARIABLE
+	Variable::Test();
+#endif //DEBUGVARIABLE
 #endif //DEBUG
 
 	Logger("that's about enough for today.");
