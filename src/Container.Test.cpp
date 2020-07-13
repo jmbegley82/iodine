@@ -15,7 +15,8 @@ void cttestloop(Container* ct) {
 		sprintf(msg, "Container::Test:  index=%d, identity=%s", i, ct->GetAtomByIndex(i)->GetIdentity().c_str());
 		Logger(msg);
 	}
-
+	sprintf(msg, "Container::Test:  _count=%d, _countMax=%d", ct->GetCount(), ct->GetCountMax());
+	Logger(msg);
 }
 
 int Container::Test() {
@@ -40,9 +41,9 @@ int Container::Test() {
 	cttestloop(&tester);
 
 	//tester.MakeContiguous();
-	char msg[128];
-	sprintf(msg, "Container::Test:  _count=%d, _countMax=%d", tester.GetCount(), tester.GetCountMax());
-	Logger(msg);
+//	char msg[128];
+//	sprintf(msg, "Container::Test:  _count=%d, _countMax=%d", tester.GetCount(), tester.GetCountMax());
+//	Logger(msg);
 	
 	cttestloop(&tester);
 

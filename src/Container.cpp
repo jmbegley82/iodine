@@ -21,6 +21,11 @@ Container::Container() {
 	}
 }
 
+Container::~Container() {
+	DestroyAllAtoms();
+	free(_objects);
+}
+
 void Container::AddAtom(Atom* atom) {
 	if(CheckNameCollision(atom)) atom->SetArbitraryIdentity();
 	AddAtom_unsafe(atom);
@@ -66,6 +71,7 @@ int Container::DestroyAllAtoms() {
 		delete _objects[i];
 		_objects[i] = NULL;
 	}
+	_count = 0;
 	return 0;
 }
 
@@ -76,14 +82,14 @@ int Container::Shrink() {
 	//for now assume contiguous; also this shares a lot of code with Grow...
 	int newcountmax = _count;  // the next addition will induce a Grow()
 	//if(newcountmax < _count) return _countMax;
-	Atom** newbuf = static_cast<Atom**>(malloc(newcountmax * sizeof _objects));
+	Atom** newbuf = static_cast<Atom**>(malloc(newcountmax * sizeof(Atom*)));
 	for(int i=0; i<_count; i++) {
 		newbuf[i] = _objects[i];
 	}
 /*	for(int j=_count; j<newcountmax; j++) {
 		newbuf[j] = NULL;
 	}*/
-	delete _objects;
+	free(_objects);
 	_objects = newbuf;
 	_countMax = newcountmax;
 	return _countMax;
@@ -94,14 +100,14 @@ int Container::Grow() {
 	Logger("Container::Grow()");
 #endif //DEBUGEXTRA
 	int newcountmax = _countMax + OBJCHUNK;
-	Atom** newbuf = static_cast<Atom**>(malloc(newcountmax * sizeof _objects));
+	Atom** newbuf = static_cast<Atom**>(malloc(newcountmax * sizeof(Atom*)));
 	for(int i=0; i<_countMax; i++) {
 		newbuf[i] = _objects[i];
 	}
 	for(int j=_countMax; j<newcountmax; j++) {
 		newbuf[j] = NULL;
 	}
-	delete _objects;  // and hope like hell it doesn't delete _objects[*]
+	free(_objects);  // and hope like hell it doesn't delete _objects[*]
 	_objects = newbuf;
 	_countMax = newcountmax;
 	return _countMax;

@@ -13,6 +13,7 @@ using std::string;
 class Container {
 public:
 	Container();					//!< Construct the Container
+	~Container();					//!< Destruct the Container
 	void AddAtom(Atom* atom);			//!< Add an Atom to the Container (and rename it upon name collision)
 	bool AddAtomAndDontRename(Atom* atom);		//!< Add an Atom to the Container (but fail upon name collision)
 	Atom* GetAtomByIndex(unsigned int idx);
