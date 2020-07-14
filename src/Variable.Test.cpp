@@ -10,6 +10,7 @@ public:
 	string GetValueAsString();
 	int GetValueAsInt();
 	double GetValueAsDouble();
+	bool IsValidNumericData();
 	static bool IsValidNumericData(const string& val);
 	void Clear();
 #if defined DEBUG
@@ -28,7 +29,7 @@ private:
 	double _dataDbl;
 	dtype _type;
 	bool _containsNumericData;
-	bool _hasBeenAllocated;
+//	bool _hasBeenAllocated;
  */
 
 #if defined DEBUG
@@ -37,6 +38,13 @@ private:
 #include "Variable.h"
 #include "Logger.h"
 
+void vdetail(const char* name, Variable* var) {
+	char msg[128];
+	sprintf(msg, "Variable::Test:  vdetail:  %s->GVAI=%d, %s->GVAD=%16f, %s->GVAS=%s", name, var->GetValueAsInt(), name,
+		var->GetValueAsDouble(), name, var->GetValueAsString().c_str());
+	Logger(msg);
+}
+
 int Variable::Test() {
 	Variable* a = new Variable();
 	Variable* b = new Variable();
@@ -44,20 +52,13 @@ int Variable::Test() {
 	a->SetValueAsString("1");
 	b->SetValueAsInt(2);
 	c->SetValueAsDouble(3);
-	char msg[128];
-	sprintf(msg, "Variable::Test:  a->GVAS=%s, a->GVAI=%d, a->GVAD=%f", a->GetValueAsString().c_str(),
-			a->GetValueAsInt(), a->GetValueAsDouble());
-	Logger(msg);
-	sprintf(msg, "Variable::Test:  b->GVAS=%s, b->GVAI=%d, b->GVAD=%f", b->GetValueAsString().c_str(),
-			b->GetValueAsInt(), b->GetValueAsDouble());
-	Logger(msg);
-	sprintf(msg, "Variable::Test:  c->GVAS=%s, c->GVAI=%d, c->GVAD=%f", c->GetValueAsString().c_str(),
-			c->GetValueAsInt(), c->GetValueAsDouble());
-	Logger(msg);
+	vdetail("a", a);
+	vdetail("b", b);
+	vdetail("c", c);
 	delete a;
 	delete b;
 	delete c;
 	return 0;
-};
+}
 
 #endif //DEBUG

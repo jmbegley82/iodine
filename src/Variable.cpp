@@ -10,7 +10,8 @@ public:
 	string GetValueAsString();
 	int GetValueAsInt();
 	double GetValueAsDouble();
-	bool IsValidNumericData(const string& val);
+	bool IsValidNumericData();
+	static bool IsValidNumericData(const string& val);
 	void Clear();
 #if defined DEBUG
 	static int Test();
@@ -28,7 +29,7 @@ private:
 	double _dataDbl;
 	dtype _type;
 	bool _containsNumericData;
-	bool _hasBeenAllocated;
+//	bool _hasBeenAllocated;
  */
 
 #include <string>
@@ -133,6 +134,10 @@ double Variable::GetValueAsDouble() {
 	return retval;
 }
 
+bool Variable::IsValidNumericData() {
+	return _containsNumericData;
+}
+
 bool Variable::IsValidNumericData(const string& val) {
 	bool retval = false;
 	bool keepgoing = true;
@@ -150,7 +155,7 @@ void Variable::Clear() {
 	_dataStr = "";
 	_dataInt = 0;
 	_dataDbl = 0.0;
-	_hasBeenAllocated = false;
+//	_hasBeenAllocated = false;
 	_containsNumericData = false;
 	_type = NONE;
 }
