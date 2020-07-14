@@ -1,35 +1,5 @@
-/* Variable.cpp
+/* Var.cpp
  *
-public:
-	Variable();
-	~Variable();
-	int Command(const string& cmd);
-	void SetValueAsString(const string& val);
-	void SetValueAsInt(int val);
-	void SetValueAsDouble(double val);
-	string GetValueAsString();
-	int GetValueAsInt();
-	double GetValueAsDouble();
-	bool IsValidNumericData();
-	static bool IsValidNumericData(const string& val);
-	void Clear();
-#if defined DEBUG
-	static int Test();
-#endif //DEBUG
-private:
-	enum dtype {
-		NONE,
-		STRING,
-		DOUBLE,
-		INTEGER
-	};
-	//void* _data;
-	string _dataStr;
-	int _dataInt;
-	double _dataDbl;
-	dtype _type;
-	bool _containsNumericData;
-//	bool _hasBeenAllocated;
  */
 
 #include <string>
@@ -38,23 +8,23 @@ private:
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
-#include "Variable.h"
+#include "Var.h"
 
 using std::string;
 
-Variable::Variable() {
+Var::Var() {
 	Clear();
 }
 
-Variable::~Variable() {
+Var::~Var() {
 	Clear();
 }
 
-int Variable::Command(const string& cmd) {
+int Var::Command(const string& cmd) {
 	return CmdSink::Command(cmd);
 }
 
-void Variable::SetValueAsString(const string& val) {
+void Var::SetValueAsString(const string& val) {
 	Clear();
 	_type = STRING;
 	_dataStr = val;
@@ -69,7 +39,7 @@ void Variable::SetValueAsString(const string& val) {
 	}
 }
 
-void Variable::SetValueAsInt(int val) {
+void Var::SetValueAsInt(int val) {
 	Clear();
 	_type = INTEGER;
 	_containsNumericData = true;
@@ -78,7 +48,7 @@ void Variable::SetValueAsInt(int val) {
 	_dataDbl = static_cast<double>(val);
 }
 
-void Variable::SetValueAsDouble(double val) {
+void Var::SetValueAsDouble(double val) {
 	Clear();
 	_type = DOUBLE;
 	_containsNumericData = true;
@@ -87,7 +57,7 @@ void Variable::SetValueAsDouble(double val) {
 	_dataDbl = val;
 }
 
-string Variable::GetValueAsString() {
+string Var::GetValueAsString() {
 	string retval;
 	switch(_type) {
 	case STRING:
@@ -97,12 +67,12 @@ string Variable::GetValueAsString() {
 		break;
 	case NONE:
 	default:
-		retval = "(invalid)";
+		retval = "(none)";
 	}
 	return retval;
 }
 
-int Variable::GetValueAsInt() {
+int Var::GetValueAsInt() {
 	int retval = 0;
 	switch(_type) {
 	case STRING:
@@ -118,7 +88,7 @@ int Variable::GetValueAsInt() {
 	return retval;
 }
 
-double Variable::GetValueAsDouble() {
+double Var::GetValueAsDouble() {
 	double retval = 0.0;
 	switch(_type) {
 	case STRING:
@@ -134,11 +104,11 @@ double Variable::GetValueAsDouble() {
 	return retval;
 }
 
-bool Variable::IsValidNumericData() {
+bool Var::IsValidNumericData() {
 	return _containsNumericData;
 }
 
-bool Variable::IsValidNumericData(const string& val) {
+bool Var::IsValidNumericData(const string& val) {
 	bool retval = false;
 	bool keepgoing = true;
 	const char* str = val.c_str();
@@ -151,11 +121,10 @@ bool Variable::IsValidNumericData(const string& val) {
 	return retval;
 }
 
-void Variable::Clear() {
+void Var::Clear() {
 	_dataStr = "";
 	_dataInt = 0;
 	_dataDbl = 0.0;
-//	_hasBeenAllocated = false;
 	_containsNumericData = false;
 	_type = NONE;
 }

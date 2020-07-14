@@ -12,9 +12,11 @@
 #include "Motion.h"
 #include "Geometry.h"
 #include "Container.h"
-#include "Variable.h"
+#include "Var.h"
+#include "VarSet.h"
 #include "Types.h"
 #include "Platform.h"
+#include "StringManip.h"
 
 using std::string;
 
@@ -47,9 +49,15 @@ int main(int argc, char** argv) {
 #if defined DEBUGCONTAINER
 	Container::Test();
 #endif //DEBUGCONTAINER
-#if defined DEBUGVARIABLE
-	Variable::Test();
-#endif //DEBUGVARIABLE
+#if defined DEBUGVAR
+	Var::Test();
+#endif //DEBUGVAR
+#if defined DEBUGVARSET
+	VarSet::Test();
+#endif //DEBUGVARSET
+#if defined DEBUGSMANIP
+	StringManip_Test();
+#endif //DEBUGSMANIP
 #endif //DEBUG
 
 	Logger("that's about enough for today.");
