@@ -37,3 +37,4 @@ iodine-test
 doc
 build
 dump
+*grind.out*

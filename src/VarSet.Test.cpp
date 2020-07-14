@@ -49,7 +49,10 @@ int VarSet::Test() {
 	vsdetail("c", vs->GetVar("c"));
 	vs->SetVarAsInt("c", 4);
 	vsdetail("c", vs->GetVar("c"));
+	vs->Command("c+=3");
+	vsdetail("c", vs->GetVar("c"));
 	vs->Clear();
+
 	delete vs;
 	return 0;
 }

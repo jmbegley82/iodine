@@ -31,7 +31,7 @@ int VarSet::Command(const string& cmd) {
 		return 0;
 	}
 	Var* lvar = GetVar(st.subject);
-	Var rvar();
+	Var rvar;
 	rvar.SetValueAsString(st.target);
 	if(!lvar) {
 		SetVarAsString(st.subject, st.target);
@@ -39,34 +39,42 @@ int VarSet::Command(const string& cmd) {
 	}
 	if(lvar->IsValidNumericData()) {
 		// it's a number!  += will add, -= will subtract, etc.
-		double leftside = lvar.GetValueAsDouble();
+		double leftside = lvar->GetValueAsDouble();
 		double rightside = rvar.GetValueAsDouble();
 		if(!rvar.IsValidNumericData()) {
 			// but this isn't useful numeric data
 			return -1;
 		}
-		if(op == "=") {
+		if(st.op == "=") {
 			lvar->SetValueAsDouble(rightside);
 			return 0;
-		} else if(op == "+=") {
+		} else if(st.op == "+=") {
 			lvar->SetValueAsDouble(leftside + rightside);
 			return 0;
-		} else if(op == "-=") {
+		} else if(st.op == "-=") {
 			lvar->SetValueAsDouble(leftside - rightside);
 			return 0;
-		} else if(op == "*=") {
+		} else if(st.op == "*=") {
 			lvar->SetValueAsDouble(leftside * rightside);
 			return 0;
-		} else if(op == "/=") {
+		} else if(st.op == "/=") {
 			lvar->SetValueAsDouble(leftside / rightside);
 			return 0;
-		} else if(op == "^=") {
+		} else if(st.op == "^=") {
 			//NI
 			return -1;
 		} else return -1;
 	} else {
-		// it's a string!  += will concatenate, etc.
-		string leftside = lvar.GetValueAsString();
+		// it's a string!  += will concatenate
+		string leftside = lvar->GetValueAsString();
+		string rightside = rvar.GetValueAsString();
+		if(st.op == "=") {
+			lvar->SetValueAsString(rightside);
+			return 0;
+		} else if(st.op == "+=") {
+			lvar->SetValueAsString(leftside + rightside);
+			return 0;
+		} else return -1;
 	}
 	return CmdSink::Command(cmd);
 }

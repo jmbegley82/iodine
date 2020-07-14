@@ -41,11 +41,26 @@ pthread_t _logFlushThread;	//!< This pthread_t holds the Logger_autoflush thread
  * lines will be printed.  If _logStatus is LOG_EXITING, nothing will be printed and this thread will exit.
  */
 void* Logger_autoflush(void* arg) {
-	while(_logStatus != LOG_EXITING) {
+/*	while(_logStatus != LOG_EXITING) {
 		if(_logStatus == LOG_RUNNING) {
 			Logger_process();
 		}
 		SleepMsec(_logAutoflushSleep);
+	}
+*/
+	pthread_mutex_lock(&_logMutex);
+	int cachedStatus = _logStatus;
+	int cachedSleep = _logAutoflushSleep;
+	pthread_mutex_unlock(&_logMutex);
+	while(cachedStatus != LOG_EXITING) {
+		if(cachedStatus == LOG_RUNNING) {
+			Logger_process();
+		}
+		SleepMsec(cachedSleep);
+		pthread_mutex_lock(&_logMutex);
+		cachedStatus = _logStatus;
+		cachedSleep = _logAutoflushSleep;
+		pthread_mutex_unlock(&_logMutex);
 	}
 #if defined DEBUGEXTRA
 	Logger("Logger_autoflush has begun to exit correctly.");
@@ -106,7 +121,9 @@ void Logger_process() {
 }
 
 void Logger_finish() {
+	pthread_mutex_lock(&_logMutex);
 	_logStatus = LOG_EXITING;
+	pthread_mutex_unlock(&_logMutex);
 	void* status;
 	pthread_join(_logFlushThread, &status);
 	pthread_mutex_lock(&_logMutex);
