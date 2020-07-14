@@ -22,6 +22,7 @@ void vsdetail(const char* name, Var* var) {
 
 int VarSet::Test() {
 	VarSet* vs = new VarSet();
+	/*
 	Var* a = new Var();
 	Var* b = new Var();
 	Var* c = new Var();
@@ -39,6 +40,16 @@ int VarSet::Test() {
 	delete a;
 	delete b;
 	delete c;
+	*/
+	vs->SetVarAsString("a", "1");
+	vs->SetVarAsString("b", "2");
+	vs->SetVarAsString("c", "3");
+	vsdetail("a", vs->GetVar("a"));
+	vsdetail("b", vs->GetVar("b"));
+	vsdetail("c", vs->GetVar("c"));
+	vs->SetVarAsInt("c", 4);
+	vsdetail("c", vs->GetVar("c"));
+	vs->Clear();
 	delete vs;
 	return 0;
 }

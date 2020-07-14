@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include "VarSet.h"
+#include "StringManip.h"
 
 using std::string;
 using std::map;
@@ -17,10 +18,59 @@ VarSet::~VarSet() {
 }
 
 int VarSet::Command(const string& cmd) {
-	//NI
+	Sentence st(cmd);
+	/* valid syntax:
+	 * var = 1
+	 * var = 1.0
+	 * var = string of text
+	 * delete var
+	 */
+	//declarator subject op target
+	if(st.declarator == "delete") {
+		DelVar(st.subject);
+		return 0;
+	}
+	Var* lvar = GetVar(st.subject);
+	Var rvar();
+	rvar.SetValueAsString(st.target);
+	if(!lvar) {
+		SetVarAsString(st.subject, st.target);
+		return 0;
+	}
+	if(lvar->IsValidNumericData()) {
+		// it's a number!  += will add, -= will subtract, etc.
+		double leftside = lvar.GetValueAsDouble();
+		double rightside = rvar.GetValueAsDouble();
+		if(!rvar.IsValidNumericData()) {
+			// but this isn't useful numeric data
+			return -1;
+		}
+		if(op == "=") {
+			lvar->SetValueAsDouble(rightside);
+			return 0;
+		} else if(op == "+=") {
+			lvar->SetValueAsDouble(leftside + rightside);
+			return 0;
+		} else if(op == "-=") {
+			lvar->SetValueAsDouble(leftside - rightside);
+			return 0;
+		} else if(op == "*=") {
+			lvar->SetValueAsDouble(leftside * rightside);
+			return 0;
+		} else if(op == "/=") {
+			lvar->SetValueAsDouble(leftside / rightside);
+			return 0;
+		} else if(op == "^=") {
+			//NI
+			return -1;
+		} else return -1;
+	} else {
+		// it's a string!  += will concatenate, etc.
+		string leftside = lvar.GetValueAsString();
+	}
 	return CmdSink::Command(cmd);
 }
-
+/*
 bool VarSet::AddVar(const string& name, Var* var) {
 	bool retval = false;
 	if(!GetVar(name)) {
@@ -33,6 +83,39 @@ bool VarSet::AddVar(const string& name, Var* var) {
 void VarSet::AddVar_forced(const string& name, Var* var) {
 	if(GetVar(name)) DelVar(name);
 	_vars.insert(varpair(name,var));
+}
+*/
+/*
+bool VarSet::CreateVar(const string& name, const string& val) {
+	bool retval = false;
+	return retval;
+}
+*/
+void VarSet::SetVarAsString(const string& name, const string& val) {
+	Var* var = GetVar(name);
+	if(!var) {
+		var = new Var();
+		_vars.insert(varpair(name,var));
+	}
+	var->SetValueAsString(val);
+}
+
+void VarSet::SetVarAsInt(const string& name, int val) {
+	Var* var = GetVar(name);
+	if(!var) {
+		var = new Var();
+		_vars.insert(varpair(name,var));
+	}
+	var->SetValueAsInt(val);
+}
+
+void VarSet::SetVarAsDouble(const string& name, double val) {
+	Var* var = GetVar(name);
+	if(!var) {
+		var = new Var();
+		_vars.insert(varpair(name,var));
+	}
+	var->SetValueAsDouble(val);
 }
 
 bool VarSet::DelVar(const string& name) {
@@ -74,6 +157,9 @@ double VarSet::GetVarAsDouble(const string& name) {
 }
 
 void VarSet::Clear() {
+	for(varitr i=_vars.begin(); i!=_vars.end(); i++) {
+		delete i->second;
+	}
 	_vars.clear();
 }
 

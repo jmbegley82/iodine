@@ -23,8 +23,12 @@ public:
 	VarSet();
 	~VarSet();
 	int Command(const string& cmd);
-	bool AddVar(const string& name, Var* var);
-	void AddVar_forced(const string& name, Var* var);
+	//bool AddVar(const string& name, Var* var);
+	//void AddVar_forced(const string& name, Var* var);
+	//bool CreateVar(const string& name, const string& val);
+	void SetVarAsString(const string& name, const string& val);
+	void SetVarAsInt(const string& name, int val);
+	void SetVarAsDouble(const string& name, double val);
 	bool DelVar(const string& name);
 	Var* GetVar(const string& name);
 	string GetVarAsString(const string& name);
