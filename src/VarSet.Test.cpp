@@ -51,8 +51,23 @@ int VarSet::Test() {
 	vsdetail("c", vs->GetVar("c"));
 	vs->Command("c+=3");
 	vsdetail("c", vs->GetVar("c"));
+	vs->Command("c=Lol here have a string.");
+	vsdetail("c", vs->GetVar("c"));
+	vs->Command("c+=Let's add an additional string to it!");
+	vsdetail("c", vs->GetVar("c"));
+	vs->Command("c+=9");
+	vsdetail("c", vs->GetVar("c"));
 	vs->Clear();
-
+	vs->Command("d=");
+	vsdetail("d", vs->GetVar("d"));
+	vs->Command("d+=string!");
+	vsdetail("d", vs->GetVar("d"));
+	vs->Command("d+=an additional string!!");
+	vsdetail("d", vs->GetVar("d"));
+	vs->Command("d=just one string now");
+	vsdetail("d", vs->GetVar("d"));
+	vs->Command("d=");
+	vsdetail("d", vs->GetVar("d"));
 	delete vs;
 	return 0;
 }

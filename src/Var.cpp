@@ -109,6 +109,7 @@ bool Var::IsValidNumericData() {
 }
 
 bool Var::IsValidNumericData(const string& val) {
+	if(val == "") return false;  // no, patrick, nothing is not a number.
 	bool retval = false;
 	bool keepgoing = true;
 	const char* str = val.c_str();

@@ -6,6 +6,9 @@
 #include <map>
 #include "VarSet.h"
 #include "StringManip.h"
+#if defined DEBUGEXTRA
+#include "Logger.h"
+#endif //DEBUGEXTRA
 
 using std::string;
 using std::map;
@@ -43,6 +46,11 @@ int VarSet::Command(const string& cmd) {
 		double rightside = rvar.GetValueAsDouble();
 		if(!rvar.IsValidNumericData()) {
 			// but this isn't useful numeric data
+#if defined DEBUGEXTRA
+			char msg[128];
+			sprintf(msg, "VarSet::Command:  Type mismatch error in command:  \"%s\"", cmd.c_str());
+			Logger(msg);
+#endif //DEBUGEXTRA
 			return -1;
 		}
 		if(st.op == "=") {

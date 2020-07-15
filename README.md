@@ -57,7 +57,7 @@ There is currently no license, implied or otherwise, for anything in this repo. 
 13) Before any version is finalized, it must:
     - Build without warnings
     - Pass all built-in tests
-    - valgrind memcheck should be as clean as possible
+    - valgrind memcheck and helgrind should be as clean as possible
 
 # Current Tasks (as of commit 2020/07/12):
 - Reduce number of valgrind complains on OpenBSD (back burner, may be due to libpthread?)
