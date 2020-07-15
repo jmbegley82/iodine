@@ -4,6 +4,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 #include "VarSet.h"
 #include "StringManip.h"
 #if defined DEBUGEXTRA
@@ -34,6 +35,22 @@ int VarSet::Command(const string& cmd) {
 		return 0;
 	}
 	Var* lvar = GetVar(st.subject);
+	Var* rvar = NULL;
+
+	if(!lvar) {
+		if(st.op == "=") {
+			SetVarAsString(st.subject, st.target);
+		} else {
+#if defined DEBUGEXTRA
+			char msg[128];
+			sprintf(msg, "VarSet::Command:  Misunderstood command:  \"%s\"", cmd.c_str());
+			Logger(msg);
+#endif //DEBUGEXTRA
+		}
+		return 0;
+	}
+
+	/*
 	Var rvar;
 	rvar.SetValueAsString(st.target);
 	if(!lvar) {
@@ -84,6 +101,7 @@ int VarSet::Command(const string& cmd) {
 			return 0;
 		} else return -1;
 	}
+	*/
 	return CmdSink::Command(cmd);
 }
 /*
@@ -169,6 +187,48 @@ double VarSet::GetVarAsDouble(const string& name) {
 	double retval = 0.0;
 	Var* var = GetVar(name);
 	if(var) retval = var->GetValueAsDouble();
+	return retval;
+}
+
+Var VarSet::EvaluateAsString(const string& cmd) {
+	Var retval;
+	// examples:  "this string is enclosed in quotes"         | this string is enclosed in quotes
+	//            this string is not in quotes                | this string is not in quotes
+	//            "part of this string" is not in quotes      | part of this string is not in quotes
+	//            "this string" contains "uneven quotes       | (error; returns Var with dtype NONE)
+	//            value: $data                                | value: 1
+	//            "value:" $data                              | value: 1
+	//            value: "$data"                              | value: $data
+	// plan:      use a vector of Var*s, concatenate result
+	if(cmd != "") {
+		// search from left to right for \"
+		/*
+		size_t firstQuote = cmd.find("\"", 0);
+		if(firstQuote != string::npos) {
+			//found our first quote...  now look for its friend
+			size_t nextQuote = cmd.find("\"", firstQuote);
+		}
+		*/
+		std::vector<string::const_iterator> quotes;
+		for(string::const_iterator i = cmd.begin(); i != cmd.end(); i++) {
+			if(*i == '\"') quotes.push_back(i);
+		}
+		//if(quotes.count() %2 == 1) {
+		//	//error, odd number of quotes detected
+		//} else {
+		//	// go left to right; text between quotes is unchanged, text outside quotes should be evaluated
+		//}
+	}
+	return retval;
+}
+/*
+Var VarSet::EvaluateAsInt(const string& cmd) {
+	Var retval;
+	return retval;
+}
+*/
+Var VarSet::EvaluateAsDouble(const string& cmd) {
+	Var retval;
 	return retval;
 }
 

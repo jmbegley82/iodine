@@ -34,6 +34,9 @@ public:
 	string GetVarAsString(const string& name);
 	int GetVarAsInt(const string& name);
 	double GetVarAsDouble(const string& name);
+	Var EvaluateAsString(const string& cmd);
+	//Var EvaluateAsInt(const string& cmd);
+	Var EvaluateAsDouble(const string& cmd);
 	void Clear();
 #if defined DEBUG
 	static int Test();

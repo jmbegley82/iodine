@@ -58,6 +58,12 @@ int VarSet::Test() {
 	vstdetail(vs, "d");
 	vstcmd(vs,"d=");
 	vstdetail(vs, "d");
+	vs->Clear();
+	vstcmd(vs, "data=3.14159");
+	vstcmd(vs, "msg=\"The value stored in data is \"");
+	vstcmd(vs, "msg+=data");
+	vstdetail(vs, "data");
+	vstdetail(vs, "msg");
 	delete vs;
 	return 0;
 }

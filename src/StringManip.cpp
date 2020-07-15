@@ -115,7 +115,7 @@ namespace jmb
 				subject = cmd;
 			}
 			target = RemovePadding(target);
-			target = DeQuote(target);
+			//target = DeQuote(target);
 		}
 
 		void ReplaceString(string& input, string const& from, string const& to) {
