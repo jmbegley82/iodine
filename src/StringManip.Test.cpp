@@ -49,10 +49,19 @@ int RemovePadding_Test() {
 	return 0;
 }
 
+int DeQuote_Test() {
+	string testee = "       \"This sentence is surrounded by one set of quotation marks!\"  ";
+	testee = DeQuote(testee);
+	testee = "DeQuote_Test:  \"" + testee + "\"";
+	Logger(testee.c_str());
+	return 0;
+}
+
 int StringManip_Test() {
 	int retval = 0;
 	retval += Sentence::Test();
 	retval += RemovePadding_Test();
+	retval += DeQuote_Test();
 	return retval;
 }
 

@@ -115,6 +115,7 @@ namespace jmb
 				subject = cmd;
 			}
 			target = RemovePadding(target);
+			target = DeQuote(target);
 		}
 
 		void ReplaceString(string& input, string const& from, string const& to) {
@@ -139,6 +140,39 @@ namespace jmb
 			}
 			return retval;
 		}
+
+		string DeQuote(string const& text) {
+			string retval = "";
+			if(text != "") {
+				string::const_iterator i = text.begin();
+				while(i != text.end() && *i != '\"') i++;
+				/*
+				if(i != text.end()) i++;
+				string::const_iterator j = text.end()-1;
+				while(j > i && *j != '\"') j--;
+				//j++;
+				if(j == text.begin() || i == j) {
+				} else {
+					retval = string(i, j);
+				}
+				*/
+				if(i == text.end()) {
+					// no quotes found, that's easy enough
+					retval = text;
+				} else {
+					i++;
+					string::const_iterator j = text.end()-1;
+					while(j > i && *j != '\"') j--;
+					if(j == text.begin() || i == j) {
+						retval = text;
+					} else {
+						retval = string(i, j);
+					}
+				}
+			}
+			return retval;
+		}
+
 /*
 		bool ValidateStrtod(string const& text) {
 			bool retval = true;

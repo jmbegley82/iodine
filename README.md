@@ -70,3 +70,15 @@ There is currently no license, implied or otherwise, for anything in this repo. 
     implementation of a menu overlay on top of scrolling/repeating/tiled/different-resolution/etc. backgrounds
 - The dreaded collision detection/handling mechanisms
 - Classes/structs for single animation cels, collections of cels (animations), collections of animations
+
+# Scripting language (name tbd)
+VarSet commands (terminology/syntax unstable):
+- <subject> <operator> <target>
+  - var = 1
+  - var += 1
+  - var -= 1
+  - str = Words and/or phrases
+  - str += additional words and/or phrases
+- <command> <subject>
+  - delete var
+

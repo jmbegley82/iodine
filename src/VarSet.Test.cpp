@@ -9,65 +9,55 @@
 #include "Var.h"
 #include "Logger.h"
 
-void vsdetail(const char* name, Var* var) {
+void vstcmd(VarSet* vs, const string& cmd) {
 	char msg[128];
+	sprintf(msg, "VarSet::Test:  vstcmd(%s)", cmd.c_str());
+	Logger(msg);
+	vs->Command(cmd);
+}
+
+void vstdetail(VarSet* vs, const string& name) {
+	char msg[128];
+	const char* cname = name.c_str();
+	Var* var = vs->GetVar(name);
 	if(!var) {
-		sprintf(msg, "VarSet::Test:  vsdetail:  %s is null!", name);
+		sprintf(msg, "VarSet::Test:  vstdetail:  %s is null!", cname);
 	} else {
-		sprintf(msg, "VarSet::Test:  vsdetail:  %s->GVAI=%d, %s->GVAD=%16f, %s->GVAS=%s", name, var->GetValueAsInt(),
-			name, var->GetValueAsDouble(), name, var->GetValueAsString().c_str());
+		sprintf(msg, "VarSet::Test:  vstdetail:  %s->GVAI=%d, %s->GVAD=%16f, %s->GVAS=%s", cname, var->GetValueAsInt(),
+			cname, var->GetValueAsDouble(), cname, var->GetValueAsString().c_str());
 	}
 	Logger(msg);
 }
 
 int VarSet::Test() {
 	VarSet* vs = new VarSet();
-	/*
-	Var* a = new Var();
-	Var* b = new Var();
-	Var* c = new Var();
-	a->SetValueAsInt(1);
-	b->SetValueAsInt(2);
-	c->SetValueAsInt(3);
-	vs->AddVar("a", a);
-	vs->AddVar("b", b);
-	vs->AddVar("c", c);
-	vsdetail("a", vs->GetVar("a"));
-	vsdetail("b", vs->GetVar("b"));
-	vsdetail("c", vs->GetVar("c"));
-	vs->Clear();
-	vsdetail("c", vs->GetVar("c"));
-	delete a;
-	delete b;
-	delete c;
-	*/
 	vs->SetVarAsString("a", "1");
 	vs->SetVarAsString("b", "2");
 	vs->SetVarAsString("c", "3");
-	vsdetail("a", vs->GetVar("a"));
-	vsdetail("b", vs->GetVar("b"));
-	vsdetail("c", vs->GetVar("c"));
+	vstdetail(vs, "a");
+	vstdetail(vs, "b");
+	vstdetail(vs, "c");
 	vs->SetVarAsInt("c", 4);
-	vsdetail("c", vs->GetVar("c"));
-	vs->Command("c+=3");
-	vsdetail("c", vs->GetVar("c"));
-	vs->Command("c=Lol here have a string.");
-	vsdetail("c", vs->GetVar("c"));
-	vs->Command("c+=Let's add an additional string to it!");
-	vsdetail("c", vs->GetVar("c"));
-	vs->Command("c+=9");
-	vsdetail("c", vs->GetVar("c"));
+	vstdetail(vs, "c");
+	vstcmd(vs,"c+=3");
+	vstdetail(vs, "c");
+	vstcmd(vs,"c=Lol here have a string.");
+	vstdetail(vs, "c");
+	vstcmd(vs,"c+=Let's add an additional string to it!");
+	vstdetail(vs, "c");
+	vstcmd(vs,"c+=9");
+	vstdetail(vs, "c");
 	vs->Clear();
-	vs->Command("d=");
-	vsdetail("d", vs->GetVar("d"));
-	vs->Command("d+=string!");
-	vsdetail("d", vs->GetVar("d"));
-	vs->Command("d+=an additional string!!");
-	vsdetail("d", vs->GetVar("d"));
-	vs->Command("d=just one string now");
-	vsdetail("d", vs->GetVar("d"));
-	vs->Command("d=");
-	vsdetail("d", vs->GetVar("d"));
+	vstcmd(vs,"d=");
+	vstdetail(vs, "d");
+	vstcmd(vs,"d+=string!");
+	vstdetail(vs, "d");
+	vstcmd(vs,"d+=\" an additional string!!\"");
+	vstdetail(vs, "d");
+	vstcmd(vs,"d=just one string now");
+	vstdetail(vs, "d");
+	vstcmd(vs,"d=");
+	vstdetail(vs, "d");
 	delete vs;
 	return 0;
 }
