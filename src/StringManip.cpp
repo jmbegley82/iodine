@@ -143,19 +143,10 @@ namespace jmb
 
 		string DeQuote(string const& text) {
 			string retval = "";
+			/*
 			if(text != "") {
 				string::const_iterator i = text.begin();
 				while(i != text.end() && *i != '\"') i++;
-				/*
-				if(i != text.end()) i++;
-				string::const_iterator j = text.end()-1;
-				while(j > i && *j != '\"') j--;
-				//j++;
-				if(j == text.begin() || i == j) {
-				} else {
-					retval = string(i, j);
-				}
-				*/
 				if(i == text.end()) {
 					// no quotes found, that's easy enough
 					retval = text;
@@ -168,6 +159,18 @@ namespace jmb
 					} else {
 						retval = string(i, j);
 					}
+				}
+			}
+			*/
+			// we assume that this only receives strings that begin with a quotation mark
+			// but just in case, weed out the null strings.
+			if(text != "") {
+				string::const_iterator i = text.begin();
+				string::const_iterator j = text.end() - 1;
+				if(*i == '\"' && *j == '\"') {
+					i++;
+					//j--;
+					retval = string(i, j);
 				}
 			}
 			return retval;

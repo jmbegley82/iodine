@@ -51,7 +51,11 @@ int RemovePadding_Test() {
 
 int DeQuote_Test() {
 	string testee = "       \"This sentence is surrounded by one set of quotation marks!\"  ";
-	testee = DeQuote(testee);
+	testee = DeQuote(RemovePadding(testee));
+	testee = "DeQuote_Test:  \"" + testee + "\"";
+	Logger(testee.c_str());
+	testee = "";
+	testee = DeQuote(RemovePadding(testee));
 	testee = "DeQuote_Test:  \"" + testee + "\"";
 	Logger(testee.c_str());
 	return 0;

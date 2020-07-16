@@ -17,14 +17,18 @@ void vstcmd(VarSet* vs, const string& cmd) {
 }
 
 void vstdetail(VarSet* vs, const string& name) {
-	char msg[128];
+	char msg[256];
 	const char* cname = name.c_str();
 	Var* var = vs->GetVar(name);
 	if(!var) {
-		sprintf(msg, "VarSet::Test:  vstdetail:  %s is null!", cname);
+		sprintf(msg, "VarSet::Test:      vstdetail:  %s is null!", cname);
 	} else {
-		sprintf(msg, "VarSet::Test:  vstdetail:  %s->GVAI=%d, %s->GVAD=%16f, %s->GVAS=%s", cname, var->GetValueAsInt(),
-			cname, var->GetValueAsDouble(), cname, var->GetValueAsString().c_str());
+		int varint = var->GetValueAsInt();
+		double vardub = var->GetValueAsDouble();
+		string varstr = var->GetValueAsString();
+		const char* varcstr = varstr.c_str();
+		sprintf(msg, "VarSet::Test:      vstdetail:  %s->GVAI=%d, %s->GVAD=%16f, %s->GVAS=%s", cname, varint,
+			cname, vardub, cname, varcstr);
 	}
 	Logger(msg);
 }

@@ -89,7 +89,7 @@ int VarSet::Command(const string& cmd) {
 				string right = rvar.GetValueAsString();
 				//left += right;
 				const string okfine = left + right;
-				//lvar->SetValueAsString(okfine);  //TODO: investigate error caused here
+				lvar->SetValueAsString(okfine);  //TODO: investigate error caused here
 			} else {
 #if defined DEBUGEXTRA
 			char msg[128];
