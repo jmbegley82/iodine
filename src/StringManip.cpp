@@ -114,6 +114,7 @@ namespace jmb
 				target = ""; // for good measure
 				subject = cmd;
 			}
+			subject = RemovePadding(subject);
 			target = RemovePadding(target);
 			//target = DeQuote(target);
 		}
