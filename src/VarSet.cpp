@@ -35,11 +35,12 @@ int VarSet::Command(const string& cmd) {
 		return 0;
 	}
 	Var* lvar = GetVar(st.subject);
-	Var* rvar = NULL;
+	Var rvar = Evaluate(st.target);
 
 	if(!lvar) {
+		//lvar didn't exist:
 		if(st.op == "=") {
-			SetVarAsString(st.subject, st.target);
+			SetVarAsString(st.subject, st.target);  //TODO:  evaluate string; should SetVarAsString do it?
 		} else {
 #if defined DEBUGEXTRA
 			char msg[128];
@@ -48,8 +49,8 @@ int VarSet::Command(const string& cmd) {
 #endif //DEBUGEXTRA
 		}
 		return 0;
+	} else {
 	}
-
 	/*
 	Var rvar;
 	rvar.SetValueAsString(st.target);
@@ -190,6 +191,12 @@ double VarSet::GetVarAsDouble(const string& name) {
 	return retval;
 }
 
+Var VarSet::Evaluate(const string& cmd) {
+	Var retval;
+	return retval;
+}
+
+
 Var VarSet::EvaluateAsString(const string& cmd) {
 	Var retval;
 	// examples:  "this string is enclosed in quotes"         | this string is enclosed in quotes
@@ -226,12 +233,12 @@ Var VarSet::EvaluateAsInt(const string& cmd) {
 	Var retval;
 	return retval;
 }
-*/
+
 Var VarSet::EvaluateAsDouble(const string& cmd) {
 	Var retval;
 	return retval;
 }
-
+*/
 void VarSet::Clear() {
 	for(varitr i=_vars.begin(); i!=_vars.end(); i++) {
 		delete i->second;
