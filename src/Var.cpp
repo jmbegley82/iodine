@@ -57,6 +57,14 @@ void Var::SetValueAsDouble(double val) {
 	_dataDbl = val;
 }
 
+void Var::CopyValue(Var* var) {
+	_type = var->_type;
+	_containsNumericData = var->_containsNumericData;
+	_dataStr = var->_dataStr;
+	_dataInt = var->_dataInt;
+	_dataDbl = var->_dataDbl;
+}
+
 string Var::GetValueAsString() {
 	string retval;
 	switch(_type) {

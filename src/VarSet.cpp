@@ -26,7 +26,8 @@ int VarSet::Command(const string& cmd) {
 	/* valid syntax:
 	 * var = 1
 	 * var = 1.0
-	 * var = string of text
+	 * var = "string of text"
+	 * var = $stuff
 	 * delete var
 	 */
 	//declarator subject op target
@@ -40,7 +41,9 @@ int VarSet::Command(const string& cmd) {
 	if(!lvar) {
 		//lvar didn't exist:
 		if(st.op == "=") {
-			SetVarAsString(st.subject, st.target);  //TODO:  evaluate string; should SetVarAsString do it?
+			Var* var = new Var();
+			var->CopyValue(&rvar);
+			_vars.insert(varpair(st.subject,var));
 		} else {
 #if defined DEBUGEXTRA
 			char msg[128];
@@ -50,59 +53,53 @@ int VarSet::Command(const string& cmd) {
 		}
 		return 0;
 	} else {
-	}
-	/*
-	Var rvar;
-	rvar.SetValueAsString(st.target);
-	if(!lvar) {
-		SetVarAsString(st.subject, st.target);
-		return 0;
-	}
-	if(lvar->IsValidNumericData()) {
-		// it's a number!  += will add, -= will subtract, etc.
-		double leftside = lvar->GetValueAsDouble();
-		double rightside = rvar.GetValueAsDouble();
-		if(!rvar.IsValidNumericData()) {
-			// but this isn't useful numeric data
+		if(lvar->IsValidNumericData() && rvar.IsValidNumericData()) {
+			// lvar is more of a number
+			double left = lvar->GetValueAsDouble();
+			double right = rvar.GetValueAsDouble();
+			if(st.op == "=") {
+				lvar->SetValueAsDouble(right);
+			} else if(st.op == "+=") {
+				left += right;
+				lvar->SetValueAsDouble(left);
+			} else if(st.op == "-=") {
+				left -= right;
+				lvar->SetValueAsDouble(left);
+			} else if(st.op == "*=") {
+				left = left * right;
+				lvar->SetValueAsDouble(left);
+			} else if(st.op == "/=") {
+				left = left / right;
+				lvar->SetValueAsDouble(left);
+			} else if(st.op == "^=") {
+				//NI
+			} else {
 #if defined DEBUGEXTRA
 			char msg[128];
-			sprintf(msg, "VarSet::Command:  Type mismatch error in command:  \"%s\"", cmd.c_str());
+			sprintf(msg, "VarSet::Command:  Misunderstood command:  \"%s\"", cmd.c_str());
 			Logger(msg);
 #endif //DEBUGEXTRA
-			return -1;
+			}
+		} else {
+			// lvar is more of a string
+			if(st.op == "=") {
+				lvar->CopyValue(&rvar);
+			} else if(st.op == "+=") {
+				string left = lvar->GetValueAsString();
+				string right = rvar.GetValueAsString();
+				//left += right;
+				const string okfine = left + right;
+				//lvar->SetValueAsString(okfine);  //TODO: investigate error caused here
+			} else {
+#if defined DEBUGEXTRA
+			char msg[128];
+			sprintf(msg, "VarSet::Command:  Misunderstood command:  \"%s\"", cmd.c_str());
+			Logger(msg);
+#endif //DEBUGEXTRA
+			}
 		}
-		if(st.op == "=") {
-			lvar->SetValueAsDouble(rightside);
-			return 0;
-		} else if(st.op == "+=") {
-			lvar->SetValueAsDouble(leftside + rightside);
-			return 0;
-		} else if(st.op == "-=") {
-			lvar->SetValueAsDouble(leftside - rightside);
-			return 0;
-		} else if(st.op == "*=") {
-			lvar->SetValueAsDouble(leftside * rightside);
-			return 0;
-		} else if(st.op == "/=") {
-			lvar->SetValueAsDouble(leftside / rightside);
-			return 0;
-		} else if(st.op == "^=") {
-			//NI
-			return -1;
-		} else return -1;
-	} else {
-		// it's a string!  += will concatenate
-		string leftside = lvar->GetValueAsString();
-		string rightside = rvar.GetValueAsString();
-		if(st.op == "=") {
-			lvar->SetValueAsString(rightside);
-			return 0;
-		} else if(st.op == "+=") {
-			lvar->SetValueAsString(leftside + rightside);
-			return 0;
-		} else return -1;
+		return 0;
 	}
-	*/
 	return CmdSink::Command(cmd);
 }
 /*
@@ -192,30 +189,48 @@ double VarSet::GetVarAsDouble(const string& name) {
 }
 
 Var VarSet::Evaluate(const string& cmd) {
+	// assume leading/trailing spaces have been stripped
 	Var retval;
+	if(cmd == "") {
+		// let's just go ahead and get that out of the way
+	} else if(cmd[0] == '#' || cmd[0] == '$') {
+		// this refers to the numeric/string value of a variable
+		string::const_iterator i = cmd.begin() + 1;
+		string sub = string(i, cmd.end());
+		Var* lookup = GetVar(sub);
+		if(lookup) {
+			// we found one!
+			retval.CopyValue(lookup);
+		} else {
+			// Var not found
+		}
+	} else if(cmd[0] == '\"') {
+		// this refers to a string literal value (ideally there is a closing quote which terminates it)
+		string sub = DeQuote(cmd);
+		retval.SetValueAsString(sub);
+	} else {
+		// at this point the only thing left is a numeric literal value, so check it thoroughly!
+		if(Var::IsValidNumericData(cmd)) {
+			// looks numeric to me
+			retval.SetValueAsString(cmd);
+		}
+	}
+	//retval.SetValueAsString(cmd);
 	return retval;
 }
 
-
+/*
 Var VarSet::EvaluateAsString(const string& cmd) {
 	Var retval;
 	// examples:  "this string is enclosed in quotes"         | this string is enclosed in quotes
 	//            this string is not in quotes                | this string is not in quotes
 	//            "part of this string" is not in quotes      | part of this string is not in quotes
-	//            "this string" contains "uneven quotes       | (error; returns Var with dtype NONE)
+	//            "this string" contains \"uneven quotes      | (error; returns Var with dtype NONE)
 	//            value: $data                                | value: 1
 	//            "value:" $data                              | value: 1
 	//            value: "$data"                              | value: $data
 	// plan:      use a vector of Var*s, concatenate result
 	if(cmd != "") {
-		// search from left to right for \"
-		/*
-		size_t firstQuote = cmd.find("\"", 0);
-		if(firstQuote != string::npos) {
-			//found our first quote...  now look for its friend
-			size_t nextQuote = cmd.find("\"", firstQuote);
-		}
-		*/
 		std::vector<string::const_iterator> quotes;
 		for(string::const_iterator i = cmd.begin(); i != cmd.end(); i++) {
 			if(*i == '\"') quotes.push_back(i);
@@ -228,6 +243,7 @@ Var VarSet::EvaluateAsString(const string& cmd) {
 	}
 	return retval;
 }
+*/
 /*
 Var VarSet::EvaluateAsInt(const string& cmd) {
 	Var retval;

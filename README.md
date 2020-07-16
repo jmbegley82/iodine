@@ -78,8 +78,8 @@ VarSet commands (terminology/syntax unstable):
   - var = 1
   - var += 1
   - var -= 1
-  - str = Words and/or phrases
-  - str += additional words and/or phrases
+  - str = "Words and/or phrases"
+  - str += "additional words and/or phrases"
 - <command> <subject>
   - delete var
 
@@ -95,7 +95,7 @@ Use a different name for the string type, or delete it reassign it:
 Quotation marks for setting string values:
 > var = "    this string starts with leading spaces which would not be possible without quotes"
 
-Future:
+Near Future:
 - Use $ and # to refer to string and numeric values of Var, respectively:
   - Put the string value of Var data into a string:
     - data = 1
@@ -104,3 +104,6 @@ Future:
     - data = 1
     - retval = #data
 
+Far Future:
+- Full order-of-operations
+  - var = #a ^ 2 * #b ^ 2
