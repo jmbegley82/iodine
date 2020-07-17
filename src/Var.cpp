@@ -26,7 +26,7 @@ int Var::Command(const string& cmd) {
 
 void Var::SetValueAsString(const string& val) {
 	Clear();
-	_type = STRING;
+	//_type = STRING;
 	_dataStr = val;
 	if(IsValidNumericData(val)) {
 		_containsNumericData = true;
@@ -41,7 +41,7 @@ void Var::SetValueAsString(const string& val) {
 
 void Var::SetValueAsInt(int val) {
 	Clear();
-	_type = INTEGER;
+	//_type = INTEGER;
 	_containsNumericData = true;
 	_dataStr = std::to_string(val);
 	_dataInt = val;
@@ -50,7 +50,7 @@ void Var::SetValueAsInt(int val) {
 
 void Var::SetValueAsDouble(double val) {
 	Clear();
-	_type = DOUBLE;
+	//_type = DOUBLE;
 	_containsNumericData = true;
 	_dataStr = std::to_string(val);
 	_dataInt = static_cast<int>(round(val));
@@ -58,7 +58,7 @@ void Var::SetValueAsDouble(double val) {
 }
 
 void Var::CopyValue(Var* var) {
-	_type = var->_type;
+	//_type = var->_type;
 	_containsNumericData = var->_containsNumericData;
 	_dataStr = var->_dataStr;
 	_dataInt = var->_dataInt;
@@ -67,48 +67,48 @@ void Var::CopyValue(Var* var) {
 
 string Var::GetValueAsString() {
 	string retval;
-	switch(_type) {
-	case STRING:
-	case INTEGER:
-	case DOUBLE:
+	//switch(_type) {
+	//case STRING:
+	//case INTEGER:
+	//case DOUBLE:
 		retval = _dataStr;
-		break;
-	case NONE:
-	default:
-		retval = "(none)";
-	}
+	//	break;
+	//case NONE:
+	//default:
+	//	retval = "(none)";
+	//}
 	return retval;
 }
 
 int Var::GetValueAsInt() {
 	int retval = 0;
-	switch(_type) {
-	case STRING:
-	case INTEGER:
-	case DOUBLE:
+	//switch(_type) {
+	//case STRING:
+	//case INTEGER:
+	//case DOUBLE:
 		if(_containsNumericData)
 			retval = _dataInt;
-		break;
-	case NONE:
-	default:
-		break;
-	}
+	//	break;
+	//case NONE:
+	//default:
+	//	break;
+	//}
 	return retval;
 }
 
 double Var::GetValueAsDouble() {
 	double retval = 0.0;
-	switch(_type) {
-	case STRING:
-	case INTEGER:
-	case DOUBLE:
+	//switch(_type) {
+	//case STRING:
+	//case INTEGER:
+	//case DOUBLE:
 		if(_containsNumericData)
 			retval = _dataDbl;
-		break;
-	case NONE:
-	default:
-		break;
-	}
+	//	break;
+	//case NONE:
+	//default:
+	//	break;
+	//}
 	return retval;
 }
 
@@ -135,5 +135,5 @@ void Var::Clear() {
 	_dataInt = 0;
 	_dataDbl = 0.0;
 	_containsNumericData = false;
-	_type = NONE;
+	//_type = NONE;
 }

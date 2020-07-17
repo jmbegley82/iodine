@@ -30,16 +30,16 @@ public:
 	static int Test();					//!< Run tests in Var.Test.cpp
 #endif //DEBUG
 private:
-	enum dtype {
-		NONE,						//!< The Var is not initialized
-		STRING,						//!< The Var was initialized with a string
-		DOUBLE,						//!< The Var was initialized with a double
-		INTEGER						//!< The Var was initialized with an integer
-	};
+	//enum dtype {
+	//	NONE,						//!< The Var is not initialized
+	//	STRING,						//!< The Var was initialized with a string
+	//	DOUBLE,						//!< The Var was initialized with a double
+	//	INTEGER						//!< The Var was initialized with an integer
+	//};
 	string _dataStr;					//!< Our data represented by a string
 	int _dataInt;						//!< Our data represented by an int when possible
 	double _dataDbl;					//!< Our data represented by a double when possible
-	dtype _type;						//!< The dtype with which we were initialized
+	//dtype _type;						//!< The dtype with which we were initialized
 	bool _containsNumericData;				//!< The Var contains meaningful numeric data
 };
 
