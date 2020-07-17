@@ -191,6 +191,7 @@ double VarSet::GetVarAsDouble(const string& name) {
 Var VarSet::Evaluate(const string& cmd) {
 	// assume leading/trailing spaces have been stripped
 	Var retval;
+	retval.SetValueAsString("");
 	if(cmd == "") {
 		// let's just go ahead and get that out of the way
 	} else if(cmd[0] == '#' || cmd[0] == '$') {

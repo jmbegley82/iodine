@@ -44,10 +44,10 @@ namespace jmb
 				right = "";
 			}
 		}
-*/		
+*/
 		Sentence::Sentence(string const& cmd) {
 			declarator = subject = op = target = "";
-			
+
 			string ncmd = cmd;
 			size_t pos = ncmd.find("=");
 			if(pos != string::npos) {
@@ -73,7 +73,7 @@ namespace jmb
 				} else {
 					op = "=";
 				}
-				
+
 				subject = ncmd.substr(0, pos);
 				// op is set
 				size_t offset = subject.length() + op.length();
@@ -83,7 +83,7 @@ namespace jmb
 				// no operator found; set subject to whole cmd
 				subject = cmd;
 			}
-			
+
 			// at this point, subject op and target are set
 			// now see if there appears to be a declarator
 			//
@@ -144,25 +144,6 @@ namespace jmb
 
 		string DeQuote(string const& text) {
 			string retval = "";
-			/*
-			if(text != "") {
-				string::const_iterator i = text.begin();
-				while(i != text.end() && *i != '\"') i++;
-				if(i == text.end()) {
-					// no quotes found, that's easy enough
-					retval = text;
-				} else {
-					i++;
-					string::const_iterator j = text.end()-1;
-					while(j > i && *j != '\"') j--;
-					if(j == text.begin() || i == j) {
-						retval = text;
-					} else {
-						retval = string(i, j);
-					}
-				}
-			}
-			*/
 			// we assume that this only receives strings that begin with a quotation mark
 			// but just in case, weed out the null strings.
 			if(text != "") {

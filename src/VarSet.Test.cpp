@@ -17,7 +17,7 @@ void vstcmd(VarSet* vs, const string& cmd) {
 }
 
 void vstdetail(VarSet* vs, const string& name) {
-	char msg[256];
+	char msg[128];
 	const char* cname = name.c_str();
 	Var* var = vs->GetVar(name);
 	if(!var) {
@@ -35,22 +35,13 @@ void vstdetail(VarSet* vs, const string& name) {
 
 int VarSet::Test() {
 	VarSet* vs = new VarSet();
-	/*
-	vs->SetVarAsString("a", "1");
-	vs->SetVarAsString("b", "2");
-	vs->SetVarAsString("c", "3");
-	vstdetail(vs, "a");
-	vstdetail(vs, "b");
-	vstdetail(vs, "c");
-	*/
-	//vs->SetVarAsInt("c", 4);
 	vstcmd(vs, "c = 4");
 	vstdetail(vs, "c");
 	vstcmd(vs,"c+=3");
 	vstdetail(vs, "c");
-	vstcmd(vs,"c=\"Lol here have a string.\"");
+	vstcmd(vs,"c=\"Here have a string.\"");
 	vstdetail(vs, "c");
-	vstcmd(vs,"c+=\"Let's add an additional string to it!\"");
+	vstcmd(vs,"c+=\"Add another string to it!\"");
 	vstdetail(vs, "c");
 	vstcmd(vs,"c+=9");
 	vstdetail(vs, "c");
@@ -70,6 +61,26 @@ int VarSet::Test() {
 	vstcmd(vs, "msg=\"The value stored in data is \"");
 	vstcmd(vs, "msg+=#data");
 	vstdetail(vs, "data");
+	vstdetail(vs, "msg");
+	vs->Clear();
+	vstcmd(vs, "msg=1");
+	vstdetail(vs, "msg");
+	vstcmd(vs, "msg+=\" is the loneliest number etc etc.\"");
+	vstdetail(vs, "msg");
+	vstcmd(vs, "msg=\"\"");
+	vstdetail(vs, "msg");
+	vstcmd(vs, "data=1.21");
+	vstdetail(vs, "data");
+	vstcmd(vs, "msg=\"This sentence contains $data, not 1.21\"");
+	vstdetail(vs, "msg");
+	vstcmd(vs, "msg=\"This sentence contains \"");
+	vstcmd(vs, "msg+=$data");
+	vstdetail(vs, "msg");
+	vstcmd(vs, "msg=$msg");
+	vstdetail(vs, "msg");
+	vstcmd(vs, "msg=Error condition!");
+	vstdetail(vs, "msg");
+	vstcmd(vs, "msg+=1");
 	vstdetail(vs, "msg");
 	delete vs;
 	return 0;
