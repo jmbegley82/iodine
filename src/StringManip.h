@@ -37,10 +37,10 @@ namespace jmb {
 		std::string RemovePadding(std::string const& text);
 		std::string DeQuote(std::string const& text);
 		//bool ValidateStrtod(std::string const& text);
-		std::string GetString(int val);
-		std::string GetHexString(void* object);
-		std::string GetFirstWord(std::string const& phrase);
-		std::string GetFirstWordEtc(std::string const& phrase, std::string & remainder);
+		//std::string GetString(int val);
+		//std::string GetHexString(void* object);
+		//std::string GetFirstWord(std::string const& phrase);
+		//std::string GetFirstWordEtc(std::string const& phrase, std::string & remainder);
 #if defined DEBUG
 		int StringManip_Test();
 #endif //DEBUG

@@ -169,7 +169,7 @@ namespace jmb
 			}
 			return retval;
 		}
-*/
+
 		string GetString(int val) {
 			stringstream ss;
 			ss << val;
@@ -223,6 +223,7 @@ namespace jmb
 
 			return retval;
 		}
+*/
 
 /*	}
 }
