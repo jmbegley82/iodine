@@ -60,10 +60,9 @@ There is currently no license, implied or otherwise, for anything in this repo. 
     - valgrind memcheck and helgrind should be as clean as possible
 
 # Current Tasks (as of 2020/07/14):
-- DeQuote looks dumber every time I look at it; investigate alternatives because that cannot possibly be the best way
 - Reduce number of valgrind complains on OpenBSD (back burner, may be due to libpthread?)
 - Container base class for objects which will contain multiple Atoms (needs testing)
-- A class for the storage/retrieval of variables (in progress)
+- A class for the storage/retrieval of variables (needs testing)
 - Determine how best to approach a layered screen system
     - One approach is to give each on-screen entity's class a layer index, since Atma's layered system eventually evolved to
     have objects in different layers interacting anyway
@@ -83,23 +82,11 @@ VarSet commands (terminology/syntax unstable):
 - <command> <subject>
   - delete var
 
-Attempting to set a variable to a string once it has been initialized as a numeric type will result in failure:
-> var = 1
-> var = This is a string!
-
-Use a different name for the string type, or delete it reassign it:
-> var = 1
-> delete var
-> var = This is a string!
-
-Quotation marks for setting string values:
-> var = "    this string starts with leading spaces which would not be possible without quotes"
-
 Near Future:
 - Use $ and # to refer to string and numeric values of Var, respectively:
   - Put the string value of Var data into a string:
     - data = 1
-    - str = Data contains the number $data
+    - str = "Data contains the number " + $data
   - Put the numeric value of Var data into retval:
     - data = 1
     - retval = #data
