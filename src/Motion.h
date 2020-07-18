@@ -9,7 +9,7 @@
 #include "Types.h"
 
 //! This base class contains variables and functions related to being a moving object.
-class Motion : public Geometry, public VarSet {
+class Motion : public Geometry {
 public:
 	Motion();				//!< Initialize coordinates and velocity to zero
 	void UpdatePosition();			//!< Update current position based on _velocity

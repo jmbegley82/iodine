@@ -81,7 +81,8 @@ public:
 #endif //DEBUG
 private:
 	refmap _refs;
-	refitr GetItr(const string& name);
+	Reference* GetRef(const string& name);
+	refitr GetRefItr(const string& name);
 };
 
 #endif //INTROSPECTOR_H
