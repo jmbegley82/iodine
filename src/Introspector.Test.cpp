@@ -32,6 +32,14 @@ int Introspector::Test() {
 	isdetail(is, "testDub");
 	is->SetValueByString("testInt", "7.89101");
 	isdetail(is, "testInt");
+	is->Command("testDub = 6.9420");
+	isdetail(is, "testDub");
+	is->Command("testDub = here have some nonsense");
+	is->Command("here's some more nonsense");
+	is->Command("testDub = #testInt");
+	isdetail(is, "testDub");
+	is->Command("testDub = #lolno");
+	isdetail(is, "testDub");
 	delete is;
 	return 0;
 }
