@@ -59,7 +59,9 @@ int main(int argc, char** argv) {
 #if defined DEBUGSMANIP
 	StringManip_Test();
 #endif //DEBUGSMANIP
+#if defined DEBUGINTROSPECTOR
 	Introspector::Test();
+#endif //DEBUGINTROSPECTOR
 #endif //DEBUG
 
 	Logger("that's about enough for today.");

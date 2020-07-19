@@ -10,9 +10,10 @@ using std::string;
 void isdetail(Introspector* is, string name) {
 	char msg[128];
 	if(is->Exists(name)) {
-		sprintf(msg, "%s int=%d, double=%f", name.c_str(), is->GetValueAsInt(name), is->GetValueAsDouble(name));
+		sprintf(msg, "Introspector::Test:  %s: int=%d, double=%f", name.c_str(), is->GetValueAsInt(name),
+			is->GetValueAsDouble(name));
 	} else {
-		sprintf(msg, "%s not found!", name.c_str());
+		sprintf(msg, "Introspector::Test:  %s not found!", name.c_str());
 	}
 	Logger(msg);
 }
