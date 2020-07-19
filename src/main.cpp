@@ -17,6 +17,7 @@
 #include "Types.h"
 #include "Platform.h"
 #include "StringManip.h"
+#include "Introspector.h"
 
 using std::string;
 
@@ -58,6 +59,7 @@ int main(int argc, char** argv) {
 #if defined DEBUGSMANIP
 	StringManip_Test();
 #endif //DEBUGSMANIP
+	Introspector::Test();
 #endif //DEBUG
 
 	Logger("that's about enough for today.");

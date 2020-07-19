@@ -8,55 +8,11 @@
 #include <string>
 #include <map>
 #include "CmdSink.h"
+#include "Reference.h"
 
 using std::string;
 using std::pair;
 using std::map;
-
-class Reference {
-public:
-	Reference();
-	~Reference();
-	virtual void SetValueByString(const string& val);
-	virtual void SetValueByInt(int val);
-	virtual void SetValueByDouble(double val);
-	virtual string GetValueAsString();
-	virtual int GetValueAsInt();
-	virtual double GetValueAsDouble();
-private:
-};
-
-class IntReference : public Reference {
-public:
-	IntReference();
-	IntReference(int* ref);
-	~IntReference();
-	void SetReference(int* ref);
-	virtual void SetValueByString(const string& val);
-	virtual void SetValueByInt(int val);
-	virtual void SetValueByDouble(double val);
-	virtual string GetValueAsString();
-	virtual int GetValueAsInt();
-	virtual double GetValueAsDouble();
-private:
-	int* _ref;
-};
-
-class DoubleReference : public Reference {
-public:
-	DoubleReference();
-	DoubleReference(double* ref);
-	~DoubleReference();
-	void SetReference(double* ref);
-	virtual void SetValueByString(const string& val);
-	virtual void SetValueByInt(int val);
-	virtual void SetValueByDouble(double val);
-	virtual string GetValueAsString();
-	virtual int GetValueAsInt();
-	virtual double GetValueAsDouble();
-private:
-	double* _ref;
-};
 
 typedef map<string,Reference*> refmap;
 typedef refmap::iterator refitr;
@@ -75,6 +31,7 @@ public:
 	string GetValueAsString(const string& name);
 	int GetValueAsInt(const string& name);
 	double GetValueAsDouble(const string& name);
+	bool Exists(const string& name);
 	void Clear();
 #if defined DEBUG
 	static int Test();
