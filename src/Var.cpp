@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <cstring>
 #include "Var.h"
+#include "StringManip.h"
 
 using std::string;
 
@@ -28,7 +29,7 @@ void Var::SetValueAsString(const string& val) {
 	Clear();
 	//_type = STRING;
 	_dataStr = val;
-	if(IsValidNumericData(val)) {
+	if(ContainsNumericData(val)) {
 		_containsNumericData = true;
 		_dataInt = std::stoi(val);
 		_dataDbl = std::stod(val);
@@ -115,7 +116,7 @@ double Var::GetValueAsDouble() {
 bool Var::IsValidNumericData() {
 	return _containsNumericData;
 }
-
+/*
 bool Var::IsValidNumericData(const string& val) {
 	if(val == "") return false;  // no, patrick, nothing is not a number.
 	bool retval = false;
@@ -129,7 +130,7 @@ bool Var::IsValidNumericData(const string& val) {
 	if(keepgoing) retval = true;
 	return retval;
 }
-
+*/
 void Var::Clear() {
 	_dataStr = "";
 	_dataInt = 0;

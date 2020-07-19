@@ -28,6 +28,10 @@ int Introspector::Test() {
 	isdetail(is, "testInt");
 	isdetail(is, "testDub");
 	isdetail(is, "doesntexist");
+	is->SetValueByString("testDub", "1.23456");
+	isdetail(is, "testDub");
+	is->SetValueByString("testInt", "7.89101");
+	isdetail(is, "testInt");
 	delete is;
 	return 0;
 }

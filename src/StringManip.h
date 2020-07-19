@@ -36,6 +36,7 @@ namespace jmb {
 		void ReplaceString(std::string& input, std::string const& from, std::string const& to);
 		std::string RemovePadding(std::string const& text);
 		std::string DeQuote(std::string const& text);
+		bool ContainsNumericData(const std::string& val);
 		//bool ValidateStrtod(std::string const& text);
 		//std::string GetString(int val);
 		//std::string GetHexString(void* object);

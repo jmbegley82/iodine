@@ -23,7 +23,7 @@ public:
 	int GetValueAsInt();					//!< Get an int representing the Var
 	double GetValueAsDouble();				//!< Get a double representing the Var
 	bool IsValidNumericData();				//!< Returns _containsNumericData
-	static bool IsValidNumericData(const string& val);	//!< Static function to determine validity of numeric data
+	//static bool IsValidNumericData(const string& val);	//!< Static function to determine validity of numeric data
 								//!<   in a string
 	void Clear();						//!< Empty the Var and set type to NONE
 #if defined DEBUG

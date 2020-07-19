@@ -158,6 +158,19 @@ namespace jmb
 			return retval;
 		}
 
+		bool ContainsNumericData(const string& val) {
+			if(val == "") return false;  // no, patrick, nothing is not a number.
+			bool retval = false;
+			bool keepgoing = true;
+			for(string::const_iterator i = val.begin(); i != val.end() && keepgoing; i++) {
+				if(!std::isdigit(*i) && *i != '+' && *i != '-' && *i != '.') {
+					keepgoing = false;
+				//	retval = false;
+				}
+			}
+			if(keepgoing) retval = true;
+			return retval;
+		}
 /*
 		bool ValidateStrtod(string const& text) {
 			bool retval = true;

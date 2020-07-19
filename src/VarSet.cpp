@@ -211,7 +211,7 @@ Var VarSet::Evaluate(const string& cmd) {
 		retval.SetValueAsString(sub);
 	} else {
 		// at this point the only thing left is a numeric literal value, so check it thoroughly!
-		if(Var::IsValidNumericData(cmd)) {
+		if(ContainsNumericData(cmd)) {
 			// looks numeric to me
 			retval.SetValueAsString(cmd);
 		}
