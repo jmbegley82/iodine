@@ -18,6 +18,7 @@
 #include "Platform.h"
 #include "StringManip.h"
 #include "Introspector.h"
+#include "Sentence.h"
 
 using std::string;
 
@@ -62,6 +63,9 @@ int main(int argc, char** argv) {
 #if defined DEBUGINTROSPECTOR
 	Introspector::Test();
 #endif //DEBUGINTROSPECTOR
+#if defined DEBUGSENTENCE
+	Sentence::Test();
+#endif //DEBUGSENTENCE
 #endif //DEBUG
 
 	Logger("that's about enough for today.");

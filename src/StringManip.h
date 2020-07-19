@@ -24,14 +24,6 @@ namespace jmb {
 			std::string left, right;
 		};
 */		
-		class Sentence {
-		public:
-			Sentence(std::string const& cmd);
-			std::string declarator, subject, op, target;
-#if defined DEBUG
-			static int Test();
-#endif //DEBUG
-		};
 
 		void ReplaceString(std::string& input, std::string const& from, std::string const& to);
 		std::string RemovePadding(std::string const& text);

@@ -7,6 +7,7 @@
 #include <vector>
 #include "VarSet.h"
 #include "StringManip.h"
+#include "Sentence.h"
 #if defined DEBUGEXTRA
 #include "Logger.h"
 #endif //DEBUGEXTRA

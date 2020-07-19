@@ -8,6 +8,7 @@
 #include "IntReference.h"
 #include "DoubleReference.h"
 #include "StringManip.h"
+#include "Sentence.h"
 
 Introspector::Introspector() {
 }
