@@ -22,7 +22,7 @@ VarSet::~VarSet() {
 	Clear();
 }
 
-int VarSet::Command(const string& cmd) {
+int VarSet::VSCommand(const string& cmd) {
 	Sentence st(cmd);
 	/* valid syntax:
 	 * var = 1
@@ -48,7 +48,7 @@ int VarSet::Command(const string& cmd) {
 		} else {
 #if defined DEBUGEXTRA
 			char msg[128];
-			sprintf(msg, "VarSet::Command:  Misunderstood command:  \"%s\"", cmd.c_str());
+			sprintf(msg, "VarSet::VSCommand:  Misunderstood command:  \"%s\"", cmd.c_str());
 			Logger(msg);
 #endif //DEBUGEXTRA
 		}
@@ -77,7 +77,7 @@ int VarSet::Command(const string& cmd) {
 			} else {
 #if defined DEBUGEXTRA
 			char msg[128];
-			sprintf(msg, "VarSet::Command:  Misunderstood command:  \"%s\"", cmd.c_str());
+			sprintf(msg, "VarSet::VSCommand:  Misunderstood command:  \"%s\"", cmd.c_str());
 			Logger(msg);
 #endif //DEBUGEXTRA
 			}
@@ -94,14 +94,15 @@ int VarSet::Command(const string& cmd) {
 			} else {
 #if defined DEBUGEXTRA
 			char msg[128];
-			sprintf(msg, "VarSet::Command:  Misunderstood command:  \"%s\"", cmd.c_str());
+			sprintf(msg, "VarSet::VSCommand:  Misunderstood command:  \"%s\"", cmd.c_str());
 			Logger(msg);
 #endif //DEBUGEXTRA
 			}
 		}
 		return 0;
 	}
-	return CmdSink::Command(cmd);
+	return -9000;
+	//return CmdSink::Command(cmd);
 }
 /*
 bool VarSet::AddVar(const string& name, Var* var) {

@@ -7,7 +7,7 @@
 
 #include <string>
 #include <map>
-#include "CmdSink.h"
+//#include "CmdSink.h"
 #include "Var.h"
 
 using std::string;
@@ -18,11 +18,11 @@ typedef map<string,Var*> varmap;
 typedef varmap::iterator varitr;
 typedef pair<string,Var*> varpair;
 
-class VarSet : public CmdSink {
+class VarSet /*: public CmdSink*/ {
 public:
 	VarSet();
 	~VarSet();
-	int Command(const string& cmd);
+	int VSCommand(const string& cmd);
 	//bool AddVar(const string& name, Var* var);
 	//void AddVar_forced(const string& name, Var* var);
 	//bool CreateVar(const string& name, const string& val);

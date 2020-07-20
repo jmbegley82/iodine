@@ -13,7 +13,7 @@ void vstcmd(VarSet* vs, const string& cmd) {
 	char msg[128];
 	sprintf(msg, "VarSet::Test:  vstcmd(%s)", cmd.c_str());
 	Logger(msg);
-	vs->Command(cmd);
+	vs->VSCommand(cmd);
 }
 
 void vstdetail(VarSet* vs, const string& name) {

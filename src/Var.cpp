@@ -20,11 +20,11 @@ Var::Var() {
 Var::~Var() {
 	Clear();
 }
-
+/*
 int Var::Command(const string& cmd) {
 	return CmdSink::Command(cmd);
 }
-
+*/
 void Var::SetValueAsString(const string& val) {
 	Clear();
 	//_type = STRING;
