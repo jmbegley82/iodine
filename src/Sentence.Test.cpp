@@ -21,9 +21,9 @@ void sdetail(Sentence* st) {
 int Sentence::Test() {
 	char msg[128];
 	sprintf(msg, "Sentence::Test:  Sentence 1:  \"var testSubj = 1\"");
-	Sentence s1("var testSubj = 1");
+	Sentence s1("var testSubj=1");
 	sdetail(&s1);
-	Sentence s2("testSubj = 2");
+	Sentence s2("testSubj ^= 2");
 	sdetail(&s2);
 	Sentence s3("What testSubj");
 	sdetail(&s3);

@@ -55,19 +55,22 @@ Sentence::Sentence(string const& cmd) {
 		int declEnd   = -1;
 		int subjBegin = -1;
 		int subjEnd   = subject.length() - 1;
-/*
-		const char* subj = subject.c_str();
-		while(subjEnd >= 0 && isspace(subj[subjEnd])) subjEnd--;
+
+		//const char* subj = subject.c_str();
+		while(subjEnd >= 0 && isspace(subject[subjEnd])) subjEnd--;
 		assert(subjEnd >= 0);  // otherwise, subject was empty
 
 		subjBegin = subjEnd;
-		while(subjBegin > 0 && !isspace(subj[subjBegin])) subjBegin--;
+		while(subjBegin > 0 && !isspace(subject[subjBegin])) subjBegin--;
 		declEnd = subjBegin;
-		while(declEnd > 0 && isspace(subj[declEnd])) declEnd--;
+		while(declEnd > 0 && isspace(subject[declEnd])) declEnd--;
 		declBegin = declEnd;
-		while(declBegin > 0 && !isspace(subj[declBegin])) declBegin--;
-*/
-		if(declEnd != 0) declarator = subject.substr(declBegin, (declEnd + 1) - declBegin);
+		while(declBegin > 0 && !isspace(subject[declBegin])) declBegin--;
+
+		if(declEnd != 0) {
+			declarator = subject.substr(declBegin, (declEnd + 1) - declBegin);
+			subjBegin++;
+		}
 		subject = subject.substr(subjBegin, (subjEnd + 1) - subjBegin);
 	}
 
@@ -75,7 +78,7 @@ Sentence::Sentence(string const& cmd) {
 		target = ""; // for good measure
 		subject = cmd;
 	}
-	subject = RemovePadding(subject);
+	//subject = RemovePadding(subject);
 	target = RemovePadding(target);
 	//target = DeQuote(target);
 }
