@@ -22,18 +22,18 @@ int Atom::Test() {
 	msg = "Atom::Test:  b->GetIdentity() returned: \"" + id + "\".";
 	Logger(msg.c_str());
 
-	int rv = b->Command("gibberish");
-	msg = "Atom::Test:  b->Command was fed gibberish and emitted the following: " + Atom::RetvalStr(rv);
+	int rv = b->AtomCommand("gibberish");
+	msg = "Atom::Test:  b->AtomCommand was fed gibberish and emitted the following: " + Atom::RetvalStr(rv);
 	Logger(msg.c_str());
 	Logger("Atom::Test:  CMD_ERROR was the expected response.");
 
-	rv = b->Command("test-bypass");
-	msg = "Atom::Test:  b->Command was fed test-bypass and emitted the following: " + Atom::RetvalStr(rv);
+	rv = b->AtomCommand("test-bypass");
+	msg = "Atom::Test:  b->AtomCommand was fed test-bypass and emitted the following: " + Atom::RetvalStr(rv);
 	Logger(msg.c_str());
 	Logger("Atom::Test:  CMD_UNCONSUMED was the expected response.");
 
-	rv = b->Command("pos.x=30");
-	msg = "Atom::Test:  b->Command was fed pos.x=30 and emitted the following: " + Atom::RetvalStr(rv);
+	rv = b->AtomCommand("pos.x=30");
+	msg = "Atom::Test:  b->AtomCommand was fed pos.x=30 and emitted the following: " + Atom::RetvalStr(rv);
 	Logger(msg.c_str());
 	Logger("Atom::Test:  CMD_CONSUMED was the expected response.");
 

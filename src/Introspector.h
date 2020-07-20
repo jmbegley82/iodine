@@ -7,7 +7,6 @@
 
 #include <string>
 #include <map>
-//#include "CmdSink.h"
 #include "Reference.h"
 
 using std::string;
@@ -18,7 +17,7 @@ typedef map<string,Reference*> refmap;
 typedef refmap::iterator refitr;
 typedef pair<string,Reference*> refpair;
 
-class Introspector /*: public CmdSink*/ {
+class Introspector {
 public:
 	Introspector();
 	~Introspector();

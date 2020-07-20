@@ -138,7 +138,7 @@ int Introspector::ISCommand(const string& cmd) {
 		}
 		return 0;
 	}*/
-	return -1;//CmdSink::ISCommand(cmd);
+	return -1;
 }
 
 void Introspector::AddIntRef(const string& name, int* ref) {

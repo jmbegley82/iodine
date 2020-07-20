@@ -6,15 +6,13 @@
 #define VAR_H
 
 #include <string>
-//#include "CmdSink.h"
 
 using std::string;
 
-class Var /*: public CmdSink*/ {
+class Var {
 public:
 	Var();							//!< Construct the Var
 	~Var();							//!< Destruct the Var
-	//int Command(const string& cmd);				//!< Pass a command string to the Var (NI)
 	void SetValueAsString(const string& val);		//!< Set the Var's value to val
 	void SetValueAsInt(int val);				//!< Set the Var's value to val
 	void SetValueAsDouble(double val);			//!< Set the Var's value to val

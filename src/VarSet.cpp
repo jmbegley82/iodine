@@ -102,7 +102,6 @@ int VarSet::VSCommand(const string& cmd) {
 		return 0;
 	}
 	return -9000;
-	//return CmdSink::Command(cmd);
 }
 /*
 bool VarSet::AddVar(const string& name, Var* var) {

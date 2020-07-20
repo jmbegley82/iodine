@@ -4,7 +4,6 @@
 
 #include <string>
 #include "Atom.h"
-//#include "CmdSink.h"
 #include "Motion.h"
 #include "Geometry.h"
 
@@ -31,12 +30,11 @@ void Atom::SetArbitraryIdentity() {
 	SetIdentity(identity);
 }
 
-int Atom::Command(const string& cmd) {
+int Atom::AtomCommand(const string& cmd) {
 	if(cmd == "gibberish") return CMD_ERROR;
 	int retval = ISCommand(cmd);
 	if(retval >= 0) return CMD_CONSUMED;
 	return CMD_UNCONSUMED;
-	//return -1;  //CmdSink::Command(cmd);
 }
 
 string Atom::RetvalStr(int val) {
@@ -45,7 +43,6 @@ string Atom::RetvalStr(int val) {
 	if(val == CMD_CONSUMED) return "CMD_CONSUMED";
 	if(val == CMD_UNCONSUMED) return "CMD_UNCONSUMED";
 	return "(invalid)";
-	//return CmdSink::RetvalStr(val);
 }
 
 void Atom::SetRefs() {
