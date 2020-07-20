@@ -59,7 +59,7 @@ There is currently no license, implied or otherwise, for anything in this repo. 
     - Pass all built-in tests
     - valgrind memcheck and helgrind should be as clean as possible
 
-# Current Tasks (as of 2020/07/14):
+# Current Tasks (as of 2020/07/19):
 - Reduce number of valgrind complains on OpenBSD (back burner, may be due to libpthread?)
 - Container base class for objects which will contain multiple Atoms (needs testing)
 - A class for the storage/retrieval of variables (needs testing)

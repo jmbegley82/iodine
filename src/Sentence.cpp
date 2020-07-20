@@ -80,7 +80,6 @@ Sentence::Sentence(string const& cmd) {
 	}
 	//subject = RemovePadding(subject);
 	target = RemovePadding(target);
-	//target = DeQuote(target);
 }
 
 
