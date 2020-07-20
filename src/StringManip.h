@@ -2,43 +2,28 @@
  *
  */
 
-#ifndef STRSPLIT_H
-#define STRSPLIT_H
+#ifndef STRINGMANIP_H
+#define STRINGMANIP_H
 
 #include <string>
 
+using std::string;
+
+void ReplaceString(string& input, const string& from, const string& to);
+string RemovePadding(const string& text);
+string DeQuote(const string& text);
+bool ContainsNumericData(const string& val);
+
 /*
-namespace jmb {
-	
-	namespace common {
-		
-		class CommandSplit {
-		public:
-			CommandSplit(std::string const &cmd, std::string const &token);
-			std::string left, right;
-		};
-
-		class CommandSplitRev {
-		public:
-			CommandSplitRev(std::string const& cmd, std::string const& token);
-			std::string left, right;
-		};
-*/		
-
-		void ReplaceString(std::string& input, std::string const& from, std::string const& to);
-		std::string RemovePadding(std::string const& text);
-		std::string DeQuote(std::string const& text);
-		bool ContainsNumericData(const std::string& val);
-		//bool ValidateStrtod(std::string const& text);
-		//std::string GetString(int val);
-		//std::string GetHexString(void* object);
-		//std::string GetFirstWord(std::string const& phrase);
-		//std::string GetFirstWordEtc(std::string const& phrase, std::string & remainder);
-#if defined DEBUG
-		int StringManip_Test();
-#endif //DEBUG
-/*	}
-	
-}
+bool ValidateStrtod(const string& text);
+string GetString(int val);
+string GetHexString(void* object);
+string GetFirstWord(const string& phrase);
+string GetFirstWordEtc(const string& phrase, string& remainder);
 */
-#endif //STRSPLIT_H
+
+#if defined DEBUG
+int StringManip_Test();
+#endif //DEBUG
+
+#endif //STRINGMANIP_H

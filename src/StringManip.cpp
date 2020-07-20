@@ -14,92 +14,61 @@
 using std::string;
 using std::stringstream;
 
-/*	
-namespace jmb
-{
-	
-	namespace common {
-		CommandSplit::CommandSplit(string const& cmd, string const& token) {
-			string ncmd = cmd;
-			size_t pos = ncmd.find(token,0);
-			if(pos != string::npos) {
-				left = ncmd.substr(0,pos);
-				ncmd.erase(0, pos+token.length());
-				right = ncmd;
-			} else {
-				left = "";
-				right = "";
-			}
-		}
+void ReplaceString(string& input, const string& from, const string& to) {
+	if (from.empty()) return;
+	size_t start_pos = 0;
+	while ((start_pos = input.find(from, start_pos)) != string::npos) {
+		input.replace(start_pos, from.length(), to);
+		start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
+	}
+}
 
-		CommandSplitRev::CommandSplitRev(string const& cmd, string const& token) {
-			string ncmd = cmd;
-			size_t pos = ncmd.rfind(token);
-			if(pos != string::npos) {
-				left = ncmd.substr(0,pos);
-				ncmd.erase(0,pos+token.length());
-				right = ncmd;
-			} else {
-				left = "";
-				right = "";
-			}
-		}
-*/
+string RemovePadding(const string& text) {
+	// returns a string with spaces stripped from the beginning and end
+	string retval = "";
+	if(text != "") {
+		string::const_iterator i = text.begin();
+		while(i != text.end() && isspace(*i)) i++;
+		string::const_iterator j = text.end()-1;
+		while(j > i && isspace(*j)) j--;
+		j++;
+		retval = string(i, j);
+	}
+	return retval;
+}
 
-		void ReplaceString(string& input, string const& from, string const& to) {
-			if (from.empty()) return;
-			size_t start_pos = 0;
-			while ((start_pos = input.find(from, start_pos)) != string::npos) {
-				input.replace(start_pos, from.length(), to);
-				start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
-			}
+string DeQuote(const string& text) {
+	string retval = "";
+	// we assume that this only receives strings that begin with a quotation mark
+	// but just in case, weed out the null strings.
+	if(text != "") {
+		string::const_iterator i = text.begin();
+		string::const_iterator j = text.end() - 1;
+		if(*i == '\"' && *j == '\"') {
+			i++;
+			//j--;
+			retval = string(i, j);
 		}
+	}
+	return retval;
+}
 
-		string RemovePadding(string const& text) {
-			// returns a string with spaces stripped from the beginning and end
-			string retval = "";
-			if(text != "") {
-				string::const_iterator i = text.begin();
-				while(i != text.end() && isspace(*i)) i++;
-				string::const_iterator j = text.end()-1;
-				while(j > i && isspace(*j)) j--;
-				j++;
-				retval = string(i, j);
-			}
-			return retval;
+bool ContainsNumericData(const string& val) {
+	if(val == "") return false;  // no, patrick, nothing is not a number.
+	bool retval = false;
+	bool keepgoing = true;
+	for(string::const_iterator i = val.begin(); i != val.end() && keepgoing; i++) {
+		if(!std::isdigit(*i) && *i != '+' && *i != '-' && *i != '.') {
+			keepgoing = false;
+		//	retval = false;
 		}
+	}
+	if(keepgoing) retval = true;
+	return retval;
+}
 
-		string DeQuote(string const& text) {
-			string retval = "";
-			// we assume that this only receives strings that begin with a quotation mark
-			// but just in case, weed out the null strings.
-			if(text != "") {
-				string::const_iterator i = text.begin();
-				string::const_iterator j = text.end() - 1;
-				if(*i == '\"' && *j == '\"') {
-					i++;
-					//j--;
-					retval = string(i, j);
-				}
-			}
-			return retval;
-		}
-
-		bool ContainsNumericData(const string& val) {
-			if(val == "") return false;  // no, patrick, nothing is not a number.
-			bool retval = false;
-			bool keepgoing = true;
-			for(string::const_iterator i = val.begin(); i != val.end() && keepgoing; i++) {
-				if(!std::isdigit(*i) && *i != '+' && *i != '-' && *i != '.') {
-					keepgoing = false;
-				//	retval = false;
-				}
-			}
-			if(keepgoing) retval = true;
-			return retval;
-		}
 /*
-		bool ValidateStrtod(string const& text) {
+		bool ValidateStrtod(const string& text) {
 			bool retval = true;
 			string::const_iterator i = text.begin();
 			while(retval && i != text.end()) {
@@ -122,7 +91,7 @@ namespace jmb
 			return ss.str();
 		}
 
-		string GetFirstWord(string const& phrase) {
+		string GetFirstWord(const string& phrase) {
 			string retval = "";
 
 			// ensure that our input doesn't begin with a space
@@ -139,7 +108,7 @@ namespace jmb
 			return retval;
 		}
 
-		string GetFirstWordEtc(string const& phrase, string & remainder) {
+		string GetFirstWordEtc(const string& phrase, string& remainder) {
 			string retval = "";
 			remainder = "";
 
@@ -163,8 +132,4 @@ namespace jmb
 
 			return retval;
 		}
-*/
-
-/*	}
-}
 */
