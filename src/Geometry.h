@@ -41,6 +41,13 @@ public:
 #if defined DEBUG
 	static int Test();			//!< Run internal tests
 #endif //DEBUG
+protected:
+	double* GetPosXPtr();
+	double* GetPosYPtr();
+	double* GetSizeWPtr();
+	double* GetSizeHPtr();
+	double* GetCenterXPtr();
+	double* GetCenterYPtr();
 private:
 	coords _position;			//!< Struct that contains x and y positional coordinates
 	coords _size;				//!< Struct that contains w and h of bounding box

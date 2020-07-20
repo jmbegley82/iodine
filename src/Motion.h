@@ -25,6 +25,9 @@ public:
 #if defined DEBUG
 	static int Test();			//!< Run internal tests
 #endif //DEBUG
+protected:
+	double* GetVelocityXPtr();
+	double* GetVelocityYPtr();
 private:
 	coords _velocity;			//!< Struct that contains x and y velocities
 };

@@ -124,3 +124,27 @@ coords Geometry::GetBottomLeft() {
 coords Geometry::GetBottomRight() {
 	return {GetXRight(), GetYBottom()};
 }
+
+double* Geometry::GetPosXPtr() {
+	return &_position.x;
+}
+
+double* Geometry::GetPosYPtr() {
+	return &_position.y;
+}
+
+double* Geometry::GetSizeWPtr() {
+	return &_size.x;
+}
+
+double* Geometry::GetSizeHPtr() {
+	return &_size.y;
+}
+
+double* Geometry::GetCenterXPtr() {
+	return &_center.x;
+}
+
+double* Geometry::GetCenterYPtr() {
+	return &_center.y;
+}

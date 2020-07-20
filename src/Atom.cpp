@@ -4,16 +4,20 @@
 
 #include <string>
 #include "Atom.h"
-#include "CmdSink.h"
+//#include "CmdSink.h"
+#include "Motion.h"
+#include "Geometry.h"
 
 using std::string;
 
 Atom::Atom() {
 	SetArbitraryIdentity();
+	SetRefs();
 }
 
 Atom::Atom(const string& identity) {
 	SetIdentity(identity);
+	SetRefs();
 }
 
 Atom::~Atom() {
@@ -29,11 +33,28 @@ void Atom::SetArbitraryIdentity() {
 
 int Atom::Command(const string& cmd) {
 	if(cmd == "gibberish") return CMD_ERROR;
-	return CmdSink::Command(cmd);
+	int retval = ISCommand(cmd);
+	if(retval >= 0) return CMD_CONSUMED;
+	return CMD_UNCONSUMED;
+	//return -1;  //CmdSink::Command(cmd);
 }
 
 string Atom::RetvalStr(int val) {
 	if(val == CMD_ERROR) return "CMD_ERROR";
 	if(val == CMD_NOPE) return "CMD_NOPE";
-	return CmdSink::RetvalStr(val);
+	if(val == CMD_CONSUMED) return "CMD_CONSUMED";
+	if(val == CMD_UNCONSUMED) return "CMD_UNCONSUMED";
+	return "(invalid)";
+	//return CmdSink::RetvalStr(val);
+}
+
+void Atom::SetRefs() {
+	AddDoubleRef("pos.x", GetPosXPtr());
+	AddDoubleRef("pos.y", GetPosYPtr());
+	AddDoubleRef("size.w", GetSizeWPtr());
+	AddDoubleRef("size.h", GetSizeHPtr());
+	AddDoubleRef("offset.x", GetCenterXPtr());
+	AddDoubleRef("offset.y", GetCenterYPtr());
+	AddDoubleRef("vel.x", GetVelocityXPtr());
+	AddDoubleRef("vel.y", GetVelocityYPtr());
 }

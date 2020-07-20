@@ -52,3 +52,10 @@ double Motion::PredictNextPositionY() {
 	return GetPositionY() + GetVelocityY();
 }
 
+double* Motion::GetVelocityXPtr() {
+	return &_velocity.x;
+}
+
+double* Motion::GetVelocityYPtr() {
+	return &_velocity.y;
+}

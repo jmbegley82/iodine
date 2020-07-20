@@ -7,7 +7,7 @@
 
 #include <string>
 #include <map>
-#include "CmdSink.h"
+//#include "CmdSink.h"
 #include "Reference.h"
 
 using std::string;
@@ -18,11 +18,11 @@ typedef map<string,Reference*> refmap;
 typedef refmap::iterator refitr;
 typedef pair<string,Reference*> refpair;
 
-class Introspector : public CmdSink {
+class Introspector /*: public CmdSink*/ {
 public:
 	Introspector();
 	~Introspector();
-	int Command(const string& cmd);
+	int ISCommand(const string& cmd);
 	void AddIntRef(const string& name, int* ref);
 	void AddDoubleRef(const string& name, double* ref);
 	void SetValueByString(const string& name, const string& val);

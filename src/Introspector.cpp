@@ -17,7 +17,7 @@ Introspector::~Introspector() {
 	Clear();
 }
 
-int Introspector::Command(const string& cmd) {
+int Introspector::ISCommand(const string& cmd) {
 	Sentence st(cmd);
 	/* valid syntax:
 	 * var = 1
@@ -114,7 +114,7 @@ int Introspector::Command(const string& cmd) {
 			} else {
 #if defined DEBUGEXTRA
 			char msg[128];
-			sprintf(msg, "VarSet::Command:  Misunderstood command:  \"%s\"", cmd.c_str());
+			sprintf(msg, "Introspector::ISCommand:  Misunderstood command:  \"%s\"", cmd.c_str());
 			Logger(msg);
 #endif //DEBUGEXTRA
 			}
@@ -131,14 +131,14 @@ int Introspector::Command(const string& cmd) {
 			} else {
 #if defined DEBUGEXTRA
 			char msg[128];
-			sprintf(msg, "VarSet::Command:  Misunderstood command:  \"%s\"", cmd.c_str());
+			sprintf(msg, "Introspector::ISCommand:  Misunderstood command:  \"%s\"", cmd.c_str());
 			Logger(msg);
 #endif //DEBUGEXTRA
 			}
 		}
 		return 0;
 	}*/
-	return CmdSink::Command(cmd);
+	return -1;//CmdSink::ISCommand(cmd);
 }
 
 void Introspector::AddIntRef(const string& name, int* ref) {

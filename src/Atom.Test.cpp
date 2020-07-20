@@ -30,12 +30,12 @@ int Atom::Test() {
 	rv = b->Command("test-bypass");
 	msg = "Atom::Test:  b->Command was fed test-bypass and emitted the following: " + Atom::RetvalStr(rv);
 	Logger(msg.c_str());
-	Logger("Atom::Test:  CMD_INVALID was the expected response.");
+	Logger("Atom::Test:  CMD_UNCONSUMED was the expected response.");
 
-	rv = b->Command("test");
-	msg = "Atom::Test:  b->Command was fed test and emitted the following: " + Atom::RetvalStr(rv);
+	rv = b->Command("pos.x=30");
+	msg = "Atom::Test:  b->Command was fed pos.x=30 and emitted the following: " + Atom::RetvalStr(rv);
 	Logger(msg.c_str());
-	Logger("Atom::Test:  CMD_SUCCESS was the expected response.");
+	Logger("Atom::Test:  CMD_CONSUMED was the expected response.");
 
 	Logger("Atom::Test:  Let's go ahead and manually flush _logbuffer while we're here");
 	Logger_process();
