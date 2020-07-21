@@ -20,6 +20,7 @@
 #include "Introspector.h"
 #include "Sentence.h"
 #include "Animation.h"
+#include "AnimationSet.h"
 
 using std::string;
 
@@ -71,7 +72,7 @@ int main(int argc, char** argv) {
 	Animation::Test();
 #endif //DEBUGANIMATION
 #endif //DEBUG
-
+	AnimationSet::Test();
 	Logger("that's about enough for today.");
 	Logger_finish();
 	return 0;

@@ -13,13 +13,15 @@ using std::string;
 using std::map;
 
 typedef map<string,Animation*> animSet;
-typedef aset::iterator asetItr;
+typedef animSet::iterator asetItr;
 
 class AnimationSet {
 public:
 	AnimationSet();
 	~AnimationSet();
-	void AddAnimation(const string& name, Animation* anim);
+	void AddAnimation(const string& name, Animation* anim); // deprecated
+	//Animation* CreateAnimation(const string& name);
+	Animation* GetAnimation(const string& name);
 	int LoadTexture(const string& path);
 #if defined DEBUG
 	static int Test();
