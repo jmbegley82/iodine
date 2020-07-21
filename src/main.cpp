@@ -19,6 +19,7 @@
 #include "StringManip.h"
 #include "Introspector.h"
 #include "Sentence.h"
+#include "Animation.h"
 
 using std::string;
 
@@ -66,6 +67,9 @@ int main(int argc, char** argv) {
 #if defined DEBUGSENTENCE
 	Sentence::Test();
 #endif //DEBUGSENTENCE
+#if defined DEBUGANIMATION
+	Animation::Test();
+#endif //DEBUGANIMATION
 #endif //DEBUG
 
 	Logger("that's about enough for today.");

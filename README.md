@@ -61,36 +61,72 @@ There is currently no license, implied or otherwise, for anything in this repo. 
 
 # Current Tasks (as of 2020/07/19):
 - Reduce number of valgrind complains on OpenBSD (back burner, may be due to libpthread?)
-- Container base class for objects which will contain multiple Atoms (needs testing)
-- A class for the storage/retrieval of variables (needs testing)
+- Container base class for objects which will contain multiple Atoms (needs more testing)
+- A class for the storage/retrieval of variables (needs more testing)
 - Determine how best to approach a layered screen system
     - One approach is to give each on-screen entity's class a layer index, since Atma's layered system eventually evolved to
     have objects in different layers interacting anyway
     - There's the Atma method, which separated layers into distinct collections of objects, and had the advantages of easy
     implementation of a menu overlay on top of scrolling/repeating/tiled/different-resolution/etc. backgrounds
 - The dreaded collision detection/handling mechanisms
-- Classes/structs for single animation cels, collections of cels (animations), collections of animations
+- Classes/structs for single animation cels, collections of cels (animations), collections of animations (in progress)
 
 # Scripting language (name tbd)
-VarSet commands (terminology/syntax unstable):
-- <subject> <operator> <target>
-  - var = 1
-  - var += 1
-  - var -= 1
-  - str = "Words and/or phrases"
-  - str += "additional words and/or phrases"
-- <command> <subject>
-  - delete var
+- VarSet commands (terminology/syntax unstable):
+  - <subject> <operator> <target>
+    - var = 1
+    - var += 1
+    - var -= 1
+    - str = "Words and/or phrases"
+    - str += "additional words and/or phrases"
+  - <command> <subject>
+    - delete var
+  - Valid operators:  = += -= \*= /= ^=
+  - Valid commands:  delete
+- Reference commands:
+  - <subject> <operator> <target>
+    - var = 1
+    - var = #othervar
+    - var -= 3.14159
+  - Numeric only
+  - Valid operators:  = += -= \*= /= ^=
+  - Valid commands:  (n/a)
 
-Near Future:
-- Use $ and # to refer to string and numeric values of Var, respectively:
-  - Put the string value of Var data into a string:
-    - data = 1
-    - str = "Data contains the number " + $data
-  - Put the numeric value of Var data into retval:
-    - data = 1
-    - retval = #data
-
-Far Future:
-- Full order-of-operations
+Future:
+- Full order-of-operations in expressions
   - var = #a ^ 2 * #b ^ 2
+
+#Animation
+Whereas Atma used individual image files for each Cel, Iodine will be using 'spritesheets', where a given animated object has
+all its animation cels stored in one large image file.  For now, we will be sticking to .png files with 8-bit r,g,b channels
+and one-bit alpha.
+
+(unofficial terminology follows)
+
+Classes:
+- Sprite
+- AnimationSet
+- Animation
+- Cel
+
+Class descriptions:
+- Sprite:
+  - AnimationSet\* anim
+  - Set/GetAnimationSet(const string& name)
+  - Set/GetAnimation(const string& name)
+  - void Draw()
+- AnimationSet:
+  - Texture image
+  - std::map\<string,Animation\*\> anims
+- Animation:
+  - const unsigned int animationDelayinMsec
+  - std::queue\<Cel\*\> cels
+- Cel:
+  - unsigned int x, y //position of upper-left pixel of cel
+  - unsigned int w, h //width and height of cel (lower-right pixel = (x+w,y+h))
+
+
+Cels will generally be stored sequentially within a list/queue/etc. within Animations.  Animations will generally be stored in
+maps (by string) within their respective AnimationSets.  AnimationSets will be contained within a globally-accessible cache,
+possibly also within a map by string.  A Sprite class will be used in place of multiple instances of AnimationSet.
+
