@@ -11,6 +11,7 @@
 
 int Animation::Test() {
 	Animation* anim = new Animation();
+	anim->LoadTexture("somesuch.png");
 	anim->SetDelayInMsec(100);
 	anim->AddCel(  0,  0, 64, 64);
 	anim->AddCel( 64,  0, 64, 64);

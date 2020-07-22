@@ -25,6 +25,7 @@ public:
 	Cel* GetCel(unsigned int idx);
 	unsigned int GetCelCount();
 	int LoadTexture(const string& path);
+	int LoadScript(const string& path);
 #if defined DEBUG
 	static int Test();
 #endif //DEBUG

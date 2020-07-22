@@ -48,3 +48,21 @@ int Animation::LoadTexture(const string& path) {
 	// TODO: load the texture
 	return -1;
 }
+
+int Animation::LoadScript(const string& path) {
+	// TODO: this whole thing
+	/* Example script:
+	 * ---
+	 *  Data/terra/terra.png
+	 *  60
+	 *  0,0,64,64
+	 *  64,0,64,64
+	 *  128,0,64,64
+	 *  196,0,64,64
+	 * ---
+	 * First line is .png file of texture
+	 * Second line is _delayInMsec
+	 * Each subsequent line is a Cel definition
+	 */
+	return -1;
+}
