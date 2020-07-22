@@ -16,6 +16,7 @@ int AnimationSet::Test() {
 	AnimationSet* aset = new AnimationSet();
 
 	Animation* anim = aset->GetAnimation("walkl");
+	anim->LoadTexture("terra/terra.png");
 	anim->SetDelayInMsec(100);
 	anim->AddCel(  0, 0, 64, 64);
 	anim->AddCel( 64, 0, 64, 64);
@@ -23,6 +24,7 @@ int AnimationSet::Test() {
 	anim->AddCel(192, 0, 64, 64);
 
 	anim = aset->GetAnimation("walkr");
+	anim->LoadTexture("terra/terra.png");
 	anim->SetDelayInMsec(100);
 	anim->AddCel(  0, 0, 64, 64);
 	anim->AddCel( 64, 0, 64, 64);
@@ -30,6 +32,7 @@ int AnimationSet::Test() {
 	anim->AddCel(192, 0, 64, 64);
 
 	anim = aset->GetAnimation("explode");
+	anim->LoadTexture("fx/explosion1.png");
 	anim->SetDelayInMsec(60);
 	anim->AddCel(  0, 0, 128, 128);
 	anim->AddCel(128, 0, 128, 128);

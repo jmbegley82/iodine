@@ -48,8 +48,3 @@ Animation* AnimationSet::GetAnimation(const string& name) {
 	}
 	return retval;
 }
-
-int AnimationSet::LoadTexture(const string& path) {
-	// TODO: load the texture
-	return -1;
-}

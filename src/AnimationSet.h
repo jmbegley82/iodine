@@ -22,13 +22,11 @@ public:
 	void AddAnimation(const string& name, Animation* anim); // deprecated
 	//Animation* CreateAnimation(const string& name);
 	Animation* GetAnimation(const string& name);
-	int LoadTexture(const string& path);
 #if defined DEBUG
 	static int Test();
 #endif //DEBUG
 private:
 	animSet _anims;
-	void* _texture;  // placeholder
 };
 
 #endif //ANIMATIONSET_H

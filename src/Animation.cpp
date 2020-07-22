@@ -43,3 +43,8 @@ Cel* Animation::GetCel(unsigned int idx) {
 unsigned int Animation::GetCelCount() {
 	return _cels.size();
 }
+
+int Animation::LoadTexture(const string& path) {
+	// TODO: load the texture
+	return -1;
+}

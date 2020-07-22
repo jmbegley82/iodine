@@ -72,6 +72,10 @@ There is currently no license, implied or otherwise, for anything in this repo. 
 - Classes/structs for single animation cels, collections of cels (animations), collections of animations (in progress)
 
 # Scripting language (name tbd)
+Future objects which will accept text commands should a) adhere to the existing examples and b) be detailed below.  VarSet
+came first.  Introspector came next and was modeled after VarSet.  New objects that require a Command(string) function are
+currently planned to begin as a copy of VarSet's or Introspector's Command(string).
+
 - VarSet commands (terminology/syntax unstable):
   - <subject> <operator> <target>
     - var = 1
@@ -83,7 +87,7 @@ There is currently no license, implied or otherwise, for anything in this repo. 
     - delete var
   - Valid operators:  = += -= \*= /= ^=
   - Valid commands:  delete
-- Reference commands:
+- Introspector (\*Reference) commands:
   - <subject> <operator> <target>
     - var = 1
     - var = #othervar
