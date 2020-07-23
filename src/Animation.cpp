@@ -9,6 +9,7 @@
 #include "Animation.h"
 #include "CelString.h"
 #include "Sentence.h"
+#include "StringManip.h"
 
 using std::string;
 using std::ifstream;
@@ -43,15 +44,29 @@ int Animation::AnmCommand(const string& cmd) {
 
 	if(st.subject == "cel") {
 		// target hopefully contains three commas separating four positive integers
+		// op should be +=
 		CelString cs(st.target);
-		if(cs.isValid) {
+		if(st.op == "+=" && cs.isValid) {
 			AddCel(cs.x, cs.y, cs.w, cs.h);
 			return 0;
 		}
 	} else if (st.subject == "delay") {
-		return 0;
+		// target should be a positive integer
+		// op should be =
+		if(ContainsNumericData(st.target) && st.op == "=") {
+			int rval = std::stoi(st.target);
+			if(rval > 0) {
+				SetDelayInMsec(rval);
+				return 0;
+			}
+		}
 	} else if (st.subject == "texture") {
-		return 0;
+		// target should be a relative path (eg. "Data/texture.png")
+		// op should be =
+		// eg. TextureCache::LoadTexture(st.target) which doesn't exist yet
+		if(st.op == "=") {
+			return 0;
+		}
 	}
 	return -1;
 }

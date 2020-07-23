@@ -95,12 +95,17 @@ currently planned to begin as a copy of VarSet's or Introspector's Command(strin
   - Numeric only
   - Valid operators:  = += -= \*= /= ^=
   - Valid commands:  (n/a)
+- Animation commands:
+  - <subject> <operator> <target>
+    - texture = Data/texture.png
+    - delay = 60
+    - cel += 0,0,64,64
 
 Future:
 - Full order-of-operations in expressions
   - var = #a ^ 2 * #b ^ 2
 
-#Animation
+# Animation
 Whereas Atma used individual image files for each Cel, Iodine will be using 'spritesheets', where a given animated object has
 all its animation cels stored in one large image file.  For now, we will be sticking to .png files with 8-bit r,g,b channels
 and one-bit alpha.
