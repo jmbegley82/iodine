@@ -13,6 +13,7 @@
 #endif //DEBUGEXTRA
 
 static const char* _homedir = 0;
+static const char* _installdir = 0;
 static const char* _tmpdir = 0;
 
 const char* GetHomeDir() {
@@ -24,6 +25,17 @@ const char* GetHomeDir() {
 #endif //platforms
 	}
 	return _homedir;
+}
+
+const char* GetInstallDir() {
+	if(!_installdir) {
+#if defined NOINSTALL
+		_installdir = getenv("PWD");
+#else
+#error Platform support not written yet!
+#endif //NOINSTALL
+	}
+	return _installdir;
 }
 
 const char* GetTmpDir() {

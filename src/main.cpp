@@ -21,10 +21,12 @@
 #include "Sentence.h"
 #include "Animation.h"
 #include "AnimationSet.h"
+#include "CelString.h"
 
 using std::string;
 
 int main(int argc, char** argv) {
+	Logger("Think fast!!");
 	Logger_init();
 	Logger("main entered.");
 
@@ -71,8 +73,11 @@ int main(int argc, char** argv) {
 #if defined DEBUGANIMATION
 	Animation::Test();
 #endif //DEBUGANIMATION
-#endif //DEBUG
+#if defined DEBUGANIMATIONSET
 	AnimationSet::Test();
+#endif //DEBUGANIMATIONSET
+	CelString::Test();
+#endif //DEBUG
 	Logger("that's about enough for today.");
 	Logger_finish();
 	return 0;

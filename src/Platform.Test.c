@@ -11,6 +11,8 @@ int Platform_Test() {
 	char msg[128];
 	sprintf(msg, "Platform_Test:  homedir=%s", GetHomeDir());
 	Logger(msg);
+	sprintf(msg, "Platform_Test:  installdir=%s", GetInstallDir());
+	Logger(msg);
 	sprintf(msg, "Platform_Test:  tmpdir=%s", GetTmpDir());
 	Logger(msg);
 	Logger("Platform_Test:  Please check accuracy manually!");

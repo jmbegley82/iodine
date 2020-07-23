@@ -10,6 +10,7 @@ extern "C" {
 #endif //__cplusplus
 
 const char* GetHomeDir();
+const char* GetInstallDir();
 const char* GetTmpDir();
 
 #if defined DEBUG

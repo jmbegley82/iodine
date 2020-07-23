@@ -19,6 +19,7 @@ class Animation {
 public:
 	Animation();
 	~Animation();
+	int AnmCommand(const string& cmd);
 	void SetDelayInMsec(unsigned int ms);
 	void AddCel(unsigned int x, unsigned int y, unsigned int w, unsigned int h);
 	unsigned int GetDelayInMsec();

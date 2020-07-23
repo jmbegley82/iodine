@@ -45,7 +45,7 @@ void Logger_finish();
  * maximum length, Logger_process() will be called afterward to write the contents of the buffer and clear it, leaving us
  * with an empty buffer.
  * @param str (const char*) the C-string to add to the log buffer
- * @return int 0 = success, 1 = success and the buffer was emptied
+ * @return int -1 = Logger hasn't been initialized yet, 0 = success, 1 = success and the buffer was emptied
  */
 int Logger(const char* str);
 

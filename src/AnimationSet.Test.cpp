@@ -26,10 +26,10 @@ int AnimationSet::Test() {
 	anim = aset->GetAnimation("walkr");
 	anim->LoadTexture("terra/terra.png");
 	anim->SetDelayInMsec(100);
-	anim->AddCel(  0, 0, 64, 64);
-	anim->AddCel( 64, 0, 64, 64);
-	anim->AddCel(128, 0, 64, 64);
-	anim->AddCel(192, 0, 64, 64);
+	anim->AddCel(  0, 64, 64, 64);
+	anim->AddCel( 64, 64, 64, 64);
+	anim->AddCel(128, 64, 64, 64);
+	anim->AddCel(192, 64, 64, 64);
 
 	anim = aset->GetAnimation("explode");
 	anim->LoadTexture("fx/explosion1.png");
