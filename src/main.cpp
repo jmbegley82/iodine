@@ -23,7 +23,7 @@
 using std::string;
 
 int main(int argc, char** argv) {
-	Logger_init();
+	//Logger_init();
 	Logger("main entered.");
 
 #if defined DEBUG
@@ -69,6 +69,6 @@ int main(int argc, char** argv) {
 #endif //DEBUG
 
 	Logger("that's about enough for today.");
-	Logger_finish();
+	//Logger_finish();
 	return 0;
 }
