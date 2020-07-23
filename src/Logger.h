@@ -6,6 +6,11 @@
 #define LOGGER_H
 
 #if defined __cplusplus
+#include <string>
+using std::string;
+int Log(const string& str);
+int Log_now(const string& str);
+
 extern "C" {
 #endif //__cplusplus
 
