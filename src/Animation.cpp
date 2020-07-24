@@ -10,6 +10,7 @@
 #include "CelString.h"
 #include "Sentence.h"
 #include "StringManip.h"
+#include "Platform.h"
 
 using std::string;
 using std::ifstream;
@@ -109,7 +110,7 @@ int Animation::LoadScript(const string& path) {
 	// TODO: this whole thing
 	/* Example script:
 	 * ---
-	 *  texture=Data/terra/terra.png
+	 *  texture=data/terra/terra.png
 	 *  delay=60
 	 *  cel+=0,0,64,64
 	 *  cel+=64,0,64,64
@@ -121,7 +122,7 @@ int Animation::LoadScript(const string& path) {
 	 * Each subsequent line is a Cel definition
 	 */
 	string line;
-	ifstream file(path);
+	ifstream file(string(GetInstallDir()) + "/" + path);
 	if(file.is_open()) {
 		while(getline(file, line)) {
 			// do something with line

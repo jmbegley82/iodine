@@ -19,12 +19,15 @@ int Animation::Test() {
 	anim->AddCel(128,  0, 64, 64);
 	anim->AddCel(192,  0, 64, 64);
 	*/
+	/*
 	assert(anim->AnmCommand("texture=Data/somesuch.png") == 0);
 	assert(anim->AnmCommand("delay=100") == 0);
 	assert(anim->AnmCommand("cel+=0,0,64,64") == 0);
 	assert(anim->AnmCommand("cel+=64,0,64,64") == 0);
 	assert(anim->AnmCommand("cel+=128,0,64,64") == 0);
 	assert(anim->AnmCommand("cel+=192,0,64,64") == 0);
+	*/
+	anim->LoadScript("data/test.anm");
 	char msg[128];
 	sprintf(msg, "Animation::Test:  GetCelCount=%d, GetDelayInMsec=%d", anim->GetCelCount(), anim->GetDelayInMsec());
 	Logger(msg);
