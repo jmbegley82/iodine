@@ -75,7 +75,9 @@ int main(int argc, char** argv) {
 #if defined DEBUGANIMATIONSET
 	AnimationSet::Test();
 #endif //DEBUGANIMATIONSET
+#if defined DEBUGCELSTRING
 	CelString::Test();
+#endif //DEBUGCELSTRING
 #endif //DEBUG
 	Logger("that's about enough for today.");
 	//Logger_finish();
