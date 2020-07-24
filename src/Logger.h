@@ -8,10 +8,10 @@
 #if defined __cplusplus
 #include <string>
 using std::string;
-int Log(const string& str);
-int Log_now(const string& str);
+int Log(const string& str);		//!< Write to Logger using a C++ string
+int Log_now(const string& str);		//!< Write to Logger using a C++ string and immediately flush
 #if defined DEBUG
-int LogCxxTest();
+int LogCxxTest();			//!< Run tests related to C++ parts of Logger
 #endif //DEBUG
 
 extern "C" {
@@ -100,7 +100,7 @@ int Logger_getmaxlines();			//!< Get current maximum logbuffer line count
 int Logger_getmaxlinelength();			//!< Get current maximum logbuffer line length
 
 #if defined DEBUG
-int Logger_Test();				//!< Run internal tests
+int Logger_Test();				//!< Run tests related to C-language parts of Logger
 #endif //DEBUG
 
 #if defined __cplusplus

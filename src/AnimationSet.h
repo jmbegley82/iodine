@@ -12,18 +12,18 @@
 using std::string;
 using std::map;
 
-typedef map<string,Animation*> animSet;
-typedef animSet::iterator asetItr;
+typedef map<string,Animation*> animSet;		//!< container for Animations
+typedef animSet::iterator asetItr;		//!< relevant iterator for animSet
 
 class AnimationSet {
 public:
-	AnimationSet();
-	~AnimationSet();
-	void AddAnimation(const string& name, Animation* anim); // deprecated
-	//Animation* CreateAnimation(const string& name);
-	Animation* GetAnimation(const string& name);
+	AnimationSet();						//!< AnimationSet ctor
+	~AnimationSet();					//!< AnimationSet dtor
+	void AddAnimation(const string& name, Animation* anim);	//!< Add new Animation with the given name
+	//Animation* CreateAnimation(const string& name);	//!< Deprecated
+	Animation* GetAnimation(const string& name);		//!< Get Animation by name (or NULL if not found)
 #if defined DEBUG
-	static int Test();
+	static int Test();					//!< Run tests
 #endif //DEBUG
 private:
 	animSet _anims;

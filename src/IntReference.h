@@ -12,16 +12,16 @@ using std::string;
 
 class IntReference : public Reference {
 public:
-	IntReference();
-	IntReference(int* ref);
-	~IntReference();
-	void SetReference(int* ref);
-	virtual void SetValueByString(const string& val);
-	virtual void SetValueByInt(int val);
-	virtual void SetValueByDouble(double val);
-	virtual string GetValueAsString();
-	virtual int GetValueAsInt();
-	virtual double GetValueAsDouble();
+	IntReference();						//!< It's a ctor
+	IntReference(int* ref);					//!< Create Reference using address of ref
+	~IntReference();					//!< It's a dtor
+	void SetReference(int* ref);				//!< Set _ref to address of int ref
+	virtual void SetValueByString(const string& val);	//!< Attempt to set value using a string
+	virtual void SetValueByInt(int val);			//!< Set value using an integer
+	virtual void SetValueByDouble(double val);		//!< Set value using a (rounded) double
+	virtual string GetValueAsString();			//!< Get value as a string
+	virtual int GetValueAsInt();				//!< Get value as an integer
+	virtual double GetValueAsDouble();			//!< Get value as a double
 private:
 	int* _ref;
 };

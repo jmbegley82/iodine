@@ -12,23 +12,24 @@
 using std::string;
 using std::vector;
 
-typedef vector<Cel*> celset;
-typedef celset::iterator celitr;
+typedef vector<Cel*> celset;		//!< container for individual cels
+typedef celset::iterator celitr;	//!< relevant iterator for celset
 
 class Animation {
 public:
-	Animation();
-	~Animation();
-	int AnmCommand(const string& cmd);
-	void SetDelayInMsec(unsigned int ms);
-	void AddCel(unsigned int x, unsigned int y, unsigned int w, unsigned int h);
-	unsigned int GetDelayInMsec();
-	Cel* GetCel(unsigned int idx);
-	unsigned int GetCelCount();
-	int LoadTexture(const string& path);
-	int LoadScript(const string& path);
+	Animation();					//!< Animation ctor
+	~Animation();					//!< Animation dtor
+	int AnmCommand(const string& cmd);		//!< Process text-strings relevant to this object
+	void SetDelayInMsec(unsigned int ms);		//!< Set delay between frames
+	void AddCel(unsigned int x, unsigned int y,
+			unsigned int w, unsigned int h);//!< Create a new Cel with given parameters
+	unsigned int GetDelayInMsec();			//!< Get delay between frames
+	Cel* GetCel(unsigned int idx);			//!< Get Cel by index (or NULL if out of bounds)
+	unsigned int GetCelCount();			//!< Get current number of Cels
+	int LoadTexture(const string& path);		//!< Set this Animation's spritesheet texture (NI)
+	int LoadScript(const string& path);		//!< Open text file and pass its lines to AnmCommand
 #if defined DEBUG
-	static int Test();
+	static int Test();				//!< Run tests
 #endif //DEBUG
 private:
 	void* _texture;  // placeholder

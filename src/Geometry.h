@@ -42,12 +42,12 @@ public:
 	static int Test();			//!< Run internal tests
 #endif //DEBUG
 protected:
-	double* GetPosXPtr();
-	double* GetPosYPtr();
-	double* GetSizeWPtr();
-	double* GetSizeHPtr();
-	double* GetCenterXPtr();
-	double* GetCenterYPtr();
+	double* GetPosXPtr();			//!< Return address of double containing X position
+	double* GetPosYPtr();			//!< Return address of double containing Y position
+	double* GetSizeWPtr();			//!< Return address of double containing width
+	double* GetSizeHPtr();			//!< Return address of double containing height
+	double* GetCenterXPtr();		//!< Return address of double containing X center offset
+	double* GetCenterYPtr();		//!< Return address of double containing Y center offset
 private:
 	coords _position;			//!< Struct that contains x and y positional coordinates
 	coords _size;				//!< Struct that contains w and h of bounding box

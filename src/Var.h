@@ -16,7 +16,7 @@ public:
 	void SetValueAsString(const string& val);		//!< Set the Var's value to val
 	void SetValueAsInt(int val);				//!< Set the Var's value to val
 	void SetValueAsDouble(double val);			//!< Set the Var's value to val
-	void CopyValue(Var* var);
+	void CopyValue(Var* var);				//!< Set our value to that of var
 	string GetValueAsString();				//!< Get a string representing the Var
 	int GetValueAsInt();					//!< Get an int representing the Var
 	double GetValueAsDouble();				//!< Get a double representing the Var
