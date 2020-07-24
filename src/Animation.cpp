@@ -11,6 +11,8 @@
 #include "Sentence.h"
 #include "StringManip.h"
 #include "Platform.h"
+#include "TexCache.h"
+#include "GfxTypes.h"
 
 using std::string;
 using std::ifstream;
@@ -66,7 +68,9 @@ int Animation::AnmCommand(const string& cmd) {
 		// op should be =
 		// eg. TextureCache::LoadTexture(st.target) which doesn't exist yet
 		if(st.op == "=") {
-			return 0;
+			if(LoadTexture(st.target)) {
+				return 0;
+			}
 		}
 	}
 	return -1;
@@ -101,13 +105,17 @@ unsigned int Animation::GetCelCount() {
 	return _cels.size();
 }
 
-int Animation::LoadTexture(const string& path) {
+bool Animation::LoadTexture(const string& path) {
 	// TODO: load the texture
-	return -1;
+	Texture* tex = TexCache::Load(path);
+	if(tex) {
+		_texture = tex;
+		return true;
+	}
+	return false;
 }
 
 int Animation::LoadScript(const string& path) {
-	// TODO: this whole thing
 	/* Example script:
 	 * ---
 	 *  texture=data/terra/terra.png

@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include "Cel.h"
+#include "GfxTypes.h"
 
 using std::string;
 using std::vector;
@@ -26,13 +27,13 @@ public:
 	unsigned int GetDelayInMsec();			//!< Get delay between frames
 	Cel* GetCel(unsigned int idx);			//!< Get Cel by index (or NULL if out of bounds)
 	unsigned int GetCelCount();			//!< Get current number of Cels
-	int LoadTexture(const string& path);		//!< Set this Animation's spritesheet texture (NI)
+	bool LoadTexture(const string& path);		//!< Set this Animation's spritesheet texture (NI)
 	int LoadScript(const string& path);		//!< Open text file and pass its lines to AnmCommand
 #if defined DEBUG
 	static int Test();				//!< Run tests
 #endif //DEBUG
 private:
-	void* _texture;  // placeholder
+	Texture* _texture;  // placeholder
 	unsigned int _delayInMsec;
 	celset _cels;
 };
