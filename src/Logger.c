@@ -32,7 +32,7 @@ int _logMaxLineLength;
 int _logMaxLines;
 int _logCurrentLine;		//!< This index represents the next entry in _logbuffer that will be written
 int _logAutoflushSleep;
-int _logStatus = LOG_STOPPED;	//!< This is used to pause/resume/exit the Logger_autoflush thread
+int _logStatus = LOG_UNINIT;	//!< This is used to pause/resume/exit the Logger_autoflush thread
 pthread_t _logFlushThread;	//!< This pthread_t holds the Logger_autoflush thread
 
 /**

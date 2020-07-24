@@ -20,6 +20,7 @@ extern "C" {
  * used manually!  The others can be set externally via Logger_pause and Logger_unpause.
  */
 enum LogStatuses {
+	LOG_UNINIT,	//!< Log not initialized yet
 	LOG_STOPPED,	//!< Do not print anything via Logger_autoflush
 	LOG_RUNNING,	//!< Do print things via Logger_autoflush
 	LOG_EXITING	//!< Do not print anything via Logger_autoflush and cause its thread to exit
