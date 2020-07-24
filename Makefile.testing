@@ -6,7 +6,7 @@ MKDIR_P     ?= mkdir -p
 # -DNOINSTALL sets the detected installation directory to the current directory (for easier debugging)
 # -DDEBUG enables building and execution of the following tests:
 # -DDEBUGATOM enables the Atom tests in Atom.Test.cpp
-# -DDEBUGLOGGER enables the Logger test in Logger.Test.c (lots of output!)
+# -DDEBUGLOGGER enables the Logger test in Logger.Test.c and .cpp (lots of output!)
 # -DDEBUGMOTION enables the Motion object tests in Motion.Test.cpp
 # -DDEBUGTICKER enables the Ticker object tests in Ticker.Test.cpp
 # -DDEBUGTIMING enables the Timing function tests in Timing.Test.c

@@ -12,5 +12,6 @@ int Log(const string& str) {
 }
 
 int Log_now(const string& str) {
-	return Logger(str.c_str());
+	Logger_now(str.c_str());
+	return 0;
 }

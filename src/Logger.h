@@ -10,6 +10,9 @@
 using std::string;
 int Log(const string& str);
 int Log_now(const string& str);
+#if defined DEBUG
+int LogCxxTest();
+#endif //DEBUG
 
 extern "C" {
 #endif //__cplusplus

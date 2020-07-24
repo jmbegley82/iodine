@@ -34,6 +34,7 @@ int main(int argc, char** argv) {
 #endif //DEBUGATOM
 #if defined DEBUGLOGGER
 	Logger_Test();
+	LogCxxTest();
 #endif //DEBUGLOGGER
 #if defined DEBUGTIMING
 	Timing_Test();
