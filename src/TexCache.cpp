@@ -62,8 +62,8 @@ bool TexCache::Unload(const string& path) {
 }
 
 void TexCache::UnloadAll() {
-	for(texitr i=_textures.begin(); i!=_textures.end(); ++i) {
+	for(texitr i=_texcache._textures.begin(); i!=_texcache._textures.end(); ++i) {
 		delete i->second;
 	}
-	_textures.clear();
+	_texcache._textures.clear();
 }

@@ -22,8 +22,8 @@ public:
 	TexCache();
 	~TexCache();
 	static Texture* Load(const string& path);
-	bool Unload(const string& path);
-	void UnloadAll();
+	static bool Unload(const string& path);
+	static void UnloadAll();
 #if defined DEBUG
 	static int Test();
 #endif //DEBUG
