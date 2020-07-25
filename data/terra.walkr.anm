@@ -1,0 +1,6 @@
+texture=terra/terra.png
+delay=100
+cel+=0,64,64,64
+cel+=64,64,64,64
+cel+=128,64,64,64
+cel+=192,64,64,64

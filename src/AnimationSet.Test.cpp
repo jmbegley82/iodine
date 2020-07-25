@@ -14,7 +14,7 @@
 
 int AnimationSet::Test() {
 	AnimationSet* aset = new AnimationSet();
-
+/*
 	Animation* anim = aset->GetAnimation("walkl");
 	anim->LoadTexture("terra/terra.png");
 	anim->SetDelayInMsec(100);
@@ -42,6 +42,13 @@ int AnimationSet::Test() {
 	anim->AddCel(640, 0, 128, 128);
 	anim->AddCel(768, 0, 128, 128);
 	anim->AddCel(896, 0, 128, 128);
+*/
+	Animation* anim = aset->GetAnimation("walkl");
+	anim->LoadScript("data/terra.walkl.anm");
+	anim = aset->GetAnimation("walkr");
+	anim->LoadScript("data/terra.walkr.anm");
+	anim = aset->GetAnimation("explode");
+	anim->LoadScript("data/explosion.anm");
 
 	int test1 = aset->GetAnimation("walkl")->GetCelCount();  //4
 	int test2 = aset->GetAnimation("walkr")->GetCel(3)->x;   //192
