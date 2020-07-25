@@ -222,7 +222,7 @@ Var VarSet::Evaluate(const string& cmd) {
 }
 
 void VarSet::Clear() {
-	for(varitr i=_vars.begin(); i!=_vars.end(); i++) {
+	for(varitr i=_vars.begin(); i!=_vars.end(); ++i) {
 		delete i->second;
 	}
 	_vars.clear();

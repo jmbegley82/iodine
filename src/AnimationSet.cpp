@@ -10,7 +10,7 @@ AnimationSet::AnimationSet() {
 
 AnimationSet::~AnimationSet() {
 	// TODO: free the texture
-	for(asetItr i=_anims.begin(); i!=_anims.end(); i++) {
+	for(asetItr i=_anims.begin(); i!=_anims.end(); ++i) {
 		delete i->second;
 	}
 	_anims.clear();

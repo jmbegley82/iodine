@@ -51,7 +51,7 @@ bool CelString::IsValidCelString(const string& cmd) {
 	bool previouslyComma = false;
 	unsigned int commaCount = 0;
 	if(cmd == "") return false;  // get the empty string case out of the way
-	for(string::const_iterator i = cmd.begin(); i != cmd.end() && retval; i++) {
+	for(string::const_iterator i = cmd.begin(); i != cmd.end() && retval; ++i) {
 		if(i == cmd.begin() || i == cmd.end()-1) {
 			// the first and last character must not be comma
 			if(*i == ',') return false;

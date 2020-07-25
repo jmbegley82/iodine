@@ -21,7 +21,7 @@ Animation::Animation() {
 }
 
 Animation::~Animation() {
-	for(celitr i = _cels.begin(); i != _cels.end(); i++) {
+	for(celitr i = _cels.begin(); i != _cels.end(); ++i) {
 		delete *i;
 	}
 	_cels.clear();

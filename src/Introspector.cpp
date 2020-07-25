@@ -211,7 +211,7 @@ bool Introspector::Exists(const string& name) {
 }
 
 void Introspector::Clear() {
-	for(refitr i = _refs.begin(); i != _refs.end(); i++) {
+	for(refitr i = _refs.begin(); i != _refs.end(); ++i) {
 		delete i->second;
 	}
 	_refs.clear();
