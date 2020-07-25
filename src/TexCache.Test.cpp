@@ -16,6 +16,7 @@ int TexCache::Test() {
 	bool test4 = TexCache::Unload("data/december.png");
 	Texture* test5 = TexCache::Load("data/june.png");
 	assert(*test1 == *test5);
+	assert(test1 == test5);
 	assert(test4);
 	Log("TexCache::Test:  Passed!");
 	return 0;
