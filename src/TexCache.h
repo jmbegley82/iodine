@@ -15,7 +15,7 @@ using std::map;
 typedef map<string,Texture*> texmap;
 typedef texmap::iterator texitr;
 
-// TODO: anything
+// TODO: actually load textures
 
 class TexCache {
 public:
@@ -23,7 +23,10 @@ public:
 	~TexCache();
 	static Texture* Load(const string& path);
 	bool Unload(const string& path);
-	void UnloadAll();	
+	void UnloadAll();
+#if defined DEBUG
+	static int Test();
+#endif //DEBUG
 private:
 	texmap _textures;
 };

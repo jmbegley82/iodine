@@ -22,6 +22,7 @@
 #include "Animation.h"
 #include "AnimationSet.h"
 #include "CelString.h"
+#include "TexCache.h"
 
 using std::string;
 
@@ -78,6 +79,9 @@ int main(int argc, char** argv) {
 #if defined DEBUGCELSTRING
 	CelString::Test();
 #endif //DEBUGCELSTRING
+#if defined DEBUGTEXCACHE
+	TexCache::Test();
+#endif //DEBUGTEXCACHE
 #endif //DEBUG
 	Logger("that's about enough for today.");
 	//Logger_finish();

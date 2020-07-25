@@ -43,6 +43,7 @@ int AnimationSet::Test() {
 	anim->AddCel(768, 0, 128, 128);
 	anim->AddCel(896, 0, 128, 128);
 */
+	// the next six lines are equivalent to the above commented section
 	Animation* anim = aset->GetAnimation("walkl");
 	anim->LoadScript("data/terra.walkl.anm");
 	anim = aset->GetAnimation("walkr");
