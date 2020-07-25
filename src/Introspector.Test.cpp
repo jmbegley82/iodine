@@ -2,6 +2,8 @@
  *
  */
 
+#if defined DEBUG
+
 #include "Introspector.h"
 #include "Logger.h"
 
@@ -43,3 +45,5 @@ int Introspector::Test() {
 	delete is;
 	return 0;
 }
+
+#endif //DEBUG
