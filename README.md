@@ -139,3 +139,7 @@ Cels will generally be stored sequentially within a list/queue/etc. within Anima
 maps (by string) within their respective AnimationSets.  AnimationSets will be contained within a globally-accessible cache,
 possibly also within a map by string.  A Sprite class will be used in place of multiple instances of AnimationSet.
 
+# Screen
+Screen needs to be implemented before anything else graphical can be completed.  Screen will be a static object.  Screen should
+defer window creation until a function is called; this way Logger will definitely be started beforehand, which will make debug
+output availability more reliable.  It is currently done during construction and this needs to be changed.

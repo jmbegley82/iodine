@@ -20,6 +20,7 @@ MKDIR_P     ?= mkdir -p
 # -DDEBUGANIMATIONSET enables tests in AnimationSet.Test.cpp
 # -DDEBUGCELSTRING enables tests in CelString.Test.cpp
 # -DDEBUGTEXCACHE    ''     ''   '' TexCache.Test.cpp
+# -DDEBUG_NOVIDEO should allow tests to work where SDL can't create video output
 # -DDEBUGEXTRA enables extra output during tests
 #COMMONFLAGS = -g -DDEBUG -DDEBUGATOM -DDEBUGLOGGER -DDEBUGMOTION -DDEBUGTICKER -DDEBUGTIMING -DDEBUGGEOMETRY \
 	-DDEBUGPLATFORM -DDEBUGCONTAINER -DDEBUGVAR -DDEBUGVARSET -DDEBUGSMANIP -DDEBUGINTROSPECTOR -DDEBUGSENTENCE \
@@ -28,9 +29,11 @@ MKDIR_P     ?= mkdir -p
 COMMONFLAGS ?= -g -DNOINSTALL -DDEBUG -DDEBUGPLATFORM -DDEBUGANIMATION -DDEBUGANIMATIONSET -DDEBUGTEXCACHE -DDEBUGEXTRA
 CFLAGS      ?= $(COMMONFLAGS)
 CXXFLAGS    ?= $(COMMONFLAGS)
-CPPFLAGS    ?= -I./src/
+SDL_CFLAGS  ?= `pkg-config --cflags sdl2`
+SDL_LIBS    ?= `pkg-config --libs sdl2`
+CPPFLAGS    ?= -I./src/ $(SDL_CFLAGS)
 #LDFLAGS     ?= -lasan -lpthread
-LDFLAGS     ?= -lpthread
+LDFLAGS     ?= -lpthread $(SDL_LIBS)
 
 BUILD_DIR   ?=./build
 SRC_DIR     ?=./src

@@ -13,6 +13,8 @@ const char* GetHomeDir();		//!< Return C-string containing a path to our user's 
 const char* GetInstallDir();		//!< Return C-string containing a path to our installation directory
 const char* GetTmpDir();		//!< Return C-string containing a path to a system-approved temporary storage space
 
+int InitializeSDL();
+
 #if defined DEBUG
 int Platform_Test();			//!< Run tests
 #endif //DEBUG
