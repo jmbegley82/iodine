@@ -4,7 +4,7 @@
 
 #include "Screen.h"
 #include "GfxTypes.h"
-#include "Filesystem.h"
+#include "System.h"
 #include "Logger.h"
 
 using std::string;
@@ -18,7 +18,7 @@ Screen::Screen() {
     screenSurface = NULL;
 
     //Initialize SDL
-    if( InitializeSDL() < 0 )
+    if( System::InitializeSDL() < 0 )
     {
 	Log(string("Screen:  SDL_Init error:  ") + SDL_GetError());
     } else {

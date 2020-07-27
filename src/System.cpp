@@ -2,6 +2,7 @@
  *
  */
 
+#include <SDL.h>
 #include "System.h"
 #include "Logger.h"
 
@@ -25,4 +26,14 @@ Texture* System::LoadTexture(const string& path) {
 
 void System::UnloadTextures() {
 	return _system._texcache->UnloadAll();
+}
+
+int System::InitializeSDL() {
+	int retval = -1;
+#if defined DEBUG_NOVIDEO
+	retval = SDL_Init(SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER);
+#else
+	retval = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER);
+#endif //DEBUG_NOVIDEO
+	return retval;
 }

@@ -19,6 +19,7 @@ public:
 	~System();
 	static Texture* LoadTexture(const string& path);
 	static void UnloadTextures();
+	static int InitializeSDL();
 	TexCache* _texcache;
 	Screen* _screen;
 };

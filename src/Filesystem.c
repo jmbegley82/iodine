@@ -6,7 +6,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>
-#include <SDL.h>
 #include "Filesystem.h"
 
 #if defined DEBUGEXTRA
@@ -48,14 +47,4 @@ const char* GetTmpDir() {
 #endif //platforms
 	}
 	return _tmpdir;
-}
-
-int InitializeSDL() {
-	int retval = -1;
-#if defined DEBUG_NOVIDEO
-	retval = SDL_Init(SDL_INIT_EVENTS || SDL_INIT_GAMECONTROLLER);
-#else
-	retval = SDL_Init(SDL_INIT_VIDEO || SDL_INIT_EVENTS || SDL_INIT_GAMECONTROLLER);
-#endif //DEBUG_NOVIDEO
-	return retval;
 }
