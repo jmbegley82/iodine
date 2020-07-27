@@ -143,3 +143,8 @@ possibly also within a map by string.  A Sprite class will be used in place of m
 Screen needs to be implemented before anything else graphical can be completed.  Screen will be a static object.  Screen should
 defer window creation until a function is called; this way Logger will definitely be started beforehand, which will make debug
 output availability more reliable.  It is currently done during construction and this needs to be changed.
+
+# Platform.h,c,cpp
+The Platform class will be our sole static class; this will hypothetically make the transition from a testing main executable
+to a library smoother, and keep the chain of initialization of different parts of the codebase easier to understand and
+debug.

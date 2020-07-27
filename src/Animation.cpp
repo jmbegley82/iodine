@@ -11,7 +11,6 @@
 #include "Sentence.h"
 #include "StringManip.h"
 #include "Platform.h"
-#include "TexCache.h"
 #include "GfxTypes.h"
 
 using std::string;
@@ -107,7 +106,7 @@ unsigned int Animation::GetCelCount() {
 
 bool Animation::LoadTexture(const string& path) {
 	// TODO: load the texture
-	Texture* tex = TexCache::Load(path);
+	Texture* tex = Platform::LoadTexture(path);
 	if(tex) {
 		_texture = tex;
 		return true;

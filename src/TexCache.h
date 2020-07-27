@@ -21,9 +21,9 @@ class TexCache {
 public:
 	TexCache();
 	~TexCache();
-	static Texture* Load(const string& path);
-	static bool Unload(const string& path);
-	static void UnloadAll();
+	Texture* Load(const string& path);
+	bool Unload(const string& path);
+	void UnloadAll();
 #if defined DEBUG
 	static int Test();
 #endif //DEBUG

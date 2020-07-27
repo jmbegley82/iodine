@@ -21,7 +21,7 @@ void UnloadAll();
 #include "Logger.h"
 #endif //DEBUGEXTRA
 
-static TexCache _texcache;
+//static TexCache _texcache;
 
 TexCache::TexCache() {
 #if defined DEBUGEXTRA
@@ -38,32 +38,32 @@ TexCache::~TexCache() {
 
 Texture* TexCache::Load(const string& path) {
 	Texture* retval = NULL;
-	texitr i = _texcache._textures.find(path);
-	if(i != _texcache._textures.end()) {
+	texitr i = _textures.find(path);
+	if(i != _textures.end()) {
 		retval = i->second;
 	} else {
 		// not found
 		retval = new Texture;
 		*retval = (Texture)(rand()%10000000);
 		// pretend retval now contains an actual Texture
-		_texcache._textures[path] = retval;
+		_textures[path] = retval;
 	}
 	return retval;
 }
 
 bool TexCache::Unload(const string& path) {
-	texitr i = _texcache._textures.find(path);
-	if(i != _texcache._textures.end()) {
+	texitr i = _textures.find(path);
+	if(i != _textures.end()) {
 		delete i->second;
-		_texcache._textures.erase(i);  // TODO: test this!
+		_textures.erase(i);  // TODO: test this!
 		return true;
 	}
 	return false;
 }
 
 void TexCache::UnloadAll() {
-	for(texitr i=_texcache._textures.begin(); i!=_texcache._textures.end(); ++i) {
+	for(texitr i=_textures.begin(); i!=_textures.end(); ++i) {
 		delete i->second;
 	}
-	_texcache._textures.clear();
+	_textures.clear();
 }

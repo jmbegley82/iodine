@@ -6,6 +6,22 @@
 #define PLATFORM_H
 
 #if defined __cplusplus
+
+#include <string>
+#include "TexCache.h"
+#include "GfxTypes.h"
+
+using std::string;
+
+class Platform {
+public:
+	Platform();
+	~Platform();
+	static Texture* LoadTexture(const string& path);
+	//Logger* _logger;
+	TexCache* _texcache;
+};
+
 extern "C" {
 #endif //__cplusplus
 
