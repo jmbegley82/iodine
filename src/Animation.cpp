@@ -10,7 +10,8 @@
 #include "CelString.h"
 #include "Sentence.h"
 #include "StringManip.h"
-#include "Platform.h"
+#include "System.h"
+#include "Filesystem.h"
 #include "GfxTypes.h"
 
 using std::string;
@@ -106,7 +107,7 @@ unsigned int Animation::GetCelCount() {
 
 bool Animation::LoadTexture(const string& path) {
 	// TODO: load the texture
-	Texture* tex = Platform::LoadTexture(path);
+	Texture* tex = System::LoadTexture(path);
 	if(tex) {
 		_texture = tex;
 		return true;

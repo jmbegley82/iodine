@@ -1,4 +1,4 @@
-/* Platform.c
+/* Filesystem.c
  *
  */
 
@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <SDL.h>
-#include "Platform.h"
+#include "Filesystem.h"
 
 #if defined DEBUGEXTRA
 #include "Logger.h"

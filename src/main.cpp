@@ -15,7 +15,7 @@
 #include "Var.h"
 #include "VarSet.h"
 #include "Types.h"
-#include "Platform.h"
+#include "Filesystem.h"
 #include "StringManip.h"
 #include "Introspector.h"
 #include "Sentence.h"
@@ -49,9 +49,9 @@ int main(int argc, char** argv) {
 #if defined DEBUGGEOMETRY
 	Geometry::Test();
 #endif //DEBUGGEOMETRY
-#if defined DEBUGPLATFORM
-	Platform_Test();
-#endif //DEBUGPLATFORM
+#if defined DEBUGFILESYSTEM
+	Filesystem_Test();
+#endif //DEBUGFILESYSTEM
 #if defined DEBUGCONTAINER
 	Container::Test();
 #endif //DEBUGCONTAINER

@@ -12,7 +12,7 @@ class Screen {
 public:
 	Screen();
 	~Screen();
-	static void CreateWindow();
+	void CreateWindow();
 private:
 	SDL_Window* window;
 	SDL_Surface* screenSurface;

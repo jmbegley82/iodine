@@ -144,7 +144,6 @@ Screen needs to be implemented before anything else graphical can be completed. 
 defer window creation until a function is called; this way Logger will definitely be started beforehand, which will make debug
 output availability more reliable.  It is currently done during construction and this needs to be changed.
 
-# Platform.h,c,cpp
-The Platform class will be our sole static class; this will hypothetically make the transition from a testing main executable
-to a library smoother, and keep the chain of initialization of different parts of the codebase easier to understand and
-debug.
+# System.h,cpp
+The System class will be our sole static class; this will hypothetically make the transition from a testing main executable to
+a library smoother, and keep the chain of initialization of different parts of the codebase easier to understand and debug.

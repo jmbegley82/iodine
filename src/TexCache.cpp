@@ -21,8 +21,6 @@ void UnloadAll();
 #include "Logger.h"
 #endif //DEBUGEXTRA
 
-//static TexCache _texcache;
-
 TexCache::TexCache() {
 #if defined DEBUGEXTRA
 	Log("TexCache:  initialized");
