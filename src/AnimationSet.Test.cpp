@@ -14,47 +14,14 @@
 
 int AnimationSet::Test() {
 	AnimationSet* aset = new AnimationSet();
-/*
-	Animation* anim = aset->GetAnimation("walkl");
-	anim->LoadTexture("terra/terra.png");
-	anim->SetDelayInMsec(100);
-	anim->AddCel(  0, 0, 64, 64);
-	anim->AddCel( 64, 0, 64, 64);
-	anim->AddCel(128, 0, 64, 64);
-	anim->AddCel(192, 0, 64, 64);
+	aset->LoadAnimation("walkl", "data/terra.walkl.anm");
+	aset->LoadAnimation("walkr", "data/terra.walkr.anm");
+	aset->LoadAnimation("explode", "data/explosion.anm");
 
-	anim = aset->GetAnimation("walkr");
-	anim->LoadTexture("terra/terra.png");
-	anim->SetDelayInMsec(100);
-	anim->AddCel(  0, 64, 64, 64);
-	anim->AddCel( 64, 64, 64, 64);
-	anim->AddCel(128, 64, 64, 64);
-	anim->AddCel(192, 64, 64, 64);
-
-	anim = aset->GetAnimation("explode");
-	anim->LoadTexture("fx/explosion1.png");
-	anim->SetDelayInMsec(60);
-	anim->AddCel(  0, 0, 128, 128);
-	anim->AddCel(128, 0, 128, 128);
-	anim->AddCel(256, 0, 128, 128);
-	anim->AddCel(384, 0, 128, 128);
-	anim->AddCel(512, 0, 128, 128);
-	anim->AddCel(640, 0, 128, 128);
-	anim->AddCel(768, 0, 128, 128);
-	anim->AddCel(896, 0, 128, 128);
-*/
-	// the next six lines are equivalent to the above commented section
-	Animation* anim = aset->GetAnimation("walkl");
-	anim->LoadScript("data/terra.walkl.anm");
-	anim = aset->GetAnimation("walkr");
-	anim->LoadScript("data/terra.walkr.anm");
-	anim = aset->GetAnimation("explode");
-	anim->LoadScript("data/explosion.anm");
-
-	int test1 = aset->GetAnimation("walkl")->GetCelCount();  //4
-	int test2 = aset->GetAnimation("walkr")->GetCel(3)->x;   //192
-	int test3 = aset->GetAnimation("explode")->GetCelCount();//8
-	int test4 = aset->GetAnimation("explode")->GetCel(7)->x; //896
+	int test1 = aset->FindAnimation("walkl")->GetCelCount();  //4
+	int test2 = aset->FindAnimation("walkr")->GetCel(3)->x;   //192
+	int test3 = aset->FindAnimation("explode")->GetCelCount();//8
+	int test4 = aset->FindAnimation("explode")->GetCel(7)->x; //896
 
 	assert(test1 == 4);
 	assert(test2 == 192);

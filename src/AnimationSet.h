@@ -19,9 +19,8 @@ class AnimationSet {
 public:
 	AnimationSet();						//!< AnimationSet ctor
 	~AnimationSet();					//!< AnimationSet dtor
-	void AddAnimation(const string& name, Animation* anim);	//!< Add new Animation with the given name
-	//Animation* CreateAnimation(const string& name);	//!< Deprecated
-	Animation* GetAnimation(const string& name);		//!< Get Animation by name (or NULL if not found)
+	Animation* LoadAnimation(const string& name, const string& path);
+	Animation* FindAnimation(const string& name);
 #if defined DEBUG
 	static int Test();					//!< Run tests
 #endif //DEBUG

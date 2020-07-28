@@ -9,39 +9,27 @@ AnimationSet::AnimationSet() {
 }
 
 AnimationSet::~AnimationSet() {
-	// TODO: free the texture
 	for(asetItr i=_anims.begin(); i!=_anims.end(); ++i) {
 		delete i->second;
 	}
 	_anims.clear();
 }
 
-void AnimationSet::AddAnimation(const string& name, Animation* anim) {
-	if(!GetAnimation(name)) {
-		_anims[name] = anim;
-	}
-}
-
-/*
-Animation* AnimationSet::CreateAnimation(const string& name) {
-	// like GetAnimation except one is created if it isn't found
-	Animation* retval = GetAnimation(name);
-	if(!name) {
+Animation* AnimationSet::LoadAnimation(const string& name, const string& path) {
+	Animation* retval = NULL;
+	if(!FindAnimation(name)) {
 		retval = new Animation();
+		retval->LoadScript(path);
 		_anims[name] = retval;
 	}
 	return retval;
 }
-*/
 
-Animation* AnimationSet::GetAnimation(const string& name) {
+Animation* AnimationSet::FindAnimation(const string& name) {
 	Animation* retval = NULL;
 	asetItr i = _anims.find(name);
-	//if(i != _anims.end()) retval = i->second;
 	if(i == _anims.end()) {
-		// not found -- make one, add it to _anims, give it to retval
-		retval = new Animation();
-		_anims[name] = retval;
+		// not found, don't do anything
 	} else {
 		// found it
 		retval = i->second;
