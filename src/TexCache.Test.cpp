@@ -20,6 +20,7 @@ int TexCache::Test() {
 	assert(test1 == test5);
 	assert(test4);
 	Log("TexCache::Test:  Passed!");
+	delete tex;
 	return 0;
 }
 

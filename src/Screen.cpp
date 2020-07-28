@@ -18,12 +18,7 @@ Screen::Screen() {
     screenSurface = NULL;
 
     //Initialize SDL
-    if( System::InitializeSDL() < 0 )
-    {
-	Log(string("Screen:  SDL_Init error:  ") + SDL_GetError());
-    } else {
-	CreateWindow();
-    }
+    CreateWindow();
 }
 
 Screen::~Screen() {

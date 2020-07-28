@@ -10,6 +10,11 @@ static System _system;
 
 System::System() {
 	Logger_init();
+#if defined DEBUG_NOVIDEO
+	SDL_Init(SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER);
+#else
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER);
+#endif //DEBUG_NOVIDEO
 	_texcache = new TexCache();
 	_screen = new Screen();
 }
@@ -17,6 +22,7 @@ System::System() {
 System::~System() {
 	delete _screen;
 	delete _texcache;
+	SDL_Quit();
 	Logger_finish();
 }
 
@@ -26,14 +32,4 @@ Texture* System::LoadTexture(const string& path) {
 
 void System::UnloadTextures() {
 	return _system._texcache->UnloadAll();
-}
-
-int System::InitializeSDL() {
-	int retval = -1;
-#if defined DEBUG_NOVIDEO
-	retval = SDL_Init(SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER);
-#else
-	retval = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER);
-#endif //DEBUG_NOVIDEO
-	return retval;
 }
