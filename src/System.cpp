@@ -33,3 +33,13 @@ Texture* System::LoadTexture(const string& path) {
 void System::UnloadTextures() {
 	return _system._texcache->UnloadAll();
 }
+
+void System::PollEvents() {
+	SDL_Event event;
+	while(SDL_PollEvent(&event)) {
+		switch(event.type) {
+		default:
+			break;
+		}
+	}
+}
