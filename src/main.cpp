@@ -82,6 +82,9 @@ int main(int argc, char** argv) {
 #if defined DEBUGTEXCACHE
 	TexCache::Test();
 #endif //DEBUGTEXCACHE
+#if !defined DEBUG_NOVIDEO
+	SleepMsec(3000); // leave that window up for a few seconds
+#endif //DEBUG_NOVIDEO
 #endif //DEBUG
 	Logger("that's about enough for today.");
 	//Logger_finish();

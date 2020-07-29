@@ -15,6 +15,7 @@ public:
 	void CreateWindow();
 private:
 	SDL_Window* window;
+	SDL_Renderer* renderer;
 	SDL_Surface* screenSurface;
 	int w;
 	int h;
