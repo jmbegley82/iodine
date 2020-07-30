@@ -13,6 +13,8 @@ public:
 	Screen();
 	~Screen();
 	void CreateWindow();
+	void CreateRenderer();
+	void UpdateWindow();
 private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;

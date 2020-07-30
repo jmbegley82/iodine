@@ -22,6 +22,8 @@ public:
 	static void PollEvents();
 	TexCache* _texcache;
 	Screen* _screen;
+//would be private if they could:
+	static void* PollIt(void* arg);
 };
 
 #endif //SYSTEM_H
