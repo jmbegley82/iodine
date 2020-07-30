@@ -19,11 +19,11 @@ public:
 	~System();
 	static Texture* LoadTexture(const string& path);
 	static void UnloadTextures();
-	static void PollEvents();
+	//static void PollEvents();
 	TexCache* _texcache;
 	Screen* _screen;
 //would be private if they could:
-	static void* PollIt(void* arg);
+	//static void* PollIt(void* arg);
 };
 
 #endif //SYSTEM_H
