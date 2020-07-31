@@ -17,6 +17,9 @@ class System {
 public:
 	System();
 	~System();
+	static void Start();
+	static void Stop();
+	static void Tick();
 	static Texture* LoadTexture(const string& path);
 	static void UnloadTextures();
 	//static void PollEvents();

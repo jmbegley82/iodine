@@ -23,12 +23,13 @@
 #include "AnimationSet.h"
 #include "CelString.h"
 #include "TexCache.h"
+#include "System.h"
 
 using std::string;
 
 int main(int argc, char** argv) {
 	Logger("main entered.");
-
+	System::Start();
 #if defined DEBUG
 #if defined DEBUGATOM
 	Atom::Test();
@@ -83,10 +84,16 @@ int main(int argc, char** argv) {
 	TexCache::Test();
 #endif //DEBUGTEXCACHE
 #if !defined DEBUG_NOVIDEO
-	SleepMsec(3000); // leave that window up for a few seconds
+	//SleepMsec(3000); // leave that window up for a few seconds
+	int targetTime = GetTimeInMsec() + 5000;
+	while(GetTimeInMsec() < targetTime) {
+		System::Tick();
+		SleepMsec(10);
+	}
 #endif //DEBUG_NOVIDEO
 #endif //DEBUG
 	Logger("that's about enough for today.");
+	System::Stop();
 	//Logger_finish();
 	return 0;
 }

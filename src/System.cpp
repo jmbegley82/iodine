@@ -43,14 +43,9 @@ System::System() {
 	//_timeToStop = false;
 	//pthread_mutex_unlock(&_eventMutex);
 	//pthread_create(&_eventThread, NULL, PollIt, NULL);
+	_texcache = NULL;
+	_screen = NULL;
 	Logger_init();
-#if defined DEBUG_NOVIDEO
-	SDL_Init(SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER);
-#else
-	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER);
-#endif //DEBUG_NOVIDEO
-	_texcache = new TexCache();
-	_screen = new Screen();
 }
 
 System::~System() {
@@ -58,11 +53,31 @@ System::~System() {
 	//_timeToStop = true;
 	//pthread_mutex_unlock(&_eventMutex);
 	//pthread_join(_eventThread, NULL);
-	delete _screen;
-	delete _texcache;
-	SDL_Quit();
 	Logger_finish();
 	//pthread_mutex_destroy(&_eventMutex);
+}
+
+void System::Start() {
+	if(_system._screen) return;
+#if defined DEBUG_NOVIDEO
+	SDL_Init(SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER);
+#else
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER);
+#endif //DEBUG_NOVIDEO
+	_system._texcache = new TexCache();
+	_system._screen = new Screen();
+}
+
+void System::Stop() {
+	if(!_system._screen) return;
+	delete _system._screen;
+	delete _system._texcache;
+	SDL_Quit();
+}
+
+void System::Tick() {
+	if(!_system._screen) return;
+	_system._screen->UpdateWindow();
 }
 
 Texture* System::LoadTexture(const string& path) {
