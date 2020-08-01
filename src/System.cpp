@@ -43,6 +43,7 @@ System::System() {
 	//_timeToStop = false;
 	//pthread_mutex_unlock(&_eventMutex);
 	//pthread_create(&_eventThread, NULL, PollIt, NULL);
+	_timeToQuit = false;
 	_texcache = NULL;
 	_screen = NULL;
 	Logger_init();
@@ -76,7 +77,8 @@ void System::Stop() {
 }
 
 void System::Tick() {
-	if(!_system._screen) return;
+	if(!_system._screen || _system._timeToQuit) return;
+	_system.PollEvents();
 	_system._screen->UpdateWindow();
 }
 
@@ -88,14 +90,28 @@ void System::UnloadTextures() {
 	return _system._texcache->UnloadAll();
 }
 
-/*
+bool System::TimeToQuit() {
+	return _system._timeToQuit;
+}
+
+bool System::WindowExists() {
+	return _system._screen->WindowExists();
+}
+
 void System::PollEvents() {
 	SDL_Event event;
 	while(SDL_PollEvent(&event)) {
 		switch(event.type) {
+		case SDL_QUIT:
+			_timeToQuit = true;
+			break;
+		case SDL_KEYDOWN:
+			if(event.key.keysym.sym == SDLK_RETURN)
+				_timeToQuit = true;
+			break;
 		default:
 			break;
 		}
 	}
 }
-*/
+

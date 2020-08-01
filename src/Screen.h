@@ -15,6 +15,7 @@ public:
 	void CreateWindow();
 	void CreateRenderer();
 	void UpdateWindow();
+	bool WindowExists();
 private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;

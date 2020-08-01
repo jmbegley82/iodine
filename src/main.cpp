@@ -84,9 +84,8 @@ int main(int argc, char** argv) {
 	TexCache::Test();
 #endif //DEBUGTEXCACHE
 #if !defined DEBUG_NOVIDEO
-	//SleepMsec(3000); // leave that window up for a few seconds
-	int targetTime = GetTimeInMsec() + 5000;
-	while(GetTimeInMsec() < targetTime) {
+	//int endtime = GetTimeInMsec() + 5000;
+	while(!System::TimeToQuit() && System::WindowExists() /*&& GetTimeInMsec() < endtime*/) {
 		System::Tick();
 		SleepMsec(10);
 	}

@@ -87,3 +87,8 @@ void Screen::UpdateWindow() {
 	//SDL_UpdateWindowSurface(window);
 #endif //DEBUG_NOVIDEO
 }
+
+bool Screen::WindowExists() {
+	if(window) return true;
+	return false;
+}
