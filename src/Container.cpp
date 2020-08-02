@@ -15,7 +15,7 @@
 Container::Container() {
 	_count = 0;
 	_countMax = OBJCHUNK;
-	_objects = static_cast<Atom**>(malloc(_countMax * sizeof _objects));
+	_objects = static_cast<Atom**>(malloc(_countMax * sizeof(Atom*) /*_objects*/));
 	for(int i=0; i<_countMax; i++) {
 		_objects[i] = NULL;
 	}

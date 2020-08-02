@@ -16,7 +16,7 @@ int Animation::Test() {
 	sprintf(msg, "Animation::Test:  GetCelCount=%d, GetDelayInMsec=%d", anim->GetCelCount(), anim->GetDelayInMsec());
 	Logger(msg);
 	unsigned int test1 = anim->GetCel(2)->x;
-	sprintf(msg, "Animation::Test:  test1=%d, which is hopefully 128", test1);
+	sprintf(msg, "Animation::Test:  test1=%d, which is hopefully 128", static_cast<int>(test1));
 	Logger(msg);
 	assert(test1 == 128);
 	assert(anim->GetCelCount() == 4);
