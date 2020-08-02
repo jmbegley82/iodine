@@ -139,6 +139,14 @@ Cels will generally be stored sequentially within a list/queue/etc. within Anima
 maps (by string) within their respective AnimationSets.  AnimationSets will be contained within a globally-accessible cache,
 possibly also within a map by string.  A Sprite class will be used in place of multiple instances of AnimationSet.
 
+# TexCache
+TexCache is where textures are loaded/stored.  It relies upon System::\_screen having successfully created a renderer object.
+This means that it must have created a window (unless there's some other way of creating an SDL\_Renderer I don't know about).
+Having the window randomly pop up and be unresponsive during most of the currently-coded (20200802) tests is pretty annoying
+and obviously not optimal.  A possible solution might be to rearrange the tests within main to group TexCache and Screen tests
+together, separate window creation in Screen into a separate function, make it accessible via System's static object, and make
+sure to create the window prior to tests involving TexCache or the creation of SDL\_Textures in general.
+
 # Screen
 Screen needs to be implemented before anything else graphical can be completed.  Screen will be a static object.  Screen should
 defer window creation until a function is called; this way Logger will definitely be started beforehand, which will make debug
