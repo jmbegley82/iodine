@@ -1,4 +1,4 @@
-texture=terra/terra.png
+texture=data/terra.png
 delay=100
 cel+=0,0,64,64
 cel+=64,0,64,64

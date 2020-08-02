@@ -24,6 +24,7 @@ public:
 	static void UnloadTextures();
 	static bool TimeToQuit();
 	static bool WindowExists();
+	static SDL_Renderer* GetRenderer();
 	void PollEvents();
 //would be private if they could:
 	//static void* PollIt(void* arg);

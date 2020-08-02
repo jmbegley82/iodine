@@ -33,7 +33,7 @@ Screen::~Screen() {
 	Log("Screen:  DEBUG_NOVIDEO specified; skipping SDL_DestroyWindow");
 #endif //DEBUG_NOVIDEO
 	//Quit SDL subsystems
-	SDL_Quit();
+	//SDL_Quit();
 }
 
 void Screen::CreateWindow() {
@@ -91,4 +91,8 @@ void Screen::UpdateWindow() {
 bool Screen::WindowExists() {
 	if(window) return true;
 	return false;
+}
+
+SDL_Renderer* Screen::GetRenderer() {
+	return renderer;
 }

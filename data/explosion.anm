@@ -1,4 +1,4 @@
-texture=explosion1.png
+texture=data/explosion1.png
 delay=60
 cel+=0,0,128,128
 cel+=128,0,128,128
