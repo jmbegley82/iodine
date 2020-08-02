@@ -30,7 +30,7 @@ using std::string;
  */
 class Sentence {
 public:
-	Sentence(const string& cmd);	//!< Sentence ctor and main function
+	explicit Sentence(const string& cmd);	//!< Sentence ctor and main function
 	string declarator = "";		//!< Potentially-misnamed often-unused first word of a full 4-section Sentence
 	string subject = "";			//!< Subject is the word to the left of the operator
 	string op = "";			//!< Op(erator) is the first of (= += -= *= /= ^=) from the left in the Sentence cmd

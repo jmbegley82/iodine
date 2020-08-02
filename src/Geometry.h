@@ -10,7 +10,7 @@
 class Geometry {
 public:
 	Geometry();
-	Geometry(coords val);
+	explicit Geometry(coords val);
 	void SetPosition(coords val);		//!< Set position manually
 	void SetPositionX(double val);		//!< Set X position manually
 	void SetPositionY(double val);		//!< Set Y position manually

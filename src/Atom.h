@@ -17,7 +17,7 @@ using std::string;
 class Atom : public Identity, public Motion, public Ticker, public Introspector {
 public:
 	Atom();					//!< Create a new Atom with a randomized identity.
-	Atom(const string& identity);		//!< Create a new Atom and specify its identity.
+	explicit Atom(const string& identity);		//!< Create a new Atom and specify its identity.
 	~Atom();				//!< Destruct the Atom.
 	void SetArbitraryIdentity() override;	//!< Override Identity:: so ours starts with 'atom' and not 'id'
 	int AtomCommand(const string& cmd);	//!< Attempts to consume cmd.  Let's just return CMD_ERROR for now.

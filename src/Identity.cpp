@@ -9,7 +9,7 @@
 using std::string;
 
 Identity::Identity() {
-	SetArbitraryIdentity();
+	this->SetArbitraryIdentity();
 }
 
 Identity::Identity(const string& identity) {

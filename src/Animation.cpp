@@ -18,6 +18,8 @@ using std::string;
 using std::ifstream;
 
 Animation::Animation() {
+    _texture = NULL;
+    _delayInMsec = 100;
 }
 
 Animation::~Animation() {

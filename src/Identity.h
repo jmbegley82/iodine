@@ -12,7 +12,7 @@ using std::string;
 class Identity {
 public:
 	Identity();					//!< Initialize with an arbitrarily-generated identity.
-	Identity(const string& identity);		//!< Initialize with a specified identity.
+	explicit Identity(const string& identity);		//!< Initialize with a specified identity.
 	string GetIdentity();				//!< Return the object's identity.
 	void SetIdentity(const string& identity);	//!< @brief Set the object's identity.
 							//!< @details Name collision checking not planned at this level.

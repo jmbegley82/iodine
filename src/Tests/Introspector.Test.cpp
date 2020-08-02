@@ -21,7 +21,6 @@ void isdetail(Introspector* is, string name) {
 }
 
 int Introspector::Test() {
-	int retval = 0;
 	int testInt = -65535;
 	double testDub = 3.14159;
 	Introspector* is = new Introspector();

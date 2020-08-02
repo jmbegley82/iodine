@@ -13,15 +13,15 @@ using std::string;
 class DoubleReference : public Reference {
 public:
 	DoubleReference();					//!< It's a ctor
-	DoubleReference(double* ref);				//!< Create Reference using given double's address
+	explicit DoubleReference(double* ref);				//!< Create Reference using given double's address
 	~DoubleReference();					//!< It's a dtor
 	void SetReference(double* ref);				//!< Set _ref to ref's address
-	virtual void SetValueByString(const string& val);	//!< Attempt to set _ref's value using a string
-	virtual void SetValueByInt(int val);			//!< Set _ref's value using an integer
-	virtual void SetValueByDouble(double val);		//!< Set _ref's value using a double
-	virtual string GetValueAsString();			//!< Get _ref's current value as a string
-	virtual int GetValueAsInt();				//!< Get _ref's current value as an integer
-	virtual double GetValueAsDouble();			//!< Get _ref's current value as a double
+	void SetValueByString(const string& val) override;	//!< Attempt to set _ref's value using a string
+	void SetValueByInt(int val) override;			//!< Set _ref's value using an integer
+	void SetValueByDouble(double val) override;		//!< Set _ref's value using a double
+	string GetValueAsString() override;			//!< Get _ref's current value as a string
+	int GetValueAsInt() override;				//!< Get _ref's current value as an integer
+	double GetValueAsDouble() override;			//!< Get _ref's current value as a double
 private:
 	double* _ref;
 };
