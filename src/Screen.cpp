@@ -89,7 +89,7 @@ void Screen::UpdateWindow() {
 }
 
 bool Screen::WindowExists() {
-	if(window) return true;
+	if(window && renderer) return true;
 	return false;
 }
 
