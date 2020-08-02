@@ -17,6 +17,7 @@ string RemovePadding(const string& text);	//!< Return string 'text' with leading
 string DeQuote(const string& text);		//!< Return string 'text' without quotation marks enclosing it if applicable
 bool ContainsNumericData(const string& val);	//!< Return true if 'val' contains only numbers, periods, and signs
 
+//old unused cruft from previous project:
 /*
 bool ValidateStrtod(const string& text);
 string GetString(int val);

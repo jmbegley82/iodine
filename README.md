@@ -59,7 +59,8 @@ There is currently no license, implied or otherwise, for anything in this repo. 
     - Pass all built-in tests
     - valgrind memcheck and helgrind should be as clean as possible
 
-# Current Tasks (as of 2020/07/19):
+# Current Tasks (as of 2020/08/02):
+- Comments are lacking in System, Screen and TexCache
 - Reduce number of valgrind complains on OpenBSD (back burner, may be due to libpthread?)
 - Container base class for objects which will contain multiple Atoms (needs more testing)
 - A class for the storage/retrieval of variables (needs more testing)
@@ -69,7 +70,7 @@ There is currently no license, implied or otherwise, for anything in this repo. 
     - There's the Atma method, which separated layers into distinct collections of objects, and had the advantages of easy
     implementation of a menu overlay on top of scrolling/repeating/tiled/different-resolution/etc. backgrounds
 - The dreaded collision detection/handling mechanisms
-- Classes/structs for single animation cels, collections of cels (animations), collections of animations (in progress)
+- Classes/structs for single animation cels, collections of cels (animations), collections of animations (needs testing)
 
 # Scripting language (name tbd)
 Future objects which will accept text commands should a) adhere to the existing examples and b) be detailed below.  VarSet
@@ -133,7 +134,6 @@ Class descriptions:
 - Cel:
   - unsigned int x, y //position of upper-left pixel of cel
   - unsigned int w, h //width and height of cel (lower-right pixel = (x+w,y+h))
-
 
 Cels will generally be stored sequentially within a list/queue/etc. within Animations.  Animations will generally be stored in
 maps (by string) within their respective AnimationSets.  AnimationSets will be contained within a globally-accessible cache,

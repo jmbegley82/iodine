@@ -13,7 +13,7 @@ using std::string;
 class IntReference : public Reference {
 public:
 	IntReference();						//!< It's a ctor
-	explicit IntReference(int* ref);					//!< Create Reference using address of ref
+	explicit IntReference(int* ref);			//!< Create Reference using address of ref
 	~IntReference();					//!< It's a dtor
 	void SetReference(int* ref);				//!< Set _ref to address of int ref
 	void SetValueByString(const string& val) override;	//!< Attempt to set value using a string
