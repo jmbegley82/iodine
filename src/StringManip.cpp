@@ -28,10 +28,10 @@ string RemovePadding(const string& text) {
 	string retval = "";
 	if(text != "") {
 		string::const_iterator i = text.begin();
-		while(i != text.end() && isspace(*i)) i++;
+		while(i != text.end() && isspace(*i)) ++i;
 		string::const_iterator j = text.end()-1;
-		while(j > i && isspace(*j)) j--;
-		j++;
+		while(j > i && isspace(*j)) --j;
+		++j;
 		retval = string(i, j);
 	}
 	return retval;
@@ -45,7 +45,7 @@ string DeQuote(const string& text) {
 		string::const_iterator i = text.begin();
 		string::const_iterator j = text.end() - 1;
 		if(*i == '\"' && *j == '\"') {
-			i++;
+			++i;
 			//j--;
 			retval = string(i, j);
 		}

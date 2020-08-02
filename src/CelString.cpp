@@ -22,21 +22,21 @@ CelString::CelString(const string& cmd) {
 		// X
 		string::const_iterator start = cmd.begin();
 		string::const_iterator end = cmd.begin()+1;
-		while(*end != ',') end++;
+		while(*end != ',') ++end;
 		string xstr = string(start,end);
 		x = std::stoi(xstr);
 		// Y
-		end++;
+		++end;
 		start = end;
-		while(*end != ',') end++;
+		while(*end != ',') ++end;
 		y = std::stoi(string(start,end));
 		// W
-		end++;
+		++end;
 		start = end;
-		while(*end != ',') end++;
+		while(*end != ',') ++end;
 		w = std::stoi(string(start,end));
 		// H
-		end++;
+		++end;
 		start = end;
 		h = std::stoi(string(start,cmd.end()));
 		isValid = true;

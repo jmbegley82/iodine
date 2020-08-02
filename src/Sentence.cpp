@@ -8,7 +8,7 @@
 #include "StringManip.h"
 
 Sentence::Sentence(string const& cmd) {
-	declarator = subject = op = target = "";
+	//declarator = subject = op = target = "";
 
 	string ncmd = cmd;
 	size_t pos = ncmd.find("=");
