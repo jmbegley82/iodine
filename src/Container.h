@@ -6,8 +6,10 @@
 #define CONTAINER_H
 
 #include <string>
+#include <utility>
 
 using std::string;
+using std::pair;
 
 template <class T>
 class Container {
@@ -25,17 +27,18 @@ public:
 	int MakeContiguous();				//!< Iterates through _objects and pushes non-null objects to front
 	int GetCount();					//!< Return current number of objects within _objects
 	int GetCountMax();				//!< Return current size of _objects
-#if defined DEBUG
-	static int Test();				//!< Run internal tests
-#endif //DEBUG
 private:
+	typedef pair<string,T*> namepair;
 	bool CheckNameCollision(const string& name);	//!< Return true if name is already present within _objects
 	void Add_unsafe(const string& name, T* obj);	//!< Add without all the safety checks
 	void Destroy_unsafe(unsigned int idx);		//!< Destroy without the safety checks
-	T** _objects;
-	string* _names;
+	namepair** _objects;
 	int _count;
 	int _countMax;
 };
+
+#if defined DEBUG
+int Container_Test();			//!< Run internal tests
+#endif //DEBUG
 
 #endif //CONTAINER_H
