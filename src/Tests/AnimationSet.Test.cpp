@@ -18,13 +18,13 @@ int AnimationSet::Test() {
 	aset->LoadAnimation("walkr", "data/terra.walkr.anm");
 	aset->LoadAnimation("explode", "data/explosion.anm");
 
-	int test1 = aset->FindAnimation("walkl")->GetCelCount();  //4
-	int test2 = aset->FindAnimation("walkr")->GetCel(3)->x;   //192
+	int test1 = aset->FindAnimation("walkl")->GetCelCount();  //1
+	int test2 = aset->FindAnimation("walkr")->GetCel(0)->w;   //432
 	int test3 = aset->FindAnimation("explode")->GetCelCount();//8
 	int test4 = aset->FindAnimation("explode")->GetCel(7)->x; //896
 
-	assert(test1 == 4);
-	assert(test2 == 192);
+	assert(test1 == 1);
+	assert(test2 == 432);
 	assert(test3 == 8);
 	assert(test4 == 896);
 

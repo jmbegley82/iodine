@@ -71,12 +71,6 @@ int main(int argc, char** argv) {
 #if defined DEBUGSENTENCE
 	Sentence::Test();
 #endif //DEBUGSENTENCE
-#if defined DEBUGANIMATION
-	Animation::Test();
-#endif //DEBUGANIMATION
-#if defined DEBUGANIMATIONSET
-	AnimationSet::Test();
-#endif //DEBUGANIMATIONSET
 #if defined DEBUGCELSTRING
 	CelString::Test();
 #endif //DEBUGCELSTRING
@@ -87,6 +81,12 @@ int main(int argc, char** argv) {
 #if defined DEBUGTEXCACHE
 	TexCache::Test();
 #endif //DEBUGTEXCACHE
+#if defined DEBUGANIMATION
+	Animation::Test();
+#endif //DEBUGANIMATION
+#if defined DEBUGANIMATIONSET
+	AnimationSet::Test();
+#endif //DEBUGANIMATIONSET
 	//int endtime = GetTimeInMsec() + 5000;
 	while(!System::TimeToQuit() && System::WindowExists() /*&& GetTimeInMsec() < endtime*/) {
 		System::Tick();
