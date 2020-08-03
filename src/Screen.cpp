@@ -18,10 +18,13 @@ Screen::Screen() {
 
 Screen::~Screen() {
 #if !defined DEBUG_NOVIDEO
+	/*
 	//Destroy window
 	if(renderer) SDL_DestroyRenderer(renderer);
 	if(window) SDL_DestroyWindow(window);
 	else Log("Screen:  window is not open");
+	*/
+	DestroyWindow();
 #else
 	Log("Screen:  DEBUG_NOVIDEO specified; skipping SDL_DestroyWindow");
 #endif //DEBUG_NOVIDEO
