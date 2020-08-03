@@ -98,6 +98,14 @@ bool System::WindowExists() {
 	return _system._screen->WindowExists();
 }
 
+bool System::CreateWindow() {
+	return _system._screen->CreateWindow();
+}
+
+bool System::DestroyWindow() {
+	return _system._screen->DestroyWindow();
+}
+
 SDL_Renderer* System::GetRenderer() {
 	if(!_system._screen) return NULL;
 	return _system._screen->GetRenderer();

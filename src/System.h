@@ -24,6 +24,8 @@ public:
 	static void UnloadTextures();
 	static bool TimeToQuit();
 	static bool WindowExists();
+	static bool CreateWindow();
+	static bool DestroyWindow();
 	static SDL_Renderer* GetRenderer();
 	void PollEvents();
 private:

@@ -17,10 +17,10 @@ Screen::Screen() {
 	renderer = NULL;
 
 	//The surface contained by the window
-	screenSurface = NULL;
+	//screenSurface = NULL;
 
 	//Initialize SDL
-	CreateWindow();
+	//CreateWindow();
 }
 
 Screen::~Screen() {
@@ -36,20 +36,31 @@ Screen::~Screen() {
 	//SDL_Quit();
 }
 
-void Screen::CreateWindow() {
+bool Screen::CreateWindow() {
+	if(window) return false;  // window already exists!
 	window = SDL_CreateWindow("Iodine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN);
 	if(!window) {
-		return;
+		return false;  // window could not be created!
 	}
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
 	if(!renderer) {
-		return;
+		return false;  // window useless without a renderer!
 	}
 	SDL_RendererInfo rinfo;
 	SDL_GetRendererInfo(renderer, &rinfo);
 	Log(string("Screen:  SDL_RendererInfo:  name=") + string(rinfo.name) + ", max_texture_width="
 			+ std::to_string(rinfo.max_texture_width));
 	UpdateWindow();
+	return true;
+}
+
+bool Screen::DestroyWindow() {
+	if(!window) return false;  // no window to destroy
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+	renderer = NULL;
+	window = NULL;
+	return true;  // window has ceased to be
 }
 
 /*

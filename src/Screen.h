@@ -12,15 +12,15 @@ class Screen {
 public:
 	Screen();
 	~Screen();
-	void CreateWindow();
-	void CreateRenderer();
+	bool CreateWindow();
+	bool DestroyWindow();
 	void UpdateWindow();
 	bool WindowExists();
 	SDL_Renderer* GetRenderer();
 private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	SDL_Surface* screenSurface;
+	//SDL_Surface* screenSurface;
 	int w;
 	int h;
 };

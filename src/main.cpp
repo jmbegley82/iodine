@@ -80,16 +80,22 @@ int main(int argc, char** argv) {
 #if defined DEBUGCELSTRING
 	CelString::Test();
 #endif //DEBUGCELSTRING
+
+#if !defined DEBUG_NOVIDEO
+#if defined DEBUGSYSTEM
+	System::CreateWindow();
 #if defined DEBUGTEXCACHE
 	TexCache::Test();
 #endif //DEBUGTEXCACHE
-#if !defined DEBUG_NOVIDEO
 	//int endtime = GetTimeInMsec() + 5000;
 	while(!System::TimeToQuit() && System::WindowExists() /*&& GetTimeInMsec() < endtime*/) {
 		System::Tick();
 		SleepMsec(10);
 	}
+	System::DestroyWindow();
+#endif //DEBUGSYSTEM
 #endif //DEBUG_NOVIDEO
+
 #endif //DEBUG
 	Logger("that's about enough for today.");
 	System::Stop();
