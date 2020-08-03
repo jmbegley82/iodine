@@ -4,7 +4,6 @@
 
 #include <string>
 #include "Container.h"
-#include "Atom.h"
 
 #if defined DEBUGEXTRA
 #include "Logger.h"
@@ -12,108 +11,133 @@
 
 #define OBJCHUNK 2
 
-Container::Container() {
+template <class T>
+Container<T>::Container() {
 	_count = 0;
 	_countMax = OBJCHUNK;
-	_objects = static_cast<Atom**>(malloc(_countMax * sizeof(Atom*) /*_objects*/));
+	_objects = static_cast<T**>(malloc(_countMax * sizeof(T*)));
+	_names = static_cast<string*>(malloc(_countMax * sizeof(string)));
 	for(int i=0; i<_countMax; i++) {
 		_objects[i] = NULL;
+		_names[i] = NULL;
 	}
 }
 
-Container::~Container() {
-	DestroyAllAtoms();
+template <class T>
+Container<T>::~Container() {
+	DestroyAll();
 	free(_objects);
+	free(_names);
 }
 
-void Container::AddAtom(Atom* atom) {
-	if(CheckNameCollision(atom)) atom->SetArbitraryIdentity();
-	AddAtom_unsafe(atom);
+template <class T>
+void Container<T>::Add(const string& name, T* obj) {
+	if(CheckNameCollision(name)) {
+		Destroy(obj);
+	}
+	Add_unsafe(name, obj);
 }
 
+/*
 bool Container::AddAtomAndDontRename(Atom* atom) {
 	if(CheckNameCollision(atom)) return false;
 	AddAtom_unsafe(atom);
 	return true;
 }
+*/
 
-Atom* Container::GetAtomByIndex(unsigned int idx) {
+template <class T>
+T* Container<T>::GetByIndex(unsigned int idx) {
 	//TODO:  make this remotely safe or mark it unsafe
-	Atom* retval = NULL;
+	T* retval = NULL;
 	if(idx < _count) retval = _objects[idx];
 	return retval;
 }
 
-bool Container::DestroyAtom(Atom* atom) {
+template <class T>
+bool Container<T>::Destroy(T* obj) {
 	bool retval = false;
 	for(unsigned int i=0; i<_count && !retval; i++) {
-		if(_objects[i] == atom) {
-			DestroyAtom_unsafe(i);
+		if(_objects[i] == obj) {
+			Destroy_unsafe(i);
 			retval = true;
 		}
 	}
 	return retval;
 }
 
-bool Container::DestroyAtomByName(string const& name) {
+template <class T>
+bool Container<T>::DestroyByName(const string& name) {
 	bool retval = false;
 	for(unsigned int i=0; i<_count && !retval; i++) {
-		if(name == _objects[i]->GetIdentity()) {
-			DestroyAtom_unsafe(i);
+		if(name == _names[i]) {
+			Destroy_unsafe(i);
 			retval = true;
 		}
 	}
 	return retval;
 }
 
-int Container::DestroyAllAtoms() {
+template <class T>
+int Container<T>::DestroyAll() {
 	for(int i=0; i<_count; i++) {
 		delete _objects[i];
+		delete _names[i];
 		_objects[i] = NULL;
+		_names[i] = NULL;
 	}
 	_count = 0;
 	return 0;
 }
 
-int Container::Shrink() {
+template <class T>
+int Container<T>::Shrink() {
 #if defined DEBUGEXTRA
 	Logger("Container::Shrink()");
 #endif //DEBUGEXTRA
 	//for now assume contiguous; also this shares a lot of code with Grow...
 	int newcountmax = _count;  // the next addition will induce a Grow()
 	//if(newcountmax < _count) return _countMax;
-	Atom** newbuf = static_cast<Atom**>(malloc(newcountmax * sizeof(Atom*)));
+	T** newobjs = static_cast<T**>(malloc(newcountmax * sizeof(T*)));
+	string* newnames = static_cast<string*>(malloc(newcountmax * sizeof(string)));
 	for(int i=0; i<_count; i++) {
-		newbuf[i] = _objects[i];
+		newobjs[i] = _objects[i];
+		newnames[i] = _names[i];
 	}
-/*	for(int j=_count; j<newcountmax; j++) {
-		newbuf[j] = NULL;
-	}*/
 	free(_objects);
-	_objects = newbuf;
+	free(_names);
+	_objects = newobjs;
+	_names = newnames;
 	_countMax = newcountmax;
 	return _countMax;
 }
 
-int Container::Grow() {
+template <class T>
+int Container<T>::Grow() {
 #if defined DEBUGEXTRA
 	Logger("Container::Grow()");
 #endif //DEBUGEXTRA
 	int newcountmax = _countMax + OBJCHUNK;
-	Atom** newbuf = static_cast<Atom**>(malloc(newcountmax * sizeof(Atom*)));
+	T** newobjs = static_cast<T**>(malloc(newcountmax * sizeof(T*)));
+	string* newnames = static_cast<string*>(malloc(newcountmax * sizeof(string)));
 	for(int i=0; i<_countMax; i++) {
-		newbuf[i] = _objects[i];
+		newobjs[i] = _objects[i];
+		newnames[i] = _names[i];
 	}
 	for(int j=_countMax; j<newcountmax; j++) {
-		newbuf[j] = NULL;
+		newobjs[j] = NULL;
+		newnames[j] = "";
 	}
 	free(_objects);  // and hope like hell it doesn't delete _objects[*]
-	_objects = newbuf;
+	free(_names);
+	_objects = newobjs;
+	_names = newnames;
 	_countMax = newcountmax;
 	return _countMax;
 }
 
-int Container::MakeContiguous() {
+template <class T>
+int Container<T>::MakeContiguous() {
 #if defined DEBUGEXTRA
 	Logger("Container::MakeContiguous()");
 #endif //DEBUGEXTRA
@@ -122,42 +146,51 @@ int Container::MakeContiguous() {
 	for(int i=0; i<_countMax; i++) {
 		if(_objects[i] != NULL) {
 			_objects[retval] = _objects[i];
+			_names[retval] = _names[i];
 			retval++;
 		}
 	}
 	// zero out everything after the last valid entry
 	for(int j=retval; j<_countMax; j++) {
 		_objects[j] = NULL;
+		_names[j] = NULL;
 	}
 	_count = retval;
 	return retval;
 }
 
-int Container::GetCount() {
+template <class T>
+int Container<T>::GetCount() {
 	return _count;
 }
 
-int Container::GetCountMax() {
+template <class T>
+int Container<T>::GetCountMax() {
 	return _countMax;
 }
 
-bool Container::CheckNameCollision(Atom* atom) {
+template <class T>
+bool Container<T>::CheckNameCollision(const string& name) {
 	bool retval = false;
-	string id = atom->GetIdentity();
 	for(int i=0; i<_count && !retval; i++) {
-		if(_objects[i]->GetIdentity() == id) retval = true;
+		if(_names[i] == name) retval = true;
 	}
 	return retval;
 }
 
-void Container::AddAtom_unsafe(Atom* atom) {
+template <class T>
+void Container<T>::Add_unsafe(const string& name, T* obj) {
 	if(_count >= _countMax) Grow();
-	_objects[_count] = atom;
+	_objects[_count] = obj;
+	_names[_count] = name;
 	_count++;
 }
 
-void Container::DestroyAtom_unsafe(unsigned int idx) {
+template <class T>
+void Container<T>::Destroy_unsafe(unsigned int idx) {
 	delete _objects[idx];
+	delete _names[idx];
 	_objects[idx] = NULL;
+	_names[idx] = NULL;
 	MakeContiguous();
 }

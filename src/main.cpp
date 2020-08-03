@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
 	Filesystem_Test();
 #endif //DEBUGFILESYSTEM
 #if defined DEBUGCONTAINER
-	Container::Test();
+	//Container::Test();
 #endif //DEBUGCONTAINER
 #if defined DEBUGVAR
 	Var::Test();
