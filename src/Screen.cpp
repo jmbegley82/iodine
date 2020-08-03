@@ -104,6 +104,6 @@ bool Screen::WindowExists() {
 	return false;
 }
 
-SDL_Renderer* Screen::GetRenderer() {
+Renderer* Screen::GetRenderer() {
 	return renderer;
 }

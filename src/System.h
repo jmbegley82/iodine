@@ -26,7 +26,7 @@ public:
 	static bool WindowExists();
 	static bool CreateWindow();
 	static bool DestroyWindow();
-	static SDL_Renderer* GetRenderer();
+	static Renderer* GetRenderer();
 	void PollEvents();
 private:
 	TexCache* _texcache;

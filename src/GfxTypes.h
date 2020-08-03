@@ -9,6 +9,8 @@
 //typedef double Texture;
 
 #include <SDL_render.h>
+typedef SDL_Window Window;
+typedef SDL_Renderer Renderer;
 typedef SDL_Texture Texture;
 
 #endif //GFXTYPES_H

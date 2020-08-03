@@ -106,7 +106,7 @@ bool System::DestroyWindow() {
 	return _system._screen->DestroyWindow();
 }
 
-SDL_Renderer* System::GetRenderer() {
+Renderer* System::GetRenderer() {
 	if(!_system._screen) return NULL;
 	return _system._screen->GetRenderer();
 }

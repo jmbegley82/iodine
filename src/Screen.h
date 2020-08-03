@@ -5,7 +5,6 @@
 #if !defined SCREEN_H
 #define SCREEN_H
 
-#include <SDL.h>
 #include "GfxTypes.h"
 
 class Screen {
@@ -16,10 +15,10 @@ public:
 	bool DestroyWindow();
 	void UpdateWindow();
 	bool WindowExists();
-	SDL_Renderer* GetRenderer();
+	Renderer* GetRenderer();
 private:
-	SDL_Window* window;
-	SDL_Renderer* renderer;
+	Window* window;
+	Renderer* renderer;
 	//SDL_Surface* screenSurface;
 	int w;
 	int h;
