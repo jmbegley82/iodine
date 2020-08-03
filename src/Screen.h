@@ -19,7 +19,6 @@ public:
 private:
 	Window* window;
 	Renderer* renderer;
-	//SDL_Surface* screenSurface;
 	int w;
 	int h;
 };
