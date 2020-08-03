@@ -5,7 +5,6 @@
 #include <cassert>
 #include "Screen.h"
 #include "GfxTypes.h"
-#include "System.h"
 #include "Logger.h"
 
 using std::string;
@@ -18,15 +17,9 @@ Screen::Screen() {
 
 Screen::~Screen() {
 #if !defined DEBUG_NOVIDEO
-	/*
-	//Destroy window
-	if(renderer) SDL_DestroyRenderer(renderer);
-	if(window) SDL_DestroyWindow(window);
-	else Log("Screen:  window is not open");
-	*/
 	DestroyWindow();
 #else
-	Log("Screen:  DEBUG_NOVIDEO specified; skipping SDL_DestroyWindow");
+	Log("Screen:  DEBUG_NOVIDEO specified; skipping DestroyWindow");
 #endif //DEBUG_NOVIDEO
 }
 
@@ -37,7 +30,8 @@ bool Screen::CreateWindow() {
 	if(!window) {
 		return false;  // window could not be created!
 	}
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
+	renderer = SDL_CreateRenderer(window, -1,
+			SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
 	if(!renderer) {
 		return false;  // window useless without a renderer!
 	}
@@ -65,10 +59,15 @@ void Screen::UpdateWindow() {
 #if !defined DEBUG_NOVIDEO
 	if(!window || !renderer) {
 		Log("Screen:  UpdateWindow:  No window or renderer available!");
+		return;
 	}
+	// set target and screen clearing color
 	SDL_SetRenderTarget(renderer, NULL);
 	SDL_SetRenderDrawColor(renderer, 255,0,255,255);
+	// wipe the screen
 	SDL_RenderClear(renderer);
+	// iterate through _drawlist
+	// draw everything we just did
 	SDL_RenderPresent(renderer);
 #endif //DEBUG_NOVIDEO
 }
