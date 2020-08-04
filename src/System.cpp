@@ -42,6 +42,17 @@ void System::Stop() {
 void System::Tick() {
 	if(!_system._screen || _system._timeToQuit) return;
 	_system.PollEvents();
+	// for this to work we need:
+	// std::list or similar for System::_atoms (and typedef ::iterator atmsetitr)
+	// Atom needs functions GetTexture, GetDrawSrcRect, and GetDrawDstRect
+	/*
+	for(atmsetitr i = _system._atoms.begin(); i != _system._atoms.end(); ++i) {
+		i->second->Tick();
+	}
+	for(atmsetitr i = _system._atoms.begin(); i != _system._atoms.end(); ++i) {
+		_system._screen->AddToDrawlist(i->second->GetTexture(), i->second->GetDrawSrcRect(), i->second->GetDrawDstRect());
+	}
+	*/
 	_system._screen->UpdateWindow();
 }
 

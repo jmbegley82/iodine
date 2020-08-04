@@ -9,12 +9,12 @@
 extern "C" {
 #endif //__cplusplus
 
-struct _coords {
+typedef struct {
 	double x;		//<! X coordinate
 	double y;		//<! Y coordinate
-};
+} coords;
 
-typedef struct _coords coords;	//<! A pair of doubles, useful for describing coordinates
+//typedef struct _coords coords;	//<! A pair of doubles, useful for describing coordinates
 
 #if defined __cplusplus
 }

@@ -7,22 +7,23 @@
 
 #include "GfxTypes.h"
 
-#define MAX_DLIST_SIZE 2048
+#define MAX_DLIST_SIZE 1024
 
 typedef struct {
 	Texture* tex;
-	unsigned int x;
-	unsigned int y;
-	unsigned int w;
-	unsigned int h;
+	SrcRect src;
+	DstRect dst;
 } dlistEntry;
 
 class Drawlist {
 public:
 	Drawlist();
 	~Drawlist();
-	void Add(Texture* tex, unsigned int x, unsigned int y, unsigned int w, unsigned int h);
-	void Process(Renderer* renderer);
+	bool Add(Texture* tex, SrcRect* src, DstRect* dst);
+	void Clear();
+	void Reset();
+	unsigned int GetCount();
+	dlistEntry* GetEntries();
 private:
 	unsigned int _count;
 	dlistEntry _entries[MAX_DLIST_SIZE];

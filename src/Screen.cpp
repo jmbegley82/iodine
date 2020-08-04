@@ -11,8 +11,8 @@ using std::string;
 
 Screen::Screen() {
 	w = h = 400;
-	window = NULL;
-	renderer = NULL;
+	_window = NULL;
+	_renderer = NULL;
 }
 
 Screen::~Screen() {
@@ -25,18 +25,18 @@ Screen::~Screen() {
 
 bool Screen::CreateWindow() {
 #if !defined DEBUG_NOVIDEO
-	if(window) return false;  // window already exists!
-	window = SDL_CreateWindow("Iodine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN);
-	if(!window) {
-		return false;  // window could not be created!
+	if(_window) return false;  // _window already exists!
+	_window = SDL_CreateWindow("Iodine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN);
+	if(!_window) {
+		return false;  // _window could not be created!
 	}
-	renderer = SDL_CreateRenderer(window, -1,
+	_renderer = SDL_CreateRenderer(_window, -1,
 			SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
-	if(!renderer) {
-		return false;  // window useless without a renderer!
+	if(!_renderer) {
+		return false;  // _window useless without a _renderer!
 	}
 	SDL_RendererInfo rinfo;
-	SDL_GetRendererInfo(renderer, &rinfo);
+	SDL_GetRendererInfo(_renderer, &rinfo);
 	Log(string("Screen:  SDL_RendererInfo:  name=") + string(rinfo.name) + ", max_texture_width="
 			+ std::to_string(rinfo.max_texture_width));
 	UpdateWindow();
@@ -46,39 +46,47 @@ bool Screen::CreateWindow() {
 
 bool Screen::DestroyWindow() {
 #if !defined DEBUG_NOVIDEO
-	if(!window) return false;  // no window to destroy
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	renderer = NULL;
-	window = NULL;
+	if(!_window) return false;  // no _window to destroy
+	SDL_DestroyRenderer(_renderer);
+	SDL_DestroyWindow(_window);
+	_renderer = NULL;
+	_window = NULL;
 #endif //DEBUG_NOVIDEO
-	return true;  // window has ceased to be
+	return true;  // _window has ceased to be
 }
 
 void Screen::UpdateWindow() {
 #if !defined DEBUG_NOVIDEO
-	if(!window || !renderer) {
-		Log("Screen:  UpdateWindow:  No window or renderer available!");
+	if(!_window || !_renderer) {
+		Log("Screen:  UpdateWindow:  No _window or _renderer available!");
 		return;
 	}
 	// set target and screen clearing color
-	SDL_SetRenderTarget(renderer, NULL);
-	SDL_SetRenderDrawColor(renderer, 255,0,255,255);
+	SDL_SetRenderTarget(_renderer, NULL);
+	SDL_SetRenderDrawColor(_renderer, 255,0,255,255);
 	// wipe the screen
-	SDL_RenderClear(renderer);
+	SDL_RenderClear(_renderer);
 	// iterate through _drawlist
+	dlistEntry* entries = _drawlist.GetEntries();
+	for(int i=0; i<_drawlist.GetCount(); ++i) {
+		SDL_RenderCopy(_renderer, entries[i].tex, &entries[i].src, &entries[i].dst);
+	}
 	// draw everything we just did
-	SDL_RenderPresent(renderer);
+	SDL_RenderPresent(_renderer);
 #endif //DEBUG_NOVIDEO
+}
+
+bool Screen::AddToDrawlist(Texture* tex, SrcRect* src, DstRect* dst) {
+	return _drawlist.Add(tex, src, dst);
 }
 
 bool Screen::WindowExists() {
 #if !defined DEBUG_NOVIDEO
-	if(window && renderer) return true;
+	if(_window && _renderer) return true;
 #endif //DEBUG_NOVIDEO
 	return false;
 }
 
 Renderer* Screen::GetRenderer() {
-	return renderer;
+	return _renderer;
 }

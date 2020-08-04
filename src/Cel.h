@@ -9,14 +9,12 @@
 extern "C" {
 #endif //__cplusplus
 
-struct _Cel {
+typedef struct {
 	unsigned int x;		//!< X position of top-left corner of cel
 	unsigned int y;		//!< Y position of top-left corner of cel
 	unsigned int w;		//!< Width of cel
 	unsigned int h;		//!< Height of cel
-};
-
-typedef struct _Cel Cel;
+} Cel;
 
 #if defined __cplusplus
 }
