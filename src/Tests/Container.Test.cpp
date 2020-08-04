@@ -57,6 +57,12 @@ int Container_Test() {
 	//end section
 	Logger("Container::Test:  attempting to DestroyAllAtoms()...");
 	tester.DestroyAll();
+	delete a;
+	delete b;
+	delete c;
+	delete d;
+	delete e;
+	delete f;
 	Logger("Container::Test:  success (presumed since this line printed)!");
 	return 0;
 }
