@@ -4,6 +4,7 @@
 
 #include <string>
 #include "Container.h"
+#include "Atom.h"
 
 #if defined DEBUGEXTRA
 #include "Logger.h"
@@ -12,6 +13,7 @@
 #define OBJCHUNK 2
 
 template class Container<int>;
+template class Container<Atom>;
 
 template <class T>
 Container<T>::Container() {
@@ -167,6 +169,7 @@ bool Container<T>::CheckNameCollision(const string& name) {
 template <class T>
 void Container<T>::Add_unsafe(const string& name, T* obj) {
 	if(_count >= _countMax) Grow();
+	_objects[_count] = new namepair;
 	_objects[_count]->first = name;
 	_objects[_count]->second = obj;
 	_count++;
