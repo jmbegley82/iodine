@@ -27,7 +27,8 @@ public:
 	unsigned int GetDelayInMsec();			//!< Get delay between frames
 	Cel* GetCel(unsigned int idx);			//!< Get Cel by index (or NULL if out of bounds)
 	unsigned int GetCelCount();			//!< Get current number of Cels
-	bool LoadTexture(const string& path);		//!< Set this Animation's spritesheet texture (NI)
+	bool LoadTexture(const string& path);		//!< Set this Animation's spritesheet texture
+	Texture* GetTexture();				//!< Get this Animation's spritesheet texture
 	int LoadScript(const string& path);		//!< Open text file and pass its lines to AnmCommand
 #if defined DEBUG
 	static int Test();				//!< Run tests

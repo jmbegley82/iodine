@@ -117,6 +117,10 @@ bool Animation::LoadTexture(const string& path) {
 	return false;
 }
 
+Texture* Animation::GetTexture() {
+	return _texture;
+}
+
 int Animation::LoadScript(const string& path) {
 	/* Example script:
 	 * ---

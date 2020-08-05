@@ -45,14 +45,18 @@ void System::Tick() {
 	// for this to work we need:
 	// std::list or similar for System::_atoms (and typedef ::iterator atmsetitr)
 	// Atom needs functions GetTexture, GetDrawSrcRect, and GetDrawDstRect
-	/*
+
 	for(atmsetitr i = _system._atoms.begin(); i != _system._atoms.end(); ++i) {
 		i->second->Tick();
 	}
 	for(atmsetitr i = _system._atoms.begin(); i != _system._atoms.end(); ++i) {
-		_system._screen->AddToDrawlist(i->second->GetTexture(), i->second->GetDrawSrcRect(), i->second->GetDrawDstRect());
+		SrcRect src;
+		DstRect dst;
+		i->second->GetDrawSrcRect(&src);
+		i->second->GetDrawDstRect(&dst);
+		_system._screen->AddToDrawlist(i->second->GetTexture(), &src, &dst);
 	}
-	*/
+
 	_system._screen->UpdateWindow();
 }
 
