@@ -34,8 +34,8 @@ int Animation::AnmCommand(const string& cmd) {
 	/* valid syntax:
 	 * texture=Data/whatnot.png
 	 * delay = 60
-	 * cel = 0,0,64,64
-	 * cel += 64,0,64,64
+	 * cel = 0,0,64,64,32,32
+	 * cel += 64,0,64,64,32,32
 	 */
 
 	// declarator presence indicates an error condition here
@@ -52,7 +52,7 @@ int Animation::AnmCommand(const string& cmd) {
 		// op should be +=
 		CelString cs(st.target);
 		if(st.op == "+=" && cs.isValid) {
-			AddCel(cs.x, cs.y, cs.w, cs.h);
+			AddCel(cs.x, cs.y, cs.w, cs.h, cs.cx, cs.cy);
 			return 0;
 		}
 	} else if (st.subject == "delay") {
@@ -82,12 +82,15 @@ void Animation::SetDelayInMsec(unsigned int ms) {
 	_delayInMsec = ms;
 }
 
-void Animation::AddCel(unsigned int x, unsigned int y, unsigned int w, unsigned int h) {
+void Animation::AddCel(unsigned int x, unsigned int y, unsigned int w, unsigned int h,
+						unsigned int cx, unsigned int cy) {
 	Cel* cel = new Cel();
 	cel->x = x;
 	cel->y = y;
 	cel->w = w;
 	cel->h = h;
+	cel->cx = cx;
+	cel->cy = cy;
 	_cels.push_back(cel);
 }
 
@@ -126,10 +129,10 @@ int Animation::LoadScript(const string& path) {
 	 * ---
 	 *  texture=data/terra/terra.png
 	 *  delay=60
-	 *  cel+=0,0,64,64
-	 *  cel+=64,0,64,64
-	 *  cel+=128,0,64,64
-	 *  cel+=196,0,64,64
+	 *  cel+=0,0,64,64,32,32
+	 *  cel+=64,0,64,64,32,32
+	 *  cel+=128,0,64,64,32,32
+	 *  cel+=196,0,64,64,32,32
 	 * ---
 	 * First line is .png file of texture
 	 * Second line is _delayInMsec

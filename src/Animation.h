@@ -22,8 +22,8 @@ public:
 	~Animation();					//!< Animation dtor
 	int AnmCommand(const string& cmd);		//!< Process text-strings relevant to this object
 	void SetDelayInMsec(unsigned int ms);		//!< Set delay between frames
-	void AddCel(unsigned int x, unsigned int y,
-			unsigned int w, unsigned int h);//!< Create a new Cel with given parameters
+	void AddCel(unsigned int x, unsigned int y, unsigned int w, unsigned int h,
+				unsigned int cx, unsigned int cy);//!< Create a new Cel with given parameters
 	unsigned int GetDelayInMsec();			//!< Get delay between frames
 	Cel* GetCel(unsigned int idx);			//!< Get Cel by index (or NULL if out of bounds)
 	unsigned int GetCelCount();			//!< Get current number of Cels

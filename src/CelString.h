@@ -18,6 +18,8 @@ public:
 	unsigned int y;						//!< Y position of upper left corner of Cel in spritesheet
 	unsigned int w;						//!< Width of Cel
 	unsigned int h;						//!< Height of Cel
+	unsigned int cx;					//!< Distance from X to center of Cel
+	unsigned int cy;					//!< Distance from Y to center of Cel
 #if defined DEBUG
 	static int Test();					//!< Run tests
 #endif //DEBUG

@@ -38,5 +38,5 @@ doc
 build
 dump
 *.out.*
-*.swp
+*swp
 tags

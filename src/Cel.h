@@ -14,6 +14,8 @@ typedef struct {
 	unsigned int y;		//!< Y position of top-left corner of cel
 	unsigned int w;		//!< Width of cel
 	unsigned int h;		//!< Height of cel
+	unsigned int cx;	//!< Distance from X to center of cel
+	unsigned int cy;	//!< Distance from X to center of cel
 } Cel;
 
 #if defined __cplusplus

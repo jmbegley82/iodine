@@ -8,14 +8,14 @@
 /*
 CelString(const string& cmd);
 bool isValid;
-unsigned int x, y, w, h;
+unsigned int x, y, w, h, cx, cy;
  */
 
 using std::string;
 
 CelString::CelString(const string& cmd) {
-	// format:  123,456,789,10
-	// spaces are not tolerated
+	// format:  123,456,789,10,11,12
+	// spaces are not currently tolerated
 	// characters that aren't in the above format string aren't allowed
 	if(IsValidCelString(cmd)) {
 		// certified to contain four numbers separated by three commas
@@ -38,11 +38,22 @@ CelString::CelString(const string& cmd) {
 		// H
 		++end;
 		start = end;
-		h = std::stoi(string(start,cmd.end()));
+		while(*end != ',') ++end;
+		h = std::stoi(string(start,end));
+		// CX
+		++end;
+		start = end;
+		while(*end != ',') ++end;
+		cx = std::stoi(string(start,end));
+		// CY
+		++end;
+		start = end;
+		//while(*end != ',') ++end;
+		cy = std::stoi(string(start,cmd.end()));
 		isValid = true;
 	} else {
 		isValid = false;
-		x = y = w = h = 0;
+		x = y = w = h = cx = cy = 0;
 	}
 }
 
@@ -64,6 +75,6 @@ bool CelString::IsValidCelString(const string& cmd) {
 			commaCount++;
 		} else return false;  // anything that isn't a comma or number is bunk
 	}
-	if(commaCount != 3) return false;
+	if(commaCount != 5) return false;
 	return true;
 }
