@@ -32,16 +32,16 @@ void Sprite::GetDrawSrcRect(SrcRect* src) {
 	src->h = 394;
 }
 
-/*
- * now in Geometry
 void Sprite::GetDrawDstRect(DstRect* dst) {
 	// set contents of dst to a rectangle around where this will be drawn on the screen
+	/*
 	dst->x = static_cast<int>(_position.x - _center.x);
 	dst->y = static_cast<int>(_position.y - _center.y);
 	dst->w = static_cast<int>(_size.w);
 	dst->h = static_cast<int>(_size.h);
+	*/
+	///////////dst->x = static_cast<int>(_position.x - _currentAnim->GetCel(_currentCel)->
 }
-*/
 
 bool Sprite::SetAnimationSet(const string& name) {
 	AnimationSet* aset = System::GetAnimationSet(name);
