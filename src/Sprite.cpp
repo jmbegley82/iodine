@@ -26,11 +26,10 @@ Texture* Sprite::GetTexture() {
 void Sprite::GetDrawSrcRect(SrcRect* src) {
 	// set contents of src to a rectangle around our current Animation's current Cel
 	// alternatively, set it to something that won't cause a crash if executed
-	// here have some hardcoded data:
-	src->x = 0;
-	src->y = 0;
-	src->w = 432;
-	src->h = 394;
+	src->x = _currentAnim->GetCel(_currentCel)->x;
+	src->y = _currentAnim->GetCel(_currentCel)->y;
+	src->w = _currentAnim->GetCel(_currentCel)->w;
+	src->h = _currentAnim->GetCel(_currentCel)->h;
 }
 
 void Sprite::GetDrawDstRect(DstRect* dst) {
