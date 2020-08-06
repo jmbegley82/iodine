@@ -10,6 +10,9 @@
 #include "TexCache.h"
 #include "GfxTypes.h"
 #include "Filesystem.h"
+#include "Container.h"
+#include "Sprite.h"
+#include "AnimationSet.h"
 
 using std::string;
 
@@ -27,10 +30,18 @@ public:
 	static bool CreateWindow();
 	static bool DestroyWindow();
 	static Renderer* GetRenderer();
+	static int Command(const string& cmd);
+	static AnimationSet* GetAnimationSet(const string& name);
 	void PollEvents();
 private:
+	int _Command(const string& cmd);
+#if defined DEBUG
+	void _Test();
+#endif //DEBUG
 	TexCache* _texcache;
 	Screen* _screen;
+	Container<Sprite> _sprites;
+	Container<AnimationSet> _animsets;
 	bool _timeToQuit;
 };
 

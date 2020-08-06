@@ -88,6 +88,7 @@ int main(int argc, char** argv) {
 	AnimationSet::Test();
 #endif //DEBUGANIMATIONSET
 	//int endtime = GetTimeInMsec() + 5000;
+	System::Command("test");
 	while(!System::TimeToQuit() && System::WindowExists() /*&& GetTimeInMsec() < endtime*/) {
 		System::Tick();
 		SleepMsec(10);

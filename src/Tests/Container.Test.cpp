@@ -8,8 +8,8 @@
 #include "Logger.h"
 #include "Atom.h"
 
-template class Container<int>;
-template class Container<Atom>;
+//template class Container<int>;
+//template class Container<Atom>;
 
 void cttestloop(Container<Atom>* ct) {
 	char msg[128];
@@ -55,8 +55,8 @@ int Container_Test() {
 	cttestloop(&tester);
 
 	//end section
-	Logger("Container::Test:  attempting to DestroyAllAtoms()...");
-	tester.DestroyAll();
+	Logger("Container::Test:  attempting to Clear()...");
+	tester.Clear();
 	delete a;
 	delete b;
 	delete c;

@@ -73,6 +73,7 @@ void Screen::UpdateWindow() {
 	}
 	// draw everything we just did
 	SDL_RenderPresent(_renderer);
+	_drawlist.Clear();
 #endif //DEBUG_NOVIDEO
 }
 

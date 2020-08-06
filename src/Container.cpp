@@ -5,6 +5,8 @@
 #include <string>
 #include "Container.h"
 #include "Atom.h"
+#include "Sprite.h"
+#include "AnimationSet.h"
 
 #if defined DEBUGEXTRA
 #include "Logger.h"
@@ -14,6 +16,8 @@
 
 template class Container<int>;
 template class Container<Atom>;
+template class Container<Sprite>;
+template class Container<AnimationSet>;
 
 template <class T>
 Container<T>::Container() {
@@ -27,7 +31,7 @@ Container<T>::Container() {
 
 template <class T>
 Container<T>::~Container() {
-	DestroyAll();
+	Clear();
 	free(_objects);
 }
 
@@ -46,6 +50,16 @@ bool Container::AddAtomAndDontRename(Atom* atom) {
 	return true;
 }
 */
+
+template <class T>
+T* Container<T>::Get(const string& name) {
+	T* retval = NULL;
+	for(int i=0; i<_count && !retval; ++i) {
+		if(_objects[i]->first == name) 
+			retval = _objects[i]->second;
+	}
+	return retval;
+}
 
 template <class T>
 T* Container<T>::GetByIndex(unsigned int idx) {
@@ -80,7 +94,7 @@ bool Container<T>::DestroyByName(const string& name) {
 }
 
 template <class T>
-int Container<T>::DestroyAll() {
+int Container<T>::Clear() {
 	for(int i=0; i<_count; i++) {
 		delete _objects[i];
 		_objects[i] = NULL;

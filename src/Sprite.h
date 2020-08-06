@@ -9,6 +9,8 @@
 #include "Motion.h"
 #include "Introspector.h"
 #include "GfxTypes.h"
+#include "AnimationSet.h"
+#include "Animation.h"
 
 class Sprite : public Ticker, public Motion, public Introspector {
 public:

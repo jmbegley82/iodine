@@ -5,6 +5,7 @@
 #if !defined GEOMETRY_H
 #define GEOMETRY_H
 
+#include "GfxTypes.h"
 #include "Types.h"
 
 class Geometry {
@@ -38,6 +39,7 @@ public:
 	coords GetTopRight();			//!< Get struct containing coordinates of top right corner of bounding box
 	coords GetBottomLeft();			//!< Get struct containing coordinates of bottom left corner of bounding box
 	coords GetBottomRight();		//!< Get struct containing coordinates of bottom right corner of bounding box
+	void GetBBoxDstRect(DstRect* dst);	//!< Fill struct with info about where to draw this object on the screen
 #if defined DEBUG
 	static int Test();			//!< Run internal tests
 #endif //DEBUG

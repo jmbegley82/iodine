@@ -148,3 +148,10 @@ double* Geometry::GetCenterXPtr() {
 double* Geometry::GetCenterYPtr() {
 	return &_center.y;
 }
+
+void Geometry::GetBBoxDstRect(DstRect* dst) {
+	dst->x = static_cast<int>(_position.x - _center.x);
+	dst->y = static_cast<int>(_position.y - _center.y);
+	dst->w = static_cast<int>(_size.x);
+	dst->h = static_cast<int>(_size.y);
+}

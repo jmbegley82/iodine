@@ -18,6 +18,7 @@ System::System() {
 }
 
 System::~System() {
+	_animsets.Clear();
 	Logger_finish();
 }
 
@@ -33,7 +34,7 @@ void System::Start() {
 }
 
 void System::Stop() {
-	if(_system._screen) delete _system._screen;  //TODO:  why was this commented out?
+	if(_system._screen) delete _system._screen;
 	if(_system._texcache) delete _system._texcache;
 	_system._timeToQuit = true;
 	SDL_Quit();
@@ -42,19 +43,18 @@ void System::Stop() {
 void System::Tick() {
 	if(!_system._screen || _system._timeToQuit) return;
 	_system.PollEvents();
-	// for this to work we need:
-	// std::list or similar for System::_atoms (and typedef ::iterator atmsetitr)
-	// Atom needs functions GetTexture, GetDrawSrcRect, and GetDrawDstRect
 
-	for(atmsetitr i = _system._atoms.begin(); i != _system._atoms.end(); ++i) {
-		i->second->Tick();
+	for(int i=0; i<_system._sprites.GetCount(); ++i) {
+		Sprite* spr = _system._sprites.GetByIndex(i);
+		spr->Tick();
 	}
-	for(atmsetitr i = _system._atoms.begin(); i != _system._atoms.end(); ++i) {
+	for(int i=0; i<_system._sprites.GetCount(); ++i) {
 		SrcRect src;
 		DstRect dst;
-		i->second->GetDrawSrcRect(&src);
-		i->second->GetDrawDstRect(&dst);
-		_system._screen->AddToDrawlist(i->second->GetTexture(), &src, &dst);
+		Sprite* spr = _system._sprites.GetByIndex(i);
+		spr->GetDrawSrcRect(&src);
+		spr->GetDrawDstRect(&dst);
+		_system._screen->AddToDrawlist(spr->GetTexture(), &src, &dst);
 	}
 
 	_system._screen->UpdateWindow();
@@ -89,6 +89,16 @@ Renderer* System::GetRenderer() {
 	return _system._screen->GetRenderer();
 }
 
+int System::Command(const string& cmd) {
+	return _system._Command(cmd);
+}
+
+AnimationSet* System::GetAnimationSet(const string& name) {
+	AnimationSet* retval = NULL;
+	retval = _system._animsets.Get(name);
+	return retval;
+}
+
 void System::PollEvents() {
 	SDL_Event event;
 	while(SDL_PollEvent(&event)) {
@@ -106,3 +116,24 @@ void System::PollEvents() {
 	}
 }
 
+int System::_Command(const string& cmd) {
+	if(cmd == "test") {
+#if defined DEBUG
+		// do the thing
+		_Test();
+#endif //DEBUG
+		return 0;
+	}
+	return -1;
+}
+
+void System::_Test() {
+	AnimationSet* anm = new AnimationSet();
+	anm->LoadAnimation("walkl", "data/terra.walkl.anm");
+	anm->LoadAnimation("walkr", "data/terra.walkr.anm");
+	_animsets.Add("terra", anm);
+	Sprite* spr = new Sprite();
+	spr->SetAnimationSet("terra");
+	spr->SetAnimation("walkl");
+	_sprites.Add("player", spr);
+}
