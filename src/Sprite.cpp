@@ -6,22 +6,46 @@
 #include "System.h"
 #include "Timing.h"
 
+#if defined DEBUGEXTRA
+#include "Logger.h"
+using std::string;
+using std::to_string;
+#endif //DEBUGEXTRA
+
 Sprite::Sprite() {
+	_celFlipDelta = 0;
 }
 
 Sprite::~Sprite() {
 }
 
 void Sprite::Tick() {
-	if((GetTimeInMsec() - GetLastTickEnd()) >= _currentAnim->GetDelayInMsec()) {
-		// time to switch frames
-		++_currentCel;
-		if(_currentCel >= _celCount) {
-			// out of bounds, reset to zero
-			_currentCel = 0;
-		}
+	double timeDelta = _celFlipDelta + (GetTimeInMsec() - GetLastTickEnd());
+	double delay = static_cast<double>(_currentAnim->GetDelayInMsec());
+	while(timeDelta > delay) {
+		NextCel();
+		timeDelta -= delay;
 	}
+	_celFlipDelta = timeDelta;
+	/*
+	if((GetTimeInMsec() - GetLastTickEnd()) >= _currentAnim->GetDelayInMsec()) {
+#if defined DEBUGEXTRA
+	Log(string("Sprite::Tick:  ") + to_string(GetTimeInMsec()) + " " + to_string(_currentAnim->GetDelayInMsec())
+			+ " " + to_string(_currentCel) + " " + to_string(_celCount));
+#endif //DEBUGEXTRA
+		// time to switch frames
+		NextCel();
+	}
+	*/
 	Ticker::Tick();
+}
+
+void Sprite::NextCel() {
+	++_currentCel;
+	if(_currentCel >= _celCount) {
+		// out of bounds, reset to zero
+		_currentCel = 0;
+	}
 }
 
 Texture* Sprite::GetTexture() {

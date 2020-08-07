@@ -23,7 +23,7 @@
 
 #if !defined DEFAULT_AUTOFLUSHSLEEP
 //! The default number of milliseconds to sleep after a timed automatic flush of the buffer
-#define DEFAULT_AUTOFLUSHSLEEP 100
+#define DEFAULT_AUTOFLUSHSLEEP 1000
 #endif
 
 pthread_mutex_t _logMutex;	//!< This mutex is used to cover _logbuffer and _logCurrentLine
@@ -108,9 +108,9 @@ void Logger_process_unsafe() {
 		printf("%s\n", _logbuffer[i]);
 		memset(_logbuffer[i], 0, _logMaxLineLength);
 	}
-#if defined DEBUGEXTRA
-	printf("Bawooooooosh!\n");
-#endif //DEBUGEXTRA
+//#if defined DEBUGEXTRA
+//	printf("Bawooooooosh!\n");
+//#endif //DEBUGEXTRA
 	_logCurrentLine = 0;
 }
 

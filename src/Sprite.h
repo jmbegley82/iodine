@@ -18,6 +18,7 @@ public:
 	~Sprite();
 	void Tick() override;
 	Texture* GetTexture();
+	void NextCel();
 	void GetDrawSrcRect(SrcRect* src);
 	void GetDrawDstRect(DstRect* dst);
 	bool SetAnimationSet(const string& name);
@@ -30,6 +31,7 @@ private:
 	Animation* _currentAnim;
 	unsigned int _currentCel;
 	unsigned int _celCount;
+	double _celFlipDelta;
 };
 
 #endif //SPRITE_H
