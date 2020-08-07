@@ -14,6 +14,8 @@ using std::to_string;
 
 Sprite::Sprite() {
 	_celFlipDelta = 0;
+	_isOneshot = false;
+	_hasExpired = false;
 }
 
 Sprite::~Sprite() {
@@ -27,16 +29,6 @@ void Sprite::Tick() {
 		timeDelta -= delay;
 	}
 	_celFlipDelta = timeDelta;
-	/*
-	if((GetTimeInMsec() - GetLastTickEnd()) >= _currentAnim->GetDelayInMsec()) {
-#if defined DEBUGEXTRA
-	Log(string("Sprite::Tick:  ") + to_string(GetTimeInMsec()) + " " + to_string(_currentAnim->GetDelayInMsec())
-			+ " " + to_string(_currentCel) + " " + to_string(_celCount));
-#endif //DEBUGEXTRA
-		// time to switch frames
-		NextCel();
-	}
-	*/
 	Ticker::Tick();
 }
 
@@ -45,6 +37,9 @@ void Sprite::NextCel() {
 	if(_currentCel >= _celCount) {
 		// out of bounds, reset to zero
 		_currentCel = 0;
+		if(_isOneshot) {
+			_hasExpired = true;
+		}
 	}
 }
 
@@ -96,4 +91,16 @@ bool Sprite::SetAnimation(const string& name) {
 		}
 	}
 	return false;
+}
+
+void Sprite::SetOneshot() {
+	_isOneshot = true;
+}
+
+bool Sprite::IsOneshot() {
+	return _isOneshot;
+}
+
+bool Sprite::HasExpired() {
+	return _hasExpired;
 }

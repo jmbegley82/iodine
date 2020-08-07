@@ -63,7 +63,7 @@ void Screen::UpdateWindow() {
 	}
 	// set target and screen clearing color
 	SDL_SetRenderTarget(_renderer, NULL);
-	SDL_SetRenderDrawColor(_renderer, 255,0,255,255);
+	SDL_SetRenderDrawColor(_renderer, 31,0,0,255);
 	// wipe the screen
 	SDL_RenderClear(_renderer);
 	// iterate through _drawlist

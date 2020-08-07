@@ -23,6 +23,9 @@ public:
 	void GetDrawDstRect(DstRect* dst);
 	bool SetAnimationSet(const string& name);
 	bool SetAnimation(const string& name);
+	void SetOneshot();
+	bool IsOneshot();
+	bool HasExpired();
 #if defined DEBUG
 	static int Test();
 #endif //DEBUG
@@ -32,6 +35,8 @@ private:
 	unsigned int _currentCel;
 	unsigned int _celCount;
 	double _celFlipDelta;
+	bool _isOneshot;
+	bool _hasExpired;
 };
 
 #endif //SPRITE_H
