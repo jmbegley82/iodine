@@ -37,6 +37,7 @@ private:
 	int _Command(const string& cmd);
 #if defined DEBUG
 	void _Test();
+	void _Test2();
 #endif //DEBUG
 	TexCache* _texcache;
 	Screen* _screen;

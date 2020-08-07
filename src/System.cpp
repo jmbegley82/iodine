@@ -8,6 +8,10 @@
 #include "Logger.h"
 #include "Timing.h"
 
+#if defined DEBUG
+#include <cstdlib>
+#endif //DEBUG
+
 static System _system;
 
 System::System() {
@@ -117,6 +121,8 @@ void System::PollEvents() {
 		case SDL_KEYDOWN:
 			if(event.key.keysym.sym == SDLK_RETURN)
 				_timeToQuit = true;
+			else if(event.key.keysym.sym == SDLK_SPACE)
+				_Test2();
 			break;
 		default:
 			break;
@@ -132,11 +138,18 @@ int System::_Command(const string& cmd) {
 #endif //DEBUG
 		return 0;
 	}
+	if(cmd == "test2") {
+#if defined DEBUG
+		// do the other thing
+		_Test2();
+#endif //DEBUG
+		return 0;
+	}
 	return -1;
 }
 
+#if defined DEBUG
 void System::_Test() {
-
 	AnimationSet* anm = new AnimationSet();
 	anm->LoadAnimation("walkl", "data/terra.walkl.anm");
 	anm->LoadAnimation("walkr", "data/terra.walkr.anm");
@@ -156,3 +169,16 @@ void System::_Test() {
 	spr->SetOneshot();
 	_sprites.Add("testobj", spr);
 }
+
+void System::_Test2() {
+	//Animation* anm = new AnimationSet();
+	//anm->LoadAnimation("default", "data/poof.anm");
+	//_animsets.Add("poof", anm);
+	Sprite* spr = new Sprite();
+	spr->SetAnimationSet("poof");
+	spr->SetPosition({static_cast<double>(rand()%400),
+		static_cast<double>(rand()%400)});
+	spr->SetOneshot();
+	_sprites.Add("testobj", spr);
+}
+#endif //DEBUG
