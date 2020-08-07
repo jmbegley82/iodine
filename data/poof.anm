@@ -1,5 +1,5 @@
 texture=data/poof.png
-delay=60
+delay=10
 cel+=0,0,64,64,32,32
 cel+=64,0,64,64,32,32
 cel+=128,0,64,64,32,32
