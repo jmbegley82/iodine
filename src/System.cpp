@@ -128,6 +128,7 @@ int System::_Command(const string& cmd) {
 }
 
 void System::_Test() {
+	/*
 	AnimationSet* anm = new AnimationSet();
 	anm->LoadAnimation("walkl", "data/terra.walkl.anm");
 	anm->LoadAnimation("walkr", "data/terra.walkr.anm");
@@ -136,4 +137,12 @@ void System::_Test() {
 	spr->SetAnimationSet("terra");
 	spr->SetAnimation("walkl");
 	_sprites.Add("player", spr);
+	*/
+	AnimationSet* anm = new AnimationSet();
+	anm->LoadAnimation("default", "data/poof.anm");
+	_animsets.Add("poof", anm);
+	Sprite* spr = new Sprite();
+	spr->SetAnimationSet("poof");
+	spr->SetPosition({100.0,100.0});
+	_sprites.Add("testobj", spr);
 }

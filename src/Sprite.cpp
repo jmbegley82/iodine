@@ -4,6 +4,7 @@
 
 #include "Sprite.h"
 #include "System.h"
+#include "Timing.h"
 
 Sprite::Sprite() {
 }
@@ -12,7 +13,14 @@ Sprite::~Sprite() {
 }
 
 void Sprite::Tick() {
-	// do things
+	if((GetTimeInMsec() - GetLastTickEnd()) >= _currentAnim->GetDelayInMsec()) {
+		// time to switch frames
+		++_currentCel;
+		if(_currentCel >= _celCount) {
+			// out of bounds, reset to zero
+			_currentCel = 0;
+		}
+	}
 	Ticker::Tick();
 }
 
