@@ -53,8 +53,13 @@ void System::Tick() {
 		Sprite* spr = _system._sprites.GetByIndex(i);
 		spr->Tick();
 	}
+	// Tick Effects
+	for(int i=0; i<_system._effects.GetCount(); ++i) {
+		Sprite* spr = _system._effects.GetByIndex(i);
+		spr->Tick();
+	}
 	// Check for and remove Sprites that have expired
-	bool needToMakeContiguous = false;
+	bool makeSpritesContiguous = false;
 	for(int i=_system._sprites.GetCount() - 1; i>= 0; --i) {
 		Sprite* spr = _system._sprites.GetByIndex(i);
 		if(spr->HasExpired()) {
@@ -65,10 +70,25 @@ void System::Tick() {
 #endif //DEBUGEXTRA
 			//_system._sprites.Destroy(spr);
 			_system._sprites.Destroy_unsafe(i);
-			needToMakeContiguous = true;
+			makeSpritesContiguous = true;
 		}
 	}
-	if(needToMakeContiguous) _system._sprites.MakeContiguous();
+	if(makeSpritesContiguous) _system._sprites.MakeContiguous();
+	// (Same for Effects)
+	bool makeEffectsContiguous = false;
+	for(int i=_system._effects.GetCount() - 1; i>= 0; --i) {
+		Sprite* spr = _system._effects.GetByIndex(i);
+		if(spr->HasExpired()) {
+			//my understanding is that the following line will delete the sprite object, unlike above
+			//TODO:  fix that
+#if defined DEBUGEXTRA
+			Log(string("System::Tick:  Destroy Sprite:  (anonymous)"));
+#endif //DEBUGEXTRA
+			_system._effects.Destroy_unsafe(i);
+			makeEffectsContiguous = true;
+		}
+	}
+	if(makeEffectsContiguous) _system._effects.MakeContiguous();
 	// Add Sprites' current Cels to Drawlist
 	for(int i=0; i<_system._sprites.GetCount(); ++i) {
 		SrcRect src;
@@ -78,7 +98,15 @@ void System::Tick() {
 		spr->GetDrawDstRect(&dst);
 		_system._screen->AddToDrawlist(spr->GetTexture(), &src, &dst);
 	}
-
+	// Add Effects' current Cels to Drawlist
+	for(int i=0; i<_system._effects.GetCount(); ++i) {
+		SrcRect src;
+		DstRect dst;
+		Sprite* spr = _system._effects.GetByIndex(i);
+		spr->GetDrawSrcRect(&src);
+		spr->GetDrawDstRect(&dst);
+		_system._screen->AddToDrawlist(spr->GetTexture(), &src, &dst);
+	}
 	_system._screen->UpdateWindow();
 }
 
@@ -181,14 +209,19 @@ void System::_Test() {
 }
 
 void System::_Test2() {
-	//Animation* anm = new AnimationSet();
-	//anm->LoadAnimation("default", "data/poof.anm");
-	//_animsets.Add("poof", anm);
+	/*
 	Sprite* spr = new Sprite();
 	spr->SetAnimationSet("poof");
 	spr->SetPosition({static_cast<double>(rand()%400),
 		static_cast<double>(rand()%400)});
 	spr->SetOneshot();
 	_sprites.Add("testobj", spr);
+	*/
+	Sprite* spr = new Sprite();
+	spr->SetAnimationSet("poof");
+	spr->SetPosition({static_cast<double>(rand()%400),
+		static_cast<double>(rand()%400)});
+	spr->SetOneshot();
+	_effects.Add(spr);
 }
 #endif //DEBUG
