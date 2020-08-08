@@ -13,6 +13,7 @@
 #include "Container.h"
 #include "Sprite.h"
 #include "AnimationSet.h"
+#include "Array.h"
 
 using std::string;
 
@@ -42,6 +43,7 @@ private:
 	TexCache* _texcache;
 	Screen* _screen;
 	Container<Sprite> _sprites;
+	Array<Sprite> _effects;
 	Container<AnimationSet> _animsets;
 	bool _timeToQuit;
 };

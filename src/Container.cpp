@@ -37,12 +37,6 @@ Container<T>::~Container() {
 
 template <class T>
 void Container<T>::Add(const string& name, T* obj) {
-	/*
-	if(CheckNameCollision(name)) {
-		Destroy(obj);
-	}
-	Add_unsafe(name, obj);
-	*/
 	int idx = GetIndexByName(name);
 	if(idx == -1) {
 		// not found
@@ -65,7 +59,6 @@ T* Container<T>::Get(const string& name) {
 
 template <class T>
 T* Container<T>::GetByIndex(unsigned int idx) {
-	//TODO:  make this remotely safe or mark it unsafe
 	T* retval = NULL;
 	if(idx < _count) retval = _objects[idx]->second;
 	return retval;
@@ -200,22 +193,11 @@ int Container<T>::GetCountMax() {
 	return _countMax;
 }
 
-/*
-template <class T>
-bool Container<T>::CheckNameCollision(const string& name) {
-	bool retval = false;
-	for(int i=0; i<_count && !retval; i++) {
-		if(_objects[i]->first == name) retval = true;
-	}
-	return retval;
-}
-*/
-
 template <class T>
 void Container<T>::Add_unsafe(const string& name, T* obj) {
 	if(_count >= _countMax) Grow();
 	_objects[_count] = new namepair;
 	_objects[_count]->first = name;
 	_objects[_count]->second = obj;
-	_count++;
+	++_count;
 }

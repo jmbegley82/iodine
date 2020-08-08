@@ -32,7 +32,6 @@ public:
 	int GetCountMax();				//!< Return current size of _objects
 private:
 	typedef pair<string,T*> namepair;
-	//bool CheckNameCollision(const string& name);	//!< Return true if name is already present within _objects
 	void Add_unsafe(const string& name, T* obj);	//!< Add without all the safety checks
 	namepair** _objects;
 	int _count;
