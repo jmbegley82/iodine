@@ -200,6 +200,7 @@ int Container<T>::GetCountMax() {
 	return _countMax;
 }
 
+/*
 template <class T>
 bool Container<T>::CheckNameCollision(const string& name) {
 	bool retval = false;
@@ -208,6 +209,7 @@ bool Container<T>::CheckNameCollision(const string& name) {
 	}
 	return retval;
 }
+*/
 
 template <class T>
 void Container<T>::Add_unsafe(const string& name, T* obj) {
