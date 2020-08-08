@@ -17,10 +17,10 @@ public:
 	Container();					//!< Construct the Container
 	~Container();					//!< Destruct the Container
 	void Add(const string& name, T* obj);		//!< Add to the Container (and rename it upon name collision)
-	//bool AddAndDontRename(const string& name, T* obj);	//!< Add to the Container (but fail upon name collision)
 	T* Get(const string& name);
 	T* GetByIndex(unsigned int idx);		//!< Get by index number (or NULL if out of bounds)
 	string GetNameByIndex(unsigned int idx);
+	int GetIndexByName(const string& name);
 	bool Destroy(T* obj);				//!< Destroy by its pointer
 	bool DestroyByName(string const& name);		//!< Destroy by its name
 	void Destroy_unsafe(unsigned int idx);		//!< Destroy without the safety checks

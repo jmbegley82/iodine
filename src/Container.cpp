@@ -37,19 +37,21 @@ Container<T>::~Container() {
 
 template <class T>
 void Container<T>::Add(const string& name, T* obj) {
+	/*
 	if(CheckNameCollision(name)) {
 		Destroy(obj);
 	}
 	Add_unsafe(name, obj);
+	*/
+	int idx = GetIndexByName(name);
+	if(idx == -1) {
+		// not found
+		Add_unsafe(name, obj);
+	} else {
+		//found
+		_objects[idx]->second = obj;
+	}
 }
-
-/*
-bool Container::AddAtomAndDontRename(Atom* atom) {
-	if(CheckNameCollision(atom)) return false;
-	AddAtom_unsafe(atom);
-	return true;
-}
-*/
 
 template <class T>
 T* Container<T>::Get(const string& name) {
@@ -73,6 +75,18 @@ template <class T>
 string Container<T>::GetNameByIndex(unsigned int idx) {
 	string retval = "";
 	if(idx < _count) retval = _objects[idx]->first;
+	return retval;
+}
+
+template <class T>
+int Container<T>::GetIndexByName(const string& name) {
+	//return -1 if not found
+	int retval = -1;
+	for(int i=0; i<_count && retval == -1; ++i) {
+		if(_objects[i]->first == name) {
+			retval = i;
+		}
+	}
 	return retval;
 }
 
@@ -149,7 +163,7 @@ int Container<T>::Grow() {
 	for(int j=_countMax; j<newcountmax; j++) {
 		newobjs[j] = NULL;
 	}
-	free(_objects);  // and hope like hell it doesn't delete _objects[*]
+	free(_objects);
 	_objects = newobjs;
 	_countMax = newcountmax;
 	return _countMax;
