@@ -70,11 +70,19 @@ T* Container<T>::GetByIndex(unsigned int idx) {
 }
 
 template <class T>
+string Container<T>::GetNameByIndex(unsigned int idx) {
+	string retval = "";
+	if(idx < _count) retval = _objects[idx]->first;
+	return retval;
+}
+
+template <class T>
 bool Container<T>::Destroy(T* obj) {
 	bool retval = false;
 	for(unsigned int i=0; i<_count && !retval; i++) {
 		if(_objects[i]->second == obj) {
 			Destroy_unsafe(i);
+			MakeContiguous();
 			retval = true;
 		}
 	}
@@ -87,10 +95,17 @@ bool Container<T>::DestroyByName(const string& name) {
 	for(unsigned int i=0; i<_count && !retval; i++) {
 		if(name == _objects[i]->first) {
 			Destroy_unsafe(i);
+			MakeContiguous();
 			retval = true;
 		}
 	}
 	return retval;
+}
+
+template <class T>
+void Container<T>::Destroy_unsafe(unsigned int idx) {
+	delete _objects[idx];
+	_objects[idx] = NULL;
 }
 
 template <class T>
@@ -187,12 +202,4 @@ void Container<T>::Add_unsafe(const string& name, T* obj) {
 	_objects[_count]->first = name;
 	_objects[_count]->second = obj;
 	_count++;
-}
-
-template <class T>
-void Container<T>::Destroy_unsafe(unsigned int idx) {
-	delete _objects[idx];
-	//delete _names[idx];
-	_objects[idx] = NULL;
-	MakeContiguous();
 }

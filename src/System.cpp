@@ -48,18 +48,28 @@ void System::Tick() {
 	if(!_system._screen || _system._timeToQuit) return;
 	_system.PollEvents();
 
+	// Tick Sprites
 	for(int i=0; i<_system._sprites.GetCount(); ++i) {
 		Sprite* spr = _system._sprites.GetByIndex(i);
 		spr->Tick();
 	}
+	// Check for and remove Sprites that have expired
+	bool needToMakeContiguous = false;
 	for(int i=_system._sprites.GetCount() - 1; i>= 0; --i) {
 		Sprite* spr = _system._sprites.GetByIndex(i);
 		if(spr->HasExpired()) {
 			//my understanding is that the following line will not actually delete the sprite object
 			//just the namepair containing it
-			_system._sprites.Destroy(spr);
+#if defined DEBUGEXTRA
+			Log(string("System::Tick:  Destroy Sprite:  ") + _system._sprites.GetNameByIndex(i));
+#endif //DEBUGEXTRA
+			//_system._sprites.Destroy(spr);
+			_system._sprites.Destroy_unsafe(i);
+			needToMakeContiguous = true;
 		}
 	}
+	if(needToMakeContiguous) _system._sprites.MakeContiguous();
+	// Add Sprites' current Cels to Drawlist
 	for(int i=0; i<_system._sprites.GetCount(); ++i) {
 		SrcRect src;
 		DstRect dst;
