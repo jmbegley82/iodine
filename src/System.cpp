@@ -38,8 +38,8 @@ void System::Start() {
 }
 
 void System::Stop() {
-	if(_system._screen) delete _system._screen;
 	if(_system._texcache) delete _system._texcache;
+	if(_system._screen) delete _system._screen;
 	_system._timeToQuit = true;
 	SDL_Quit();
 }
@@ -63,8 +63,6 @@ void System::Tick() {
 	for(int i=_system._sprites.GetCount() - 1; i>= 0; --i) {
 		Sprite* spr = _system._sprites.GetByIndex(i);
 		if(spr->HasExpired()) {
-			//my understanding is that the following line will not actually delete the sprite object
-			//just the namepair containing it
 #if defined DEBUGEXTRA
 			Log(string("System::Tick:  Destroy Sprite:  ") + _system._sprites.GetNameByIndex(i));
 #endif //DEBUGEXTRA
@@ -79,8 +77,6 @@ void System::Tick() {
 	for(int i=_system._effects.GetCount() - 1; i>= 0; --i) {
 		Sprite* spr = _system._effects.GetByIndex(i);
 		if(spr->HasExpired()) {
-			//my understanding is that the following line will delete the sprite object, unlike above
-			//TODO:  fix that
 #if defined DEBUGEXTRA
 			Log(string("System::Tick:  Destroy Sprite:  (anonymous)"));
 #endif //DEBUGEXTRA

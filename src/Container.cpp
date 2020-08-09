@@ -14,7 +14,6 @@
 
 #define OBJCHUNK 2
 
-template class Container<int>;
 template class Container<Atom>;
 template class Container<Sprite>;
 template class Container<AnimationSet>;
@@ -111,6 +110,7 @@ bool Container<T>::DestroyByName(const string& name) {
 
 template <class T>
 void Container<T>::Destroy_unsafe(unsigned int idx) {
+	delete _objects[idx]->second;
 	delete _objects[idx];
 	_objects[idx] = NULL;
 }
@@ -118,6 +118,7 @@ void Container<T>::Destroy_unsafe(unsigned int idx) {
 template <class T>
 int Container<T>::Clear() {
 	for(int i=0; i<_count; i++) {
+		delete _objects[i]->second;
 		delete _objects[i];
 		_objects[i] = NULL;
 	}

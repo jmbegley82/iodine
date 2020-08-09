@@ -17,7 +17,6 @@
 //template class Array<int>;
 template class Array<Atom>;
 template class Array<Sprite>;
-template class Array<AnimationSet>;
 
 template <class T>
 Array<T>::Array() {
