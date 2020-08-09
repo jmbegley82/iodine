@@ -133,7 +133,6 @@ int Container<T>::Shrink() {
 #endif //DEBUGEXTRA
 	//for now assume contiguous; also this shares a lot of code with Grow...
 	int newcountmax = _count;  // the next addition will induce a Grow()
-	//if(newcountmax < _count) return _countMax;
 	namepair** newobjs = static_cast<namepair**>(malloc(newcountmax * sizeof(namepair*)));
 	for(int i=0; i<_count; i++) {
 		newobjs[i] = _objects[i];

@@ -44,6 +44,8 @@ private:
 	Screen* _screen;
 	Container<Sprite> _sprites;
 	Array<Sprite> _effects;
+	double _timeOfLastSprite;
+	double _timeOfLastEffect;
 	Container<AnimationSet> _animsets;
 	bool _timeToQuit;
 };

@@ -18,6 +18,7 @@ System::System() {
 	_timeToQuit = false;
 	_texcache = NULL;
 	_screen = NULL;
+	_timeOfLastSprite = _timeOfLastEffect = GetTimeInMsec();
 	Logger_init();
 }
 
@@ -71,7 +72,6 @@ void System::Tick() {
 			makeSpritesContiguous = true;
 		}
 	}
-	if(makeSpritesContiguous) _system._sprites.MakeContiguous();
 	// (Same for Effects)
 	bool makeEffectsContiguous = false;
 	for(int i=_system._effects.GetCount() - 1; i>= 0; --i) {
@@ -84,7 +84,24 @@ void System::Tick() {
 			makeEffectsContiguous = true;
 		}
 	}
-	if(makeEffectsContiguous) _system._effects.MakeContiguous();
+	// make contiguous if anything was destroyed
+	if(makeSpritesContiguous) {
+		_system._sprites.MakeContiguous();
+		_system._timeOfLastSprite = GetTimeInMsec();
+	}
+	if(makeEffectsContiguous) {
+		_system._effects.MakeContiguous();
+		_system._timeOfLastEffect = GetTimeInMsec();
+	}
+	// try to shrink if it's been long enough
+	if(GetTimeInMsec() - _system._timeOfLastSprite >= 5000.0) {
+		_system._sprites.Shrink();
+		_system._timeOfLastSprite = GetTimeInMsec();
+	}
+	if(GetTimeInMsec() - _system._timeOfLastEffect >= 5000.0) {
+		_system._effects.Shrink();
+		_system._timeOfLastEffect = GetTimeInMsec();
+	}
 	// Add Sprites' current Cels to Drawlist
 	for(int i=0; i<_system._sprites.GetCount(); ++i) {
 		SrcRect src;
