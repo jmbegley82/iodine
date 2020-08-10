@@ -12,7 +12,7 @@
 #include "Logger.h"
 #endif //DEBUGEXTRA
 
-#define OBJCHUNK 2
+#define OBJCHUNK 2048
 
 //template class Array<int>;
 template class Array<Atom>;

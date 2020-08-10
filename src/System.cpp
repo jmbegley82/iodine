@@ -174,6 +174,8 @@ void System::PollEvents() {
 				_timeToQuit = true;
 			else if(event.key.keysym.sym == SDLK_SPACE)
 				_Test2();
+			else if(event.key.keysym.sym == SDLK_TAB)
+				_Test3();
 			break;
 		default:
 			break;
@@ -193,6 +195,13 @@ int System::_Command(const string& cmd) {
 #if defined DEBUG
 		// do the other thing
 		_Test2();
+#endif //DEBUG
+		return 0;
+	}
+	if(cmd == "test3") {
+#if defined DEBUG
+		// do a third thing
+		_Test3();
 #endif //DEBUG
 		return 0;
 	}
@@ -236,5 +245,17 @@ void System::_Test2() {
 		static_cast<double>(rand()%400)});
 	spr->SetOneshot();
 	_effects.Add(spr);
+}
+
+void System::_Test3() {
+	Sprite* spr = NULL;
+	for(int i=0; i<100; ++i) {
+		spr = new Sprite();
+		spr->SetAnimationSet("poof");
+		spr->SetPosition({static_cast<double>(rand()%400),
+			static_cast<double>(rand()%400)});
+		spr->SetOneshot();
+		_effects.Add(spr);
+	}
 }
 #endif //DEBUG

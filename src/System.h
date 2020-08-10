@@ -39,6 +39,7 @@ private:
 #if defined DEBUG
 	void _Test();
 	void _Test2();
+	void _Test3();
 #endif //DEBUG
 	TexCache* _texcache;
 	Screen* _screen;
