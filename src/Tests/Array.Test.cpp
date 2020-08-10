@@ -8,9 +8,6 @@
 #include "Logger.h"
 #include "Atom.h"
 
-//template class Array<int>;
-//template class Array<Atom>;
-
 void cttestloop(Array<Atom>* ct) {
 	char msg[128];
 	for(int i=0; i<ct->GetCount(); i++) {

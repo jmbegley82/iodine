@@ -14,10 +14,6 @@
 
 #define OBJCHUNK 2048
 
-//template class Array<int>;
-template class Array<Atom>;
-template class Array<Sprite>;
-
 template <class T>
 Array<T>::Array() {
 	_count = 0;
@@ -149,3 +145,6 @@ void Array<T>::Add_unsafe(T* obj) {
 	_objects[_count] = obj;
 	++_count;
 }
+
+template class Array<Atom>;
+template class Array<Sprite>;

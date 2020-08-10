@@ -14,10 +14,6 @@
 
 #define OBJCHUNK 2
 
-template class Container<Atom>;
-template class Container<Sprite>;
-template class Container<AnimationSet>;
-
 template <class T>
 Container<T>::Container() {
 	_count = 0;
@@ -201,3 +197,7 @@ void Container<T>::Add_unsafe(const string& name, T* obj) {
 	_objects[_count]->second = obj;
 	++_count;
 }
+
+template class Container<Atom>;
+template class Container<Sprite>;
+template class Container<AnimationSet>;
