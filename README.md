@@ -59,18 +59,17 @@ There is currently no license, implied or otherwise, for anything in this repo. 
     - Pass all built-in tests
     - valgrind memcheck and helgrind should be as clean as possible
 
-# Current Tasks (as of 2020/08/02):
+# Current Tasks (as of 2020/08/10):
 - Comments are lacking in System, Screen and TexCache
 - Reduce number of valgrind complains on OpenBSD (back burner, may be due to libpthread?)
-- Container base class for objects which will contain multiple Atoms (needs more testing)
-- A class for the storage/retrieval of variables (needs more testing)
 - Determine how best to approach a layered screen system
     - One approach is to give each on-screen entity's class a layer index, since Atma's layered system eventually evolved to
     have objects in different layers interacting anyway
     - There's the Atma method, which separated layers into distinct collections of objects, and had the advantages of easy
     implementation of a menu overlay on top of scrolling/repeating/tiled/different-resolution/etc. backgrounds
 - The dreaded collision detection/handling mechanisms
-- Classes/structs for single animation cels, collections of cels (animations), collections of animations (needs testing)
+- Classes/structs for single animation cels, collections of cels (animations), collections of animations (needs more testing)
+- Fine, try to replace Array with a linked list and see if it's more performant
 
 # Scripting language (name tbd)
 Future objects which will accept text commands should a) adhere to the existing examples and b) be detailed below.  VarSet
@@ -100,7 +99,8 @@ currently planned to begin as a copy of VarSet's or Introspector's Command(strin
   - <subject> <operator> <target>
     - texture = Data/texture.png
     - delay = 60
-    - cel += 0,0,64,64
+    - cel += 0,0,64,64,32,32
+  - (cel format = x,y,w,h,cx,cy)
 
 Future:
 - Full order-of-operations in expressions
@@ -120,11 +120,10 @@ Classes:
 - Cel
 
 Class descriptions:
-- Sprite:
+- Sprite:  (NO LONGER ACCURATE)
   - AnimationSet\* anim
   - Set/GetAnimationSet(const string& name)
   - Set/GetAnimation(const string& name)
-  - void Draw()
 - AnimationSet:
   - Texture image
   - std::map\<string,Animation\*\> anims
@@ -132,8 +131,9 @@ Class descriptions:
   - const unsigned int animationDelayinMsec
   - std::queue\<Cel\*\> cels
 - Cel:
-  - unsigned int x, y //position of upper-left pixel of cel
-  - unsigned int w, h //width and height of cel (lower-right pixel = (x+w,y+h))
+  - unsigned int x, y	//position of upper-left pixel of cel
+  - unsigned int cx, cy	//distance from (x,y) to center
+  - unsigned int w, h	//width and height of cel (lower-right pixel = (x-cx+w,y-cy+h))
 
 Cels will generally be stored sequentially within a list/queue/etc. within Animations.  Animations will generally be stored in
 maps (by string) within their respective AnimationSets.  AnimationSets will be contained within a globally-accessible cache,
