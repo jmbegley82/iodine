@@ -1,8 +1,6 @@
-texture=data/poof.png
+texture=data/oldpoof.png
 delay=40
 cel+=0,0,64,64,32,32
 cel+=64,0,64,64,32,32
 cel+=128,0,64,64,32,32
 cel+=192,0,64,64,32,32
-cel+=256,0,64,64,32,32
-cel+=320,0,64,64,32,32
