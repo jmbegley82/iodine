@@ -70,6 +70,14 @@ template <class T> LLitem<T>* LList<T>::GetLast() {
 	return retval;
 }
 
+template <class T> int LList<T>::GetCount() {
+	int retval = 0;
+	for(int i=0; i<_nextFreeSlot; ++i) {
+		if(_llitems[i].status == 1) ++retval;
+	}
+	return retval;
+}
+
 template <class T> void LList<T>::Remove(LLitem<T>* item) {
 	// deal with the item itself
 	LLitem<T>* prev = item->prev;

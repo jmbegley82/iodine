@@ -27,6 +27,7 @@ int LList_Test() {
 		Log(string("LList_Test:  i->item->identity = ") + i->item->GetIdentity());
 		i = i->next;
 	}
+	Log(string("LList_Test:  test.GetCount() = ") + std::to_string(test.GetCount()));
 
 	LLitem<Atom*>* j = test.GetFirst();
 	Log(string("LList_Test:  j->item->identity = ") + j->item->GetIdentity());
@@ -37,6 +38,7 @@ int LList_Test() {
 		delete i->item;
 		test.Remove(i);
 		i = i->next;
+		Log(string("LList_Test:  test.GetCount() = ") + std::to_string(test.GetCount()));
 	}
 	test.Compact();
 	return 0;
