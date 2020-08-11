@@ -25,6 +25,7 @@
 #include "TexCache.h"
 #include "System.h"
 #include "Array.h"
+#include "LList.h"
 
 using std::string;
 
@@ -57,6 +58,7 @@ int main(int argc, char** argv) {
 #if defined DEBUGCONTAINER
 	Container_Test();
 	Array_Test();
+	LList_Test();
 #endif //DEBUGCONTAINER
 #if defined DEBUGVAR
 	Var::Test();
