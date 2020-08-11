@@ -2,42 +2,18 @@
  *
  */
 
-/*
-template <class T> class LLitem {
-public:
-	LLitem(LLitem* prev, T* item, LLitem* next);
-	LLitem* prev;
-	T* item;
-	LLitem* next;
-};
-
-template <class T> class LList {
-public:
-	LList();
-	~LList();
-	void Add(const T* item);
-	LLitem* Get(unsigned int index);
-private:
-	LLitem** _llitems;
-};
- */
-
 #define LLIST_CHUNK_SIZE 64
 
 #include <cstdlib>
+#include <cassert>
 #include "LList.h"
 
-template <class T> LLitem<T>::LLitem(LLitem<T>* prev, T item, LLitem<T>* next) {
-	this->prev = prev;
-	this->item = &item;
-	this->next = next;
-	this->done = false;
-}
-
 template <class T> LList<T>::LList() {
-	_llitems = static_cast<LLitem<T>**>(malloc(LLIST_CHUNK_SIZE * sizeof(LLitem<T>*)));
+	_llitems = static_cast<LLitem<T>*>(malloc(LLIST_CHUNK_SIZE * sizeof(LLitem<T>)));
 	for(int i=0; i<LLIST_CHUNK_SIZE; ++i) {
-		_llitems[i] = NULL;
+		_llitems[i].prev = NULL;
+		_llitems[i].next = NULL;
+		_llitems[i].status = 0;
 	}
 	_nextFreeSlot = 0;
 	_countMax = LLIST_CHUNK_SIZE;
@@ -49,22 +25,48 @@ template <class T> LList<T>::~LList() {
 
 template <class T> void LList<T>::Add(T item) {
 	if(_nextFreeSlot == _countMax) {
-		// need to increase size to accomodate additional items
+		//Grow();
 	}
-	LLitem<T>* prev;
-	LLitem<T>* next;
+	LLitem<T>* prev = NULL;
+	LLitem<T>* next = NULL;
 	int prevIdx = _nextFreeSlot - 1;
-	if(prevIdx > 0) {
-		prev = _llitems[prevIdx];
+	if(prevIdx >= 0) {
+		prev = &_llitems[prevIdx];
 	}
-	LLitem<T>* llitem = new LLitem<T>(prev, item, NULL);
-	_llitems[_nextFreeSlot] = llitem;
+	assert(_llitems[_nextFreeSlot].status == 0);
+	_llitems[_nextFreeSlot].prev = prev;
+	_llitems[_nextFreeSlot].next = next;
+	_llitems[_nextFreeSlot].status = 1;
+	_llitems[_nextFreeSlot].item = item;
+	if(prevIdx >= 0) {
+		prev->next = &_llitems[_nextFreeSlot];
+	}
 	++_nextFreeSlot;
 }
 
 template <class T> LLitem<T>* LList<T>::Get(unsigned int index) {
 	LLitem<T>* retval = NULL;
-	if(index < _nextFreeSlot) retval = _llitems[index];
+	if(index < _nextFreeSlot) retval = &_llitems[index];
+	return retval;
+}
+
+template <class T> LLitem<T>* LList<T>::GetFirst() {
+	LLitem<T>* retval = NULL;
+	if(_nextFreeSlot > 0) {
+		retval = &_llitems[0];
+		// TODO:check to make sure it's actually the first
+		assert(retval->prev == NULL);
+	}
+	return retval;
+}
+
+template <class T> LLitem<T>* LList<T>::GetLast() {
+	LLitem<T>* retval = NULL;
+	if(_nextFreeSlot > 0) {
+		retval = &_llitems[_nextFreeSlot - 1];
+		// TODO:check to make sure it's actually the last
+		assert(retval->next == NULL);
+	}
 	return retval;
 }
 
@@ -79,30 +81,40 @@ template <class T> void LList<T>::Remove(LLitem<T>* item) {
 		next->prev = prev;
 	}
 	// mark the item for garbage collection
-	item->prev = NULL;
-	item->next = NULL;
-	item->done = true;
+	//item->prev = NULL;
+	//item->next = NULL;
+	item->status = -1;
 }
 
 template <class T> void LList<T>::Compact() {
 	unsigned int realcount = 0;
 	for(int i=0; i<_nextFreeSlot; ++i) {
-		if(_llitems[i]->done) {
-			// redrum
-			delete _llitems[i];
-		} else {
-			// this entry survives
-			_llitems[realcount] = _llitems[i];
+		assert(_llitems[i].status == 1 || _llitems[i].status == -1);
+		if(_llitems[i].status == -1) {
+			// garbage-collect
+		} else if (_llitems[i].status == 1) {
+			if(i != realcount) {
+				_llitems[realcount].prev = _llitems[i].prev;
+				_llitems[realcount].item = _llitems[i].item;
+				_llitems[realcount].next = _llitems[i].next;
+				_llitems[realcount].status = _llitems[i].status;
+			}
 			++realcount;
 		}
+	
 	}
 	// the following code should be prefaced with a check to see if it's necessary/beneficial
-	LLitem<T>** newset = static_cast<LLitem<T>**>(malloc((realcount + LLIST_CHUNK_SIZE) * sizeof(LLitem<T>*)));
+	LLitem<T>* newset = static_cast<LLitem<T>*>(malloc((realcount + LLIST_CHUNK_SIZE) * sizeof(LLitem<T>)));
 	for(int i=0; i<realcount; ++i) {
-		newset[i] = _llitems[i];
+		newset[i].prev = _llitems[i].prev;
+		newset[i].item = _llitems[i].item;
+		newset[i].next = _llitems[i].next;
+		newset[i].status = _llitems[i].status;
 	}
 	for(int i=realcount; i<realcount+LLIST_CHUNK_SIZE; ++i) {
-		newset[i] = NULL;
+		newset[i].prev = NULL;
+		newset[i].next = NULL;
+		newset[i].status = 0;
 	}
 	free(_llitems);
 	_llitems = newset;

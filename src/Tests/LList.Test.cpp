@@ -6,6 +6,7 @@
 
 #include "LList.h"
 #include "Atom.h"
+#include "Logger.h"
 
 int LList_Test() {
 	LList<Atom*> test;
@@ -22,7 +23,22 @@ int LList_Test() {
 	test.Add(a5);
 	test.Add(a6);
 	LLitem<Atom*>* i = test.Get(0);
-	Log(string("LList_Test:  i->item->identity = ") + i->item->GetIdentity());
+	while(i != NULL) {
+		Log(string("LList_Test:  i->item->identity = ") + i->item->GetIdentity());
+		i = i->next;
+	}
+
+	LLitem<Atom*>* j = test.GetFirst();
+	Log(string("LList_Test:  j->item->identity = ") + j->item->GetIdentity());
+	LLitem<Atom*>* k = test.GetLast();
+	Log(string("LList_Test:  k->item->identity = ") + k->item->GetIdentity());
+	i = test.GetFirst();
+	while(i != NULL) {
+		delete i->item;
+		test.Remove(i);
+		i = i->next;
+	}
+	test.Compact();
 	return 0;
 }
 
