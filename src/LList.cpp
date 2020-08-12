@@ -48,16 +48,40 @@ template <class T> void LList<T>::Add(T item) {
 
 template <class T> LLitem<T>* LList<T>::Get(unsigned int index) {
 	LLitem<T>* retval = NULL;
-	if(index < _nextFreeSlot) retval = &_llitems[index];
+	if(index < _nextFreeSlot && _nextFreeSlot > 0) {
+		//retval = &_llitems[index];
+		int realidx = 0;
+		LList<T>::iterator i = GetFirst();
+		while(retval == NULL && realidx < _nextFreeSlot && i != NULL) {
+			if(realidx == index) {
+				retval = i;
+			} else {
+				++realidx;
+				i = i->next;
+			}
+		}
+	}
 	return retval;
 }
 
 template <class T> LLitem<T>* LList<T>::GetFirst() {
 	LLitem<T>* retval = NULL;
 	if(_nextFreeSlot > 0) {
-		retval = &_llitems[0];
+		//retval = &_llitems[0];
+		int realidx = 0;
+		while(retval == NULL && realidx < _nextFreeSlot) {
+			if(_llitems[realidx].status == 1) {
+				retval = &_llitems[realidx];
+			} else {
+				++realidx;
+			}
+		}
+		//this should probably be unnecessary, but i'd rather just add it now
+		while(retval->prev != NULL) {
+			retval = retval->prev;
+		}
 		// TODO:check to make sure it's actually the first
-		assert(retval->prev == NULL);
+		//assert(retval->prev == NULL);
 	}
 	return retval;
 }
@@ -67,6 +91,9 @@ template <class T> LLitem<T>* LList<T>::GetLast() {
 	if(_nextFreeSlot > 0) {
 		retval = &_llitems[_nextFreeSlot - 1];
 		// TODO:check to make sure it's actually the last
+		while(retval->next != NULL) {
+			retval = retval->next;
+		}
 		assert(retval->next == NULL);
 	}
 	return retval;

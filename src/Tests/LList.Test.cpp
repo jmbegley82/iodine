@@ -22,7 +22,9 @@ int LList_Test() {
 	test.Add(a4);
 	test.Add(a5);
 	test.Add(a6);
-	LList<Atom*>::iterator i = test.Get(0);
+	test.Remove(test.Get(3));
+	test.Remove(test.GetFirst());
+	LList<Atom*>::iterator i = test.GetFirst();
 	while(i != NULL) {
 		Log(string("LList_Test:  i->item->identity = ") + i->item->GetIdentity());
 		i = i->next;
