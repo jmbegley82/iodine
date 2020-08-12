@@ -20,14 +20,13 @@ template <class T> LList<T>::LList() {
 }
 
 template <class T> LList<T>::~LList() {
-	// TODO:  anything
 	free(_llitems);
 }
 
 template <class T> void LList<T>::Add(T item) {
 	if(_nextFreeSlot == _countMax) {
-		//Grow();
-		assert(0);
+		Compact();
+		//assert(0);
 	}
 	LLitem<T>* prev = NULL;
 	LLitem<T>* next = NULL;
