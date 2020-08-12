@@ -55,9 +55,14 @@ void System::Tick() {
 		spr->Tick();
 	}
 	// Tick Effects
+	/*
 	for(int i=0; i<_system._effects.GetCount(); ++i) {
 		Sprite* spr = _system._effects.GetByIndex(i);
 		spr->Tick();
+	}
+	*/
+	for(LList<Sprite*>::iterator i = _system._effects.GetFirst(); i != NULL; i = i->next) {
+		i->item->Tick();
 	}
 	// Check for and remove Sprites that have expired
 	bool makeSpritesContiguous = false;
@@ -74,6 +79,7 @@ void System::Tick() {
 	}
 	// (Same for Effects)
 	bool makeEffectsContiguous = false;
+	/*
 	for(int i=_system._effects.GetCount() - 1; i>= 0; --i) {
 		Sprite* spr = _system._effects.GetByIndex(i);
 		if(spr->HasExpired()) {
@@ -84,13 +90,25 @@ void System::Tick() {
 			makeEffectsContiguous = true;
 		}
 	}
+	*/
+	for(LList<Sprite*>::iterator i = _system._effects.GetLast(); i != NULL; i = i->prev) {
+		Sprite* spr = i->item;
+		if(spr->HasExpired()) {
+#if defined DEBUGEXTRA
+			Log(string("System::Tick:  Destroy Sprite:  (anonymous)"));
+#endif //DEBUGEXTRA
+			_system._effects.Remove(i);
+			makeEffectsContiguous = true;
+		}
+	}
 	// make contiguous if anything was destroyed
 	if(makeSpritesContiguous) {
 		_system._sprites.MakeContiguous();
 		_system._timeOfLastSprite = GetTimeInMsec();
 	}
 	if(makeEffectsContiguous) {
-		_system._effects.MakeContiguous();
+		//_system._effects.MakeContiguous();
+		_system._effects.Compact();
 		_system._timeOfLastEffect = GetTimeInMsec();
 	}
 	// try to shrink if it's been long enough
@@ -99,7 +117,8 @@ void System::Tick() {
 		_system._timeOfLastSprite = GetTimeInMsec();
 	}
 	if(GetTimeInMsec() - _system._timeOfLastEffect >= 5000.0) {
-		_system._effects.Shrink();
+		//_system._effects.Shrink();
+		_system._effects.Compact();
 		_system._timeOfLastEffect = GetTimeInMsec();
 	}
 	// Add Sprites' current Cels to Drawlist
@@ -112,10 +131,20 @@ void System::Tick() {
 		_system._screen->AddToDrawlist(spr->GetTexture(), &src, &dst);
 	}
 	// Add Effects' current Cels to Drawlist
+	/*
 	for(int i=0; i<_system._effects.GetCount(); ++i) {
 		SrcRect src;
 		DstRect dst;
 		Sprite* spr = _system._effects.GetByIndex(i);
+		spr->GetDrawSrcRect(&src);
+		spr->GetDrawDstRect(&dst);
+		_system._screen->AddToDrawlist(spr->GetTexture(), &src, &dst);
+	}
+	*/
+	for(LList<Sprite*>::iterator i = _system._effects.GetFirst(); i != NULL; i = i->next) {
+		SrcRect src;
+		DstRect dst;
+		Sprite* spr = i->item;
 		spr->GetDrawSrcRect(&src);
 		spr->GetDrawDstRect(&dst);
 		_system._screen->AddToDrawlist(spr->GetTexture(), &src, &dst);

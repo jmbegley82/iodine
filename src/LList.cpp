@@ -76,9 +76,9 @@ template <class T> LLitem<T>* LList<T>::GetFirst() {
 			}
 		}
 		//this should probably be unnecessary, but i'd rather just add it now
-		while(retval->prev != NULL) {
-			retval = retval->prev;
-		}
+		//while(retval->prev != NULL) {
+		//	retval = retval->prev;
+		//}
 		// TODO:check to make sure it's actually the first
 		//assert(retval->prev == NULL);
 	}
@@ -125,7 +125,7 @@ template <class T> void LList<T>::Remove(LLitem<T>* item) {
 template <class T> void LList<T>::Compact() {
 	unsigned int realcount = 0;
 	for(int i=0; i<_nextFreeSlot; ++i) {
-		assert(_llitems[i].status == 1 || _llitems[i].status == -1);
+		//assert(_llitems[i].status == 1 || _llitems[i].status == -1);
 		if(_llitems[i].status == -1) {
 			// garbage-collect
 		} else if (_llitems[i].status == 1) {
@@ -167,3 +167,6 @@ template <class T> void LList<T>::Clear() {
 #include "Atom.h"
 template class LList<Atom*>;
 #endif //DEBUG
+
+#include "Sprite.h"
+template class LList<Sprite*>;
