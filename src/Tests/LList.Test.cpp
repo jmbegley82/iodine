@@ -35,6 +35,7 @@ int LList_Test() {
 	Log(string("LList_Test:  j->item->identity = ") + j->item->GetIdentity());
 	LList<Atom*>::iterator k = test.GetLast();
 	Log(string("LList_Test:  k->item->identity = ") + k->item->GetIdentity());
+	/*
 	i = test.GetFirst();
 	while(i != NULL) {
 		delete i->item;
@@ -42,7 +43,9 @@ int LList_Test() {
 		i = i->next;
 		Log(string("LList_Test:  test.GetCount() = ") + std::to_string(test.GetCount()));
 	}
-	test.Compact();
+	*/
+	test.Clear();
+	Log(string("LList_Test:  test.GetCount() = ") + std::to_string(test.GetCount()));
 	return 0;
 }
 

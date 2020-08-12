@@ -156,6 +156,13 @@ template <class T> void LList<T>::Compact() {
 	_llitems = newset;
 }
 
+template <class T> void LList<T>::Clear() {
+	free(_llitems);
+	_llitems = static_cast<LLitem<T>*>(malloc(LLIST_CHUNK_SIZE * sizeof(LLitem<T>)));
+	_nextFreeSlot = 0;
+	_countMax = LLIST_CHUNK_SIZE;
+}
+
 #if defined DEBUG
 #include "Atom.h"
 template class LList<Atom*>;

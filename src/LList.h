@@ -23,7 +23,7 @@ public:
 	int GetCount();
 	void Remove(LLitem<T>* item);
 	void Compact();
-	//void Grow();
+	void Clear();
 	typedef LLitem<T>* iterator;
 private:
 	LLitem<T>* _llitems;
