@@ -88,8 +88,11 @@ template <class T> LLitem<T>* LList<T>::GetFirst() {
 template <class T> LLitem<T>* LList<T>::GetLast() {
 	LLitem<T>* retval = NULL;
 	if(_nextFreeSlot > 0) {
-		retval = &_llitems[_nextFreeSlot - 1];
-		// TODO:check to make sure it's actually the last
+		for(int i=_nextFreeSlot-1; i >= 0 && retval == NULL; --i) {
+			if(_llitems[i].status == 1)
+				retval = &_llitems[i];
+		}
+		if(retval == NULL) return NULL;  //duct tape
 		while(retval->next != NULL) {
 			retval = retval->next;
 		}
