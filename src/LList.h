@@ -23,11 +23,14 @@ public:
 	int GetCount();
 	void Remove(LLitem<T>* item);
 	void Compact();
+	typedef LLitem<T>* iterator;
 private:
 	LLitem<T>* _llitems;
 	unsigned int _nextFreeSlot;
 	unsigned int _countMax;
 };
+
+
 
 #if defined DEBUG
 int LList_Test();

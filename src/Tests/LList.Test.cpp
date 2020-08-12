@@ -22,16 +22,16 @@ int LList_Test() {
 	test.Add(a4);
 	test.Add(a5);
 	test.Add(a6);
-	LLitem<Atom*>* i = test.Get(0);
+	LList<Atom*>::iterator i = test.Get(0);
 	while(i != NULL) {
 		Log(string("LList_Test:  i->item->identity = ") + i->item->GetIdentity());
 		i = i->next;
 	}
 	Log(string("LList_Test:  test.GetCount() = ") + std::to_string(test.GetCount()));
 
-	LLitem<Atom*>* j = test.GetFirst();
+	LList<Atom*>::iterator j = test.GetFirst();
 	Log(string("LList_Test:  j->item->identity = ") + j->item->GetIdentity());
-	LLitem<Atom*>* k = test.GetLast();
+	LList<Atom*>::iterator k = test.GetLast();
 	Log(string("LList_Test:  k->item->identity = ") + k->item->GetIdentity());
 	i = test.GetFirst();
 	while(i != NULL) {
