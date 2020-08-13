@@ -98,6 +98,7 @@ void System::Tick() {
 			Log(string("System::Tick:  Destroy Sprite:  (anonymous)"));
 #endif //DEBUGEXTRA
 			_system._effects.Remove(i);
+			delete i->item;
 			makeEffectsContiguous = true;
 		}
 	}

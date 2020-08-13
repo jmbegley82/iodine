@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
 #if defined DEBUGCONTAINER
 	Container_Test();
 	Array_Test();
-	LList_Test();
+	//LList_Test();
 #endif //DEBUGCONTAINER
 #if defined DEBUGVAR
 	Var::Test();
