@@ -34,7 +34,7 @@ template <class T> SPLList<T>::SPLList() {
 }
 
 template <class T> SPLList<T>::~SPLList() {
-	//TODO
+	Clear();
 }
 
 template <class T> Litem<T>* SPLList<T>::GetFirst() {
@@ -54,6 +54,8 @@ template <class T> Litem<T>* SPLList<T>::Add(T obj) {
 	retval->prev = _last;
 	retval->item = obj;
 	retval->next = NULL;
+	if(!_first)
+		_first = retval;
 	if(_last)
 		_last->next = retval;
 	_last = retval;
@@ -86,4 +88,9 @@ template <class T> void SPLList<T>::Clear() {
 		free(_garbage);
 		_garbage = NULL;
 	}
+	_first = _last = NULL;
+	_count = 0;
 }
+
+#include "Sprite.h"
+template class SPLList<Sprite*>;

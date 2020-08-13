@@ -61,7 +61,7 @@ void System::Tick() {
 		spr->Tick();
 	}
 	*/
-	for(LList<Sprite*>::iterator i = _system._effects.GetFirst(); i != NULL; i = i->next) {
+	for(SPLList<Sprite*>::iterator i = _system._effects.GetFirst(); i != NULL; i = i->next) {
 		i->item->Tick();
 	}
 	// Check for and remove Sprites that have expired
@@ -91,7 +91,7 @@ void System::Tick() {
 		}
 	}
 	*/
-	for(LList<Sprite*>::iterator i = _system._effects.GetLast(); i != NULL; i = i->prev) {
+	for(SPLList<Sprite*>::iterator i = _system._effects.GetLast(); i != NULL; i = i->prev) {
 		Sprite* spr = i->item;
 		if(spr->HasExpired()) {
 #if defined DEBUGEXTRA
@@ -108,7 +108,7 @@ void System::Tick() {
 	}
 	if(makeEffectsContiguous) {
 		//_system._effects.MakeContiguous();
-		_system._effects.Compact();
+		//_system._effects.Compact();
 		_system._timeOfLastEffect = GetTimeInMsec();
 	}
 	// try to shrink if it's been long enough
@@ -118,7 +118,7 @@ void System::Tick() {
 	}
 	if(GetTimeInMsec() - _system._timeOfLastEffect >= 5000.0) {
 		//_system._effects.Shrink();
-		_system._effects.Compact();
+		//_system._effects.Compact();
 		_system._timeOfLastEffect = GetTimeInMsec();
 	}
 	// Add Sprites' current Cels to Drawlist
@@ -141,7 +141,7 @@ void System::Tick() {
 		_system._screen->AddToDrawlist(spr->GetTexture(), &src, &dst);
 	}
 	*/
-	for(LList<Sprite*>::iterator i = _system._effects.GetFirst(); i != NULL; i = i->next) {
+	for(SPLList<Sprite*>::iterator i = _system._effects.GetFirst(); i != NULL; i = i->next) {
 		SrcRect src;
 		DstRect dst;
 		Sprite* spr = i->item;

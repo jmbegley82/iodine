@@ -14,7 +14,8 @@
 #include "Sprite.h"
 #include "AnimationSet.h"
 //#include "Array.h"
-#include "LList.h"
+//#include "LList.h"
+#include "SPLList.h"
 
 using std::string;
 
@@ -46,7 +47,8 @@ private:
 	Screen* _screen;
 	Container<Sprite> _sprites;
 	//Array<Sprite> _effects;
-	LList<Sprite*> _effects;
+	//LList<Sprite*> _effects;
+	SPLList<Sprite*> _effects;
 	double _timeOfLastSprite;
 	double _timeOfLastEffect;
 	Container<AnimationSet> _animsets;
