@@ -267,6 +267,15 @@ void System::_Test() {
 	spr->SetPosition({200.0,100.0});
 	spr->SetOneshot();
 	_sprites.Add("testobj2", spr);
+
+	anm = new AnimationSet();
+	anm->LoadAnimation("default", "data/expl128.anm");
+	_animsets.Add("expl128", anm);
+	spr = new Sprite();
+	spr->SetAnimationSet("expl128");
+	spr->SetPosition({300.0,100.0});
+	spr->SetOneshot();
+	_sprites.Add("testobj3", spr);
 }
 
 void System::_Test2() {
@@ -290,8 +299,10 @@ void System::_Test3() {
 	Sprite* spr = NULL;
 	for(int i=0; i<100; ++i) {
 		spr = new Sprite();
-		int rando = rand()%2;
-		if(rando > 0)
+		int rando = rand()%64;
+		if(rando > 62)
+			spr->SetAnimationSet("expl128");
+		else if(rando > 54)
 			spr->SetAnimationSet("poof");
 		else
 			spr->SetAnimationSet("pop");
