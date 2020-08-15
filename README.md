@@ -59,7 +59,7 @@ There is currently no license, implied or otherwise, for anything in this repo. 
     - Pass all built-in tests
     - valgrind memcheck and helgrind should be as clean as possible
 
-# Current Tasks (as of 2020/08/10):
+# Current Tasks (as of 2020/08/14):
 - Comments are lacking in System, Screen and TexCache
 - Reduce number of valgrind complains on OpenBSD (back burner, may be due to libpthread?)
 - Determine how best to approach a layered screen system
@@ -68,8 +68,6 @@ There is currently no license, implied or otherwise, for anything in this repo. 
     - There's the Atma method, which separated layers into distinct collections of objects, and had the advantages of easy
     implementation of a menu overlay on top of scrolling/repeating/tiled/different-resolution/etc. backgrounds
 - The dreaded collision detection/handling mechanisms
-- Classes/structs for single animation cels, collections of cels (animations), collections of animations (needs more testing)
-- Fine, try to replace Array with a linked list and see if it's more performant
 
 # Scripting language (name tbd)
 Future objects which will accept text commands should a) adhere to the existing examples and b) be detailed below.  VarSet
@@ -135,23 +133,24 @@ Class descriptions:
   - unsigned int cx, cy	//distance from (x,y) to center
   - unsigned int w, h	//width and height of cel (lower-right pixel = (x-cx+w,y-cy+h))
 
-Cels will generally be stored sequentially within a list/queue/etc. within Animations.  Animations will generally be stored in
+Cels will generally be stored sequentially within a list/queue/etc. within Animations.  Animations will be stored in
 maps (by string) within their respective AnimationSets.  AnimationSets will be contained within a globally-accessible cache,
 possibly also within a map by string.  A Sprite class will be used in place of multiple instances of AnimationSet.
 
 # TexCache
 TexCache is where textures are loaded/stored.  It relies upon System::\_screen having successfully created a renderer object.
-This means that it must have created a window (unless there's some other way of creating an SDL\_Renderer I don't know about).
+This means that it must have created a window (unless there's some way of creating an SDL\_Renderer I don't know about).
 Having the window randomly pop up and be unresponsive during most of the currently-coded (20200802) tests is pretty annoying
-and obviously not optimal.  A possible solution might be to rearrange the tests within main to group TexCache and Screen tests
-together, separate window creation in Screen into a separate function, make it accessible via System's static object, and make
+and obviously not optimal.  A solution might be to rearrange the tests within main to group TexCache and Screen tests
+together, separate window creation in Screen into separate function, make it accessible via System's static object, and make
 sure to create the window prior to tests involving TexCache or the creation of SDL\_Textures in general.
 
 # Screen
-Screen needs to be implemented before anything else graphical can be completed.  Screen will be a static object.  Screen should
-defer window creation until a function is called; this way Logger will definitely be started beforehand, which will make debug
+Screen needs to be implemented before anything else graphical can be completed.  Screen should
+defer window creation until a function is called; thus Logger will definitely be started beforehand, which will make debug
 output availability more reliable.  It is currently done during construction and this needs to be changed.
 
 # System.h,cpp
-The System class will be our sole static class; this will hypothetically make the transition from a testing main executable to
-a library smoother, and keep the chain of initialization of different parts of the codebase easier to understand and debug.
+The System class will be our sole static class; this will hypothetically make the transition from a testing main executable
+to a library smoother, and keep the chain of initialization of different parts of the codebase easier to understand and
+debug.

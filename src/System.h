@@ -13,7 +13,6 @@
 #include "Container.h"
 #include "Sprite.h"
 #include "AnimationSet.h"
-//#include "Array.h"
 //#include "LList.h"
 #include "SPLList.h"
 
@@ -46,7 +45,6 @@ private:
 	TexCache* _texcache;
 	Screen* _screen;
 	Container<Sprite> _sprites;
-	//Array<Sprite> _effects;
 	//LList<Sprite*> _effects;
 	SPLList<Sprite*> _effects;
 	double _timeOfLastSprite;
