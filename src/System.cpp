@@ -241,17 +241,17 @@ int System::_Command(const string& cmd) {
 #if defined DEBUG
 void System::_Test() {
 	AnimationSet* anm = new AnimationSet();
-	anm->LoadAnimation("walkl", "data/terra.walkl.anm");
-	anm->LoadAnimation("walkr", "data/terra.walkr.anm");
+	anm->LoadAnimation("wl", "data/terra.walkl.anm");
+	anm->LoadAnimation("wr", "data/terra.walkr.anm");
 	_animsets.Add("terra", anm);
 	Sprite* spr = new Sprite();
 	spr->SetAnimationSet("terra");
-	spr->SetAnimation("walkl");
+	spr->SetAnimation("wl");
 	spr->SetPosition({200.0,200.0});
 	_sprites.Add("player", spr);
 
 	anm = new AnimationSet();
-	anm->LoadAnimation("default", "data/poof.anm");
+	anm->LoadAnimation("de", "data/poof.anm");
 	_animsets.Add("poof", anm);
 	spr = new Sprite();
 	spr->SetAnimationSet("poof");
@@ -260,7 +260,7 @@ void System::_Test() {
 	_sprites.Add("testobj", spr);
 
 	anm = new AnimationSet();
-	anm->LoadAnimation("default", "data/pop.anm");
+	anm->LoadAnimation("de", "data/pop.anm");
 	_animsets.Add("pop", anm);
 	spr = new Sprite();
 	spr->SetAnimationSet("pop");
@@ -269,7 +269,7 @@ void System::_Test() {
 	_sprites.Add("testobj2", spr);
 
 	anm = new AnimationSet();
-	anm->LoadAnimation("default", "data/expl128.anm");
+	anm->LoadAnimation("de", "data/expl128.anm");
 	_animsets.Add("expl128", anm);
 	spr = new Sprite();
 	spr->SetAnimationSet("expl128");

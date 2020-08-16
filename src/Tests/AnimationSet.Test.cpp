@@ -14,14 +14,14 @@
 
 int AnimationSet::Test() {
 	AnimationSet* aset = new AnimationSet();
-	aset->LoadAnimation("walkl", "data/terra.walkl.anm");
-	aset->LoadAnimation("walkr", "data/terra.walkr.anm");
-	aset->LoadAnimation("explode", "data/explosion.anm");
+	aset->LoadAnimation("wl", "data/terra.walkl.anm");
+	aset->LoadAnimation("wr", "data/terra.walkr.anm");
+	aset->LoadAnimation("ex", "data/explosion.anm");
 
-	int test1 = aset->FindAnimation("walkl")->GetCelCount();  //1
-	int test2 = aset->FindAnimation("walkr")->GetCel(0)->w;   //432
-	int test3 = aset->FindAnimation("explode")->GetCelCount();//8
-	int test4 = aset->FindAnimation("explode")->GetCel(7)->x; //896
+	int test1 = aset->FindAnimation("wl")->GetCelCount();  //1
+	int test2 = aset->FindAnimation("wr")->GetCel(0)->w;   //432
+	int test3 = aset->FindAnimation("ex")->GetCelCount();//8
+	int test4 = aset->FindAnimation("ex")->GetCel(7)->x; //896
 
 	assert(test1 == 1);
 	assert(test2 == 432);

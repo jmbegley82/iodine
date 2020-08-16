@@ -75,7 +75,7 @@ bool Sprite::SetAnimationSet(const string& name) {
 	AnimationSet* aset = System::GetAnimationSet(name);
 	if(aset) {
 		_currentAset = aset;
-		return SetAnimation("default");
+		return SetAnimation("de");
 	}
 	return false;
 }
