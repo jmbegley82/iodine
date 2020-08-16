@@ -8,7 +8,7 @@
 #include "Logger.h"
 #include "Atom.h"
 
-void cttestloop(Container<Atom>* ct) {
+void cttestloop(Container<Atom*>* ct) {
 	char msg[128];
 	for(int i=0; i<ct->GetCount(); i++) {
 		sprintf(msg, "Container_Test:  index=%d, identity=%s", i, ct->GetByIndex(i)->GetIdentity().c_str());
@@ -23,7 +23,7 @@ int Container_Test() {
 	//int test = 2;
 	//cnt.Add("what", &test);
 	
-	Container<Atom> tester;
+	Container<Atom*> tester;
 	Atom* a = new Atom("Test1");
 	Atom* b = new Atom("Test2");
 	Atom* c = new Atom("Test3");

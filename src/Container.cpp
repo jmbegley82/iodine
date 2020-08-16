@@ -31,7 +31,7 @@ Container<T>::~Container() {
 }
 
 template <class T>
-void Container<T>::Add(const string& name, T* obj) {
+void Container<T>::Add(const string& name, T obj) {
 	int idx = GetIndexByName(name);
 	if(idx == -1) {
 		// not found
@@ -43,8 +43,8 @@ void Container<T>::Add(const string& name, T* obj) {
 }
 
 template <class T>
-T* Container<T>::Get(const string& name) {
-	T* retval = NULL;
+T Container<T>::Get(const string& name) {
+	T retval = NULL;
 	for(int i=0; i<_count && !retval; ++i) {
 		if(_objects[i]->first == name) 
 			retval = _objects[i]->second;
@@ -53,8 +53,8 @@ T* Container<T>::Get(const string& name) {
 }
 
 template <class T>
-T* Container<T>::GetByIndex(unsigned int idx) {
-	T* retval = NULL;
+T Container<T>::GetByIndex(unsigned int idx) {
+	T retval = NULL;
 	if(idx < _count) retval = _objects[idx]->second;
 	return retval;
 }
@@ -79,7 +79,7 @@ int Container<T>::GetIndexByName(const string& name) {
 }
 
 template <class T>
-bool Container<T>::Destroy(T* obj) {
+bool Container<T>::Destroy(T obj) {
 	bool retval = false;
 	for(unsigned int i=0; i<_count && !retval; i++) {
 		if(_objects[i]->second == obj) {
@@ -190,7 +190,7 @@ int Container<T>::GetCountMax() {
 }
 
 template <class T>
-void Container<T>::Add_unsafe(const string& name, T* obj) {
+void Container<T>::Add_unsafe(const string& name, T obj) {
 	if(_count >= _countMax) Grow();
 	_objects[_count] = new namepair;
 	_objects[_count]->first = name;
@@ -198,6 +198,6 @@ void Container<T>::Add_unsafe(const string& name, T* obj) {
 	++_count;
 }
 
-template class Container<Atom>;
-template class Container<Sprite>;
-template class Container<AnimationSet>;
+template class Container<Atom*>;
+template class Container<Sprite*>;
+template class Container<AnimationSet*>;

@@ -44,12 +44,12 @@ private:
 #endif //DEBUG
 	TexCache* _texcache;
 	Screen* _screen;
-	Container<Sprite> _sprites;
+	Container<Sprite*> _sprites;
 	//LList<Sprite*> _effects;
 	SPLList<Sprite*> _effects;
 	double _timeOfLastSprite;
 	double _timeOfLastEffect;
-	Container<AnimationSet> _animsets;
+	Container<AnimationSet*> _animsets;
 	bool _timeToQuit;
 };
 
