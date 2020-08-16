@@ -19,13 +19,14 @@ class AnimationSet {
 public:
 	AnimationSet();						//!< AnimationSet ctor
 	~AnimationSet();					//!< AnimationSet dtor
-	Animation* LoadAnimation(const string& name, const string& path);
-	Animation* FindAnimation(const string& name);
+	Animation* LoadAnimation(const char* name, const string& path);
+	Animation* FindAnimation(const char* name);
 #if defined DEBUG
 	static int Test();					//!< Run tests
 #endif //DEBUG
 private:
-	animSet _anims;
+	//animSet _anims;
+	Animation* _anims[256][256];
 };
 
 #endif //ANIMATIONSET_H

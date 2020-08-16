@@ -82,7 +82,7 @@ bool Sprite::SetAnimationSet(const string& name) {
 
 bool Sprite::SetAnimation(const string& name) {
 	if(_currentAset) {
-		Animation* anm = _currentAset->FindAnimation(name);
+		Animation* anm = _currentAset->FindAnimation(name.c_str());  //TODO:  continue converting to char[2]
 		if(anm) {
 			_currentAnim = anm;
 			_currentCel = 0;
