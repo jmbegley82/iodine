@@ -2,39 +2,31 @@
  *
  */
 
-#if !defined LLIST_H
-#define LLIST_H
+#if !defined SPLLIST_H
+#define SPLLIST_H
 
-template <typename T> struct LLitem {
-	LLitem<T>* prev;
+template <typename T> struct Litem {
+	Litem<T>* prev;
 	T item;
-	LLitem<T>* next;
-	int status;  // -1 = garbage, 0 = unused, 1 = used
+	Litem<T>* next;
 };
 
 template <class T> class LList {
 public:
 	LList();
-	~LList();
-	void Add(T item);
-	LLitem<T>* Get(unsigned int index);
-	LLitem<T>* GetFirst();
-	LLitem<T>* GetLast();
-	int GetCount();
-	void Remove(LLitem<T>* item);
-	void Compact();
+	~LList(); 
+	Litem<T>* GetFirst();
+	Litem<T>* GetLast();
+	unsigned int GetCount();
+	Litem<T>* Add(T obj);
+	void Remove(Litem<T>* obj);
 	void Clear();
-	typedef LLitem<T>* iterator;
+	typedef Litem<T>* iterator;
 private:
-	LLitem<T>* _llitems;
-	unsigned int _nextFreeSlot;
-	unsigned int _countMax;
+	Litem<T>* _first;
+	Litem<T>* _last;
+	Litem<T>* _garbage;
+	unsigned int _count;
 };
 
-
-
-#if defined DEBUG
-int LList_Test();
-#endif //DEBUG
-
-#endif //LLIST_H
+#endif //SPLLIST_H

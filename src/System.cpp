@@ -61,7 +61,7 @@ void System::Tick() {
 		spr->Tick();
 	}
 	*/
-	for(SPLList<Sprite*>::iterator i = _system._effects.GetFirst(); i != NULL; i = i->next) {
+	for(LList<Sprite*>::iterator i = _system._effects.GetFirst(); i != NULL; i = i->next) {
 		i->item->Tick();
 	}
 	// Check for and remove Sprites that have expired
@@ -91,7 +91,7 @@ void System::Tick() {
 		}
 	}
 	*/
-	for(SPLList<Sprite*>::iterator i = _system._effects.GetLast(); i != NULL; i = i->prev) {
+	for(LList<Sprite*>::iterator i = _system._effects.GetLast(); i != NULL; i = i->prev) {
 		Sprite* spr = i->item;
 		if(spr->HasExpired()) {
 #if defined DEBUGEXTRA
@@ -142,7 +142,7 @@ void System::Tick() {
 		_system._screen->AddToDrawlist(spr->GetTexture(), &src, &dst);
 	}
 	*/
-	for(SPLList<Sprite*>::iterator i = _system._effects.GetFirst(); i != NULL; i = i->next) {
+	for(LList<Sprite*>::iterator i = _system._effects.GetFirst(); i != NULL; i = i->next) {
 		SrcRect src;
 		DstRect dst;
 		Sprite* spr = i->item;

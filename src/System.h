@@ -13,8 +13,7 @@
 #include "Container.h"
 #include "Sprite.h"
 #include "AnimationSet.h"
-//#include "LList.h"
-#include "SPLList.h"
+#include "LList.h"
 
 using std::string;
 
@@ -45,8 +44,7 @@ private:
 	TexCache* _texcache;
 	Screen* _screen;
 	Container<Sprite*> _sprites;
-	//LList<Sprite*> _effects;
-	SPLList<Sprite*> _effects;
+	LList<Sprite*> _effects;
 	double _timeOfLastSprite;
 	double _timeOfLastEffect;
 	Container<AnimationSet*> _animsets;

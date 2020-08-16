@@ -1,175 +1,96 @@
 /* LList.cpp
  *
+template <typename T> struct Litem {
+	Litem<T>* prev;
+	T item;
+	Litem<T>* next;
+};
+
+template <class T> class LList {
+public:
+	LList();
+	~LList(); 
+	Litem<T>* GetFirst();
+	Litem<T>* GetLast();
+	void Remove(Litem<T>* obj);
+	Litem<T>* Add(T obj);
+	unsigned int GetCount();
+	void Clear();
+	typedef Litem<T>* iterator;
+private:
+	Litem<T>* _first;
+	Litem<T>* _last;
+	Litem<T>* _garbage;
+	unsigned int _count;
+};
  */
 
-#define LLIST_CHUNK_SIZE 64
-
 #include <cstdlib>
-#include <cassert>
 #include "LList.h"
 
 template <class T> LList<T>::LList() {
-	_llitems = static_cast<LLitem<T>*>(malloc(LLIST_CHUNK_SIZE * sizeof(LLitem<T>)));
-	for(int i=0; i<LLIST_CHUNK_SIZE; ++i) {
-		_llitems[i].prev = NULL;
-		_llitems[i].next = NULL;
-		_llitems[i].status = 0;
-	}
-	_nextFreeSlot = 0;
-	_countMax = LLIST_CHUNK_SIZE;
+	_first = _last = _garbage = NULL;
+	_count = 0;
 }
 
 template <class T> LList<T>::~LList() {
-	free(_llitems);
+	Clear();
 }
 
-template <class T> void LList<T>::Add(T item) {
-	if(_nextFreeSlot == _countMax) {
-		Compact();
-		//assert(0);
-	}
-	LLitem<T>* prev = NULL;
-	LLitem<T>* next = NULL;
-	int prevIdx = _nextFreeSlot - 1;
-	if(prevIdx >= 0) {
-		prev = &_llitems[prevIdx];
-	}
-	assert(_llitems[_nextFreeSlot].status == 0);
-	_llitems[_nextFreeSlot].prev = prev;
-	_llitems[_nextFreeSlot].next = next;
-	_llitems[_nextFreeSlot].status = 1;
-	_llitems[_nextFreeSlot].item = item;
-	if(prevIdx >= 0) {
-		prev->next = &_llitems[_nextFreeSlot];
-	}
-	++_nextFreeSlot;
+template <class T> Litem<T>* LList<T>::GetFirst() {
+	return _first;
 }
 
-template <class T> LLitem<T>* LList<T>::Get(unsigned int index) {
-	LLitem<T>* retval = NULL;
-	if(index < _nextFreeSlot && _nextFreeSlot > 0) {
-		//retval = &_llitems[index];
-		int realidx = 0;
-		LList<T>::iterator i = GetFirst();
-		while(retval == NULL && realidx < _nextFreeSlot && i != NULL) {
-			if(realidx == index) {
-				retval = i;
-			} else {
-				++realidx;
-				i = i->next;
-			}
-		}
-	}
+template <class T> Litem<T>* LList<T>::GetLast() {
+	return _last;
+}
+
+template <class T> unsigned int LList<T>::GetCount() {
+	return _count;
+}
+
+template <class T> Litem<T>* LList<T>::Add(T obj) {
+	Litem<T>* retval = static_cast<Litem<T>*>(malloc(sizeof(Litem<T>)));
+	retval->prev = _last;
+	retval->item = obj;
+	retval->next = NULL;
+	if(!_first)
+		_first = retval;
+	if(_last)
+		_last->next = retval;
+	_last = retval;
+	++_count;
 	return retval;
 }
 
-template <class T> LLitem<T>* LList<T>::GetFirst() {
-	LLitem<T>* retval = NULL;
-	if(_nextFreeSlot > 0) {
-		//retval = &_llitems[0];
-		int realidx = 0;
-		while(retval == NULL && realidx < _nextFreeSlot) {
-			if(_llitems[realidx].status == 1) {
-				retval = &_llitems[realidx];
-			} else {
-				++realidx;
-			}
-		}
-		//this should probably be unnecessary, but i'd rather just add it now
-		//while(retval->prev != NULL) {
-		//	retval = retval->prev;
-		//}
-		// TODO:check to make sure it's actually the first
-		//assert(retval->prev == NULL);
-	}
-	return retval;
-}
-
-template <class T> LLitem<T>* LList<T>::GetLast() {
-	LLitem<T>* retval = NULL;
-	if(_nextFreeSlot > 0) {
-		for(int i=_nextFreeSlot-1; i >= 0 && retval == NULL; --i) {
-			if(_llitems[i].status == 1)
-				retval = &_llitems[i];
-		}
-		if(retval == NULL) return NULL;  //duct tape
-		while(retval->next != NULL) {
-			retval = retval->next;
-		}
-		assert(retval->next == NULL);
-	}
-	return retval;
-}
-
-template <class T> int LList<T>::GetCount() {
-	int retval = 0;
-	for(int i=0; i<_nextFreeSlot; ++i) {
-		if(_llitems[i].status == 1) ++retval;
-	}
-	return retval;
-}
-
-template <class T> void LList<T>::Remove(LLitem<T>* item) {
-	// deal with the item itself
-	LLitem<T>* prev = item->prev;
-	LLitem<T>* next = item->next;
-	if(prev != NULL) {
+template <class T> void LList<T>::Remove(Litem<T>* obj) {
+	Litem<T>* prev = obj->prev;
+	Litem<T>* next = obj->next;
+	if(obj == _first)
+		_first = next;
+	if(obj == _last)
+		_last = prev;
+	if(prev)
 		prev->next = next;
-	}
-	if(next != NULL) {
+	if(next)
 		next->prev = prev;
-	}
-	// mark the item for garbage collection
-	//item->prev = NULL;
-	//item->next = NULL;
-	item->status = -1;
-}
-
-template <class T> void LList<T>::Compact() {
-	unsigned int realcount = 0;
-	for(int i=0; i<_nextFreeSlot; ++i) {
-		//assert(_llitems[i].status == 1 || _llitems[i].status == -1);
-		if(_llitems[i].status == -1) {
-			// garbage-collect
-		} else if (_llitems[i].status == 1) {
-			if(i != realcount) {
-				_llitems[realcount].prev = _llitems[i].prev;
-				_llitems[realcount].item = _llitems[i].item;
-				_llitems[realcount].next = _llitems[i].next;
-				_llitems[realcount].status = _llitems[i].status;
-			}
-			++realcount;
-		}
-	
-	}
-	// the following code should be prefaced with a check to see if it's necessary/beneficial
-	LLitem<T>* newset = static_cast<LLitem<T>*>(malloc((realcount + LLIST_CHUNK_SIZE) * sizeof(LLitem<T>)));
-	for(int i=0; i<realcount; ++i) {
-		newset[i].prev = _llitems[i].prev;
-		newset[i].item = _llitems[i].item;
-		newset[i].next = _llitems[i].next;
-		newset[i].status = _llitems[i].status;
-	}
-	for(int i=realcount; i<realcount+LLIST_CHUNK_SIZE; ++i) {
-		newset[i].prev = NULL;
-		newset[i].next = NULL;
-		newset[i].status = 0;
-	}
-	free(_llitems);
-	_llitems = newset;
+	if(_garbage)
+		free(_garbage);
+	_garbage = obj;
+	--_count;
 }
 
 template <class T> void LList<T>::Clear() {
-	free(_llitems);
-	_llitems = static_cast<LLitem<T>*>(malloc(LLIST_CHUNK_SIZE * sizeof(LLitem<T>)));
-	_nextFreeSlot = 0;
-	_countMax = LLIST_CHUNK_SIZE;
+	for(Litem<T>* i = _first; i != NULL; i = i->next) {
+		Remove(i);
+	}
+	if(_garbage) {
+		free(_garbage);
+		_garbage = NULL;
+	}
+	_first = _last = NULL;
+	_count = 0;
 }
-
-#if defined DEBUG
-#include "Atom.h"
-template class LList<Atom*>;
-#endif //DEBUG
 
 #include "Sprite.h"
 template class LList<Sprite*>;
