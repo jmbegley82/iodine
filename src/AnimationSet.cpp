@@ -5,8 +5,49 @@
 #include <string>
 #include "AnimationSet.h"
 
+/*
+enum AnimType {
+	DEFAULT = 0,
+	WALK,
+	RUN,
+	JUMP,
+	ATTACK,
+	SPEAK,
+	TAUNT,
+	ANIMTYPE_COUNT
+};
+*/
+
+AnimType DecodeAnimType(char c) {
+	AnimType retval = DEFAULT;
+	switch(c) {
+	case 'w':
+		retval = WALK;
+		break;
+	case 'r':
+		retval = RUN;
+		break;
+	case 'j':
+		retval = JUMP;
+		break;
+	case 'a':
+		retval = ATTACK;
+		break;
+	case 's':
+		retval = SPEAK;
+		break;
+	case 't':
+		retval = TAUNT;
+		break;
+	default:
+		break;
+	}
+	return retval;
+}
+
+
 AnimationSet::AnimationSet() {
-	for(int i=0; i<256; ++i) {
+	for(int i=0; i<ANIMTYPE_COUNT; ++i) {
 		for(int j=0; j<256; ++j) {
 			_anims[i][j] = NULL;
 		}
@@ -20,7 +61,7 @@ AnimationSet::~AnimationSet() {
 	}
 	_anims.clear();
 	*/
-	for(int i=0; i<256; ++i) {
+	for(int i=0; i<ANIMTYPE_COUNT; ++i) {
 		for(int j=0; j<256; ++j) {
 			if(_anims[i][j]) delete _anims[i][j];
 		}
@@ -36,7 +77,7 @@ Animation* AnimationSet::LoadAnimation(const char* name, const string& path) {
 		_anims[name] = retval;
 	}
 	*/
-	char x = name[0];
+	AnimType x = DecodeAnimType(name[0]);
 	char y = name[1];
 	if(_anims[x][y]) {
 		retval = _anims[x][y];
@@ -59,7 +100,7 @@ Animation* AnimationSet::FindAnimation(const char* name) {
 		retval = i->second;
 	}
 	*/
-	char x = name[0];
+	AnimType x = DecodeAnimType(name[0]);
 	char y = name[1];
 	retval = _anims[x][y];
 	return retval;

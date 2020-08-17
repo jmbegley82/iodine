@@ -154,3 +154,25 @@ output availability more reliable.  It is currently done during construction and
 The System class will be our sole static class; this will hypothetically make the transition from a testing main executable
 to a library smoother, and keep the chain of initialization of different parts of the codebase easier to understand and
 debug.
+
+# AnimationSets
+AnimationSets will be loaded through System::GetAnimationSet.  Animations within AnimationSets have two-character names; the
+first character is the animation type and the second is the modifier.  For example, the Walking Left animation is "wl",
+Walking Downward is "wd", Attacking Upward is "au", etc.
+
+Currently, valid types (defined near the top of src/AnimationSet.h) are:
+ - d		Default
+ - w		Walk
+ - r		Run
+ - j		Jump
+ - a		Attack
+ - s		Speak
+ - t		Taunt
+ - (any other)	(map to Default)
+
+Modifiers include but aren't limited to:
+ - u		Up
+ - d		Down
+ - l		Left
+ - r		Right
+

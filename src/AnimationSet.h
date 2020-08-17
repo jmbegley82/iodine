@@ -10,10 +10,19 @@
 #include "Animation.h"
 
 using std::string;
-using std::map;
 
-typedef map<string,Animation*> animSet;		//!< container for Animations
-typedef animSet::iterator asetItr;		//!< relevant iterator for animSet
+enum AnimType {
+	DEFAULT = 0,
+	WALK,
+	RUN,
+	JUMP,
+	ATTACK,
+	SPEAK,
+	TAUNT,
+	ANIMTYPE_COUNT
+};
+
+//AnimType DecodeAnimType(char c);
 
 class AnimationSet {
 public:
@@ -25,8 +34,7 @@ public:
 	static int Test();					//!< Run tests
 #endif //DEBUG
 private:
-	//animSet _anims;
-	Animation* _anims[256][256];
+	Animation* _anims[ANIMTYPE_COUNT][256];
 };
 
 #endif //ANIMATIONSET_H
