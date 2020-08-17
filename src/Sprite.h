@@ -22,7 +22,7 @@ public:
 	void GetDrawSrcRect(SrcRect* src);
 	void GetDrawDstRect(DstRect* dst);
 	bool SetAnimationSet(const string& name);
-	bool SetAnimation(const string& name);
+	bool SetAnimation(const char* name);
 	void SetOneshot();
 	bool IsOneshot();
 	bool HasExpired();
