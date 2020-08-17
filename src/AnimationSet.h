@@ -34,7 +34,7 @@ public:
 	static int Test();					//!< Run tests
 #endif //DEBUG
 private:
-	Animation* _anims[ANIMTYPE_COUNT][256];
+	Animation* _anims[ANIMTYPE_COUNT][26];
 };
 
 #endif //ANIMATIONSET_H
