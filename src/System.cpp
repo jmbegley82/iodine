@@ -23,7 +23,9 @@ System::System() {
 }
 
 System::~System() {
+#if defined SYSTEM_USE_CONTAINER
 	_animsets.Clear();
+#endif
 	Logger_finish();
 }
 
@@ -50,21 +52,22 @@ void System::Tick() {
 	_system.PollEvents();
 
 	// Tick Sprites
+#if defined SYSTEM_USE_CONTAINER
 	for(int i=0; i<_system._sprites.GetCount(); ++i) {
 		Sprite* spr = _system._sprites.GetByIndex(i);
 		spr->Tick();
 	}
-	// Tick Effects
-	/*
-	for(int i=0; i<_system._effects.GetCount(); ++i) {
-		Sprite* spr = _system._effects.GetByIndex(i);
-		spr->Tick();
+#else
+	for(SpriteMap::iterator i=_system._sprites.begin(); i!= _system._sprites.end(); ++i) {
+		i->second->Tick();
 	}
-	*/
+#endif //SYSTEM_USE_CONTAINER
+	// Tick Effects
 	for(LList<Sprite*>::iterator i = _system._effects.GetFirst(); i != NULL; i = i->next) {
 		i->item->Tick();
 	}
 	// Check for and remove Sprites that have expired
+#if defined SYSTEM_USE_CONTAINER
 	bool makeSpritesContiguous = false;
 	for(int i=_system._sprites.GetCount() - 1; i>= 0; --i) {
 		Sprite* spr = _system._sprites.GetByIndex(i);
@@ -77,20 +80,21 @@ void System::Tick() {
 			makeSpritesContiguous = true;
 		}
 	}
-	// (Same for Effects)
-	bool makeEffectsContiguous = false;
-	/*
-	for(int i=_system._effects.GetCount() - 1; i>= 0; --i) {
-		Sprite* spr = _system._effects.GetByIndex(i);
+#else
+	for(SpriteMap::iterator i=_system._sprites.begin(), i_next=i; i!=_system._sprites.end(); i=i_next) {
+		++i_next;
+		Sprite* spr = i->second;
 		if(spr->HasExpired()) {
 #if defined DEBUGEXTRA
-			Log(string("System::Tick:  Destroy Sprite:  (anonymous)"));
+			Log(string("System::Tick:  Destroy Sprite:  ") + i->first);
 #endif //DEBUGEXTRA
-			_system._effects.Destroy_unsafe(i);
-			makeEffectsContiguous = true;
+		delete spr;
+		_system._sprites.erase(i);
 		}
 	}
-	*/
+#endif //SYSTEM_USE_CONTAINER
+	// (Same for Effects)
+	bool makeEffectsContiguous = false;
 	for(LList<Sprite*>::iterator i = _system._effects.GetLast(); i != NULL; i = i->prev) {
 		Sprite* spr = i->item;
 		if(spr->HasExpired()) {
@@ -103,45 +107,44 @@ void System::Tick() {
 		}
 	}
 	// make contiguous if anything was destroyed
+	/*
 	if(makeSpritesContiguous) {
 		_system._sprites.MakeContiguous();
 		_system._timeOfLastSprite = GetTimeInMsec();
 	}
+	*/
 	if(makeEffectsContiguous) {
 		//_system._effects.MakeContiguous();
 		//_system._effects.Compact();
 		_system._timeOfLastEffect = GetTimeInMsec();
 	}
 	// try to shrink if it's been long enough
+#if defined SYSTEM_USE_CONTAINER
 	if(GetTimeInMsec() - _system._timeOfLastSprite >= 5000.0) {
 		_system._sprites.Shrink();
 		_system._timeOfLastSprite = GetTimeInMsec();
 	}
+#endif //SYSTEM_USE_CONTAINER
 	if(GetTimeInMsec() - _system._timeOfLastEffect >= 5000.0) {
 		//_system._effects.Shrink();
 		//_system._effects.Compact();
 		_system._timeOfLastEffect = GetTimeInMsec();
 	}
 	// Add Sprites' current Cels to Drawlist
+#if defined SYSTEM_USE_CONTAINER
 	for(int i=0; i<_system._sprites.GetCount(); ++i) {
+		Sprite* spr = _system._sprites.GetByIndex(i);
+#else
+	for(SpriteMap::iterator i=_system._sprites.begin(); i!=_system._sprites.end(); ++i) {
+		Sprite* spr = i->second;
+#endif //SYSTEM_USE_CONTAINER
 		SrcRect src;
 		DstRect dst;
-		Sprite* spr = _system._sprites.GetByIndex(i);
 		spr->GetDrawSrcRect(&src);
 		spr->GetDrawDstRect(&dst);
 		_system._screen->AddToDrawlist(spr->GetTexture(), &src, &dst);
 	}
 	// Add Effects' current Cels to Drawlist
-	/*
-	for(int i=0; i<_system._effects.GetCount(); ++i) {
-		SrcRect src;
-		DstRect dst;
-		Sprite* spr = _system._effects.GetByIndex(i);
-		spr->GetDrawSrcRect(&src);
-		spr->GetDrawDstRect(&dst);
-		_system._screen->AddToDrawlist(spr->GetTexture(), &src, &dst);
-	}
-	*/
 	for(LList<Sprite*>::iterator i = _system._effects.GetFirst(); i != NULL; i = i->next) {
 		SrcRect src;
 		DstRect dst;
@@ -188,7 +191,12 @@ int System::Command(const string& cmd) {
 
 AnimationSet* System::GetAnimationSet(const string& name) {
 	AnimationSet* retval = NULL;
+#if defined SYSTEM_USE_CONTAINER
 	retval = _system._animsets.Get(name);
+#else
+	AnimSetMap::iterator i = _system._animsets.find(name);
+	if(i != _system._animsets.end()) retval = i->second;
+#endif //SYSTEM_USE_CONTAINER
 	return retval;
 }
 
@@ -243,39 +251,70 @@ void System::_Test() {
 	AnimationSet* anm = new AnimationSet();
 	anm->LoadAnimation("wl", "data/terra.walkl.anm");
 	anm->LoadAnimation("wr", "data/terra.walkr.anm");
+#if defined SYSTEM_USE_CONTAINER
 	_animsets.Add("terra", anm);
+#else
+	_animsets["terra"] = anm;
+#endif //SYSTEM_USE_CONTAINER
 	Sprite* spr = new Sprite();
 	spr->SetAnimationSet("terra");
 	spr->SetAnimation("wl");
 	spr->SetPosition({200.0,200.0});
+#if defined SYSTEM_USE_CONTAINER
 	_sprites.Add("player", spr);
-
+#else
+	_sprites["player"] = spr;
+#endif //SYSTEM_USE_CONTAINER
 	anm = new AnimationSet();
 	anm->LoadAnimation("de", "data/poof.anm");
+#if defined SYSTEM_USE_CONTAINER
 	_animsets.Add("poof", anm);
+#else
+	_animsets["poof"] = anm;
+#endif //SYSTEM_USE_CONTAINER
 	spr = new Sprite();
 	spr->SetAnimationSet("poof");
 	spr->SetPosition({100.0,100.0});
 	spr->SetOneshot();
+#if defined SYSTEM_USE_CONTAINER
 	_sprites.Add("testobj", spr);
+#else
+	_sprites["testobj"] = spr;
+#endif //SYSTEM_USE_CONTAINER
 
 	anm = new AnimationSet();
 	anm->LoadAnimation("de", "data/pop.anm");
+#if defined SYSTEM_USE_CONTAINER
 	_animsets.Add("pop", anm);
+#else
+	_animsets["pop"] = anm;
+#endif //SYSTEM_USE_CONTAINER
 	spr = new Sprite();
 	spr->SetAnimationSet("pop");
 	spr->SetPosition({200.0,100.0});
 	spr->SetOneshot();
+#if defined SYSTEM_USE_CONTAINER
 	_sprites.Add("testobj2", spr);
+#else
+	_sprites["testobj2"] = spr;
+#endif //SYSTEM_USE_CONTAINER
 
 	anm = new AnimationSet();
 	anm->LoadAnimation("de", "data/expl128.anm");
+#if defined SYSTEM_USE_CONTAINER
 	_animsets.Add("expl128", anm);
+#else
+	_animsets["expl128"] = anm;
+#endif //SYSTEM_USE_CONTAINER
 	spr = new Sprite();
 	spr->SetAnimationSet("expl128");
 	spr->SetPosition({300.0,100.0});
 	spr->SetOneshot();
+#if defined SYSTEM_USE_CONTAINER
 	_sprites.Add("testobj3", spr);
+#else
+	_sprites["testobj3"] = spr;
+#endif //SYSTEM_USE_CONTAINER
 }
 
 void System::_Test2() {
