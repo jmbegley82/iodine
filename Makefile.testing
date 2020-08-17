@@ -36,7 +36,8 @@ SDL_CFLAGS  ?= `pkg-config --cflags sdl2 SDL2_image`
 SDL_LIBS    ?= `pkg-config --libs sdl2 SDL2_image`
 CPPFLAGS    ?= -I./src/ $(SDL_CFLAGS)
 #LDFLAGS     ?= -lasan -lpthread
-LDFLAGS     ?= -lpthread $(SDL_LIBS)
+EXTRA_LIBS ?=
+LDFLAGS     ?= -lpthread $(SDL_LIBS) $(EXTRA_LIBS)
 
 BUILD_DIR   ?=./build
 SRC_DIR     ?=./src
