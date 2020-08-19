@@ -50,6 +50,7 @@ private:
 	void _Test();
 	void _Test2();
 	void _Test3();
+	void _Test4();
 #endif //DEBUG
 	TexCache* _texcache;
 	Screen* _screen;

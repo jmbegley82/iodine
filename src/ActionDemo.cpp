@@ -4,7 +4,7 @@
 
 #include "ActionDemo.h"
 
-void* Bouncer(Sprite* obj) {
+void Bouncer(Sprite* obj) {
 	double posx = obj->GetPositionX();
 	double posy = obj->GetPositionY();
 	if(posx <= 0.0) {
@@ -17,5 +17,4 @@ void* Bouncer(Sprite* obj) {
 	} else if(posy >= 400.0) {
 		obj->SetVelocityY(-1.0);
 	}
-	return NULL;
 }

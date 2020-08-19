@@ -12,18 +12,14 @@ using std::string;
 using std::to_string;
 #endif //DEBUGEXTRA
 
-void *DoNothing(Sprite* obj) {
-	return NULL;
-}
-
 Sprite::Sprite() {
 	_celFlipDelta = 0;
 	_isOneshot = false;
 	_hasExpired = false;
-	//for(int i=0; i<MAX_ACTIONS; ++i) {
-	//	_actions[i] = NULL;
-	//}
-	_actions = NULL;
+	for(int i=0; i<MAX_ACTIONS; ++i) {
+		_actions[i] = NULL;
+	}
+	//_actions = NULL;
 }
 
 Sprite::~Sprite() {
@@ -40,12 +36,12 @@ void Sprite::Tick() {
 	}
 	_celFlipDelta = timeDelta;
 	// do actions
-	if(_actions) _actions(this);
-	//for(int i=0; i<MAX_ACTIONS; ++i) {
-	//	if(_actions[i] != NULL) {
-	//		_actions[i](this);
-	//	}
-	//}
+	//if(_actions) _actions(this);
+	for(int i=0; i<MAX_ACTIONS; ++i) {
+		if(_actions[i] != NULL) {
+			_actions[i](this);
+		}
+	}
 	// update position
 	UpdatePosition(timeDelta);
 	// update last tick time
@@ -124,3 +120,12 @@ bool Sprite::IsOneshot() {
 bool Sprite::HasExpired() {
 	return _hasExpired;
 }
+
+#if defined DEBUG
+
+#include "ActionDemo.h"
+void Sprite::MakeBouncy() {
+	_actions[0] = Bouncer;
+}
+
+#endif //DEBUG

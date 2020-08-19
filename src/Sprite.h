@@ -30,6 +30,7 @@ public:
 	bool HasExpired();
 #if defined DEBUG
 	static int Test();
+	void MakeBouncy();
 #endif //DEBUG
 private:
 	AnimationSet* _currentAset;
@@ -39,7 +40,7 @@ private:
 	double _celFlipDelta;
 	bool _isOneshot;
 	bool _hasExpired;
-	void (*_actions)(Sprite*);
+	void (*_actions[MAX_ACTIONS])(Sprite*);
 };
 
 #endif //SPRITE_H

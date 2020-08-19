@@ -7,6 +7,6 @@
 
 #include "Sprite.h"
 
-void* Bouncer(Sprite* obj);
+void Bouncer(Sprite* obj);
 
 #endif //ACTIONDEMO_H

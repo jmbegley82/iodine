@@ -214,6 +214,8 @@ void System::PollEvents() {
 				_Test2();
 			else if(event.key.keysym.sym == SDLK_TAB)
 				_Test3();
+			else if(event.key.keysym.sym == SDLK_b)
+				_Test4();
 			break;
 		default:
 			break;
@@ -251,10 +253,14 @@ void System::_Test() {
 	AnimationSet* anm = new AnimationSet();
 	anm->LoadAnimation("wl", "data/terra.walkl.anm");
 	anm->LoadAnimation("wr", "data/terra.walkr.anm");
+	AnimationSet* ball = new AnimationSet();
+	ball->LoadAnimation("de", "data/ball.anm");
 #if defined SYSTEM_USE_CONTAINER
 	_animsets.Add("terra", anm);
+	_animsets.Add("ball", ball);
 #else
 	_animsets["terra"] = anm;
+	_animsets["ball"] = ball;
 #endif //SYSTEM_USE_CONTAINER
 	Sprite* spr = new Sprite();
 	spr->SetAnimationSet("terra");
@@ -354,4 +360,16 @@ void System::_Test3() {
 		_effects.Add(spr);
 	}
 }
+
+void System::_Test4() {
+	Sprite* spr = new Sprite();
+	spr->SetAnimationSet("ball");
+	spr->SetVelocityX(1);
+	spr->SetVelocityY(1);
+	spr->SetPosition({static_cast<double>(rand()%400),
+		static_cast<double>(rand()%400)});
+	spr->MakeBouncy();
+	_effects.Add(spr);
+}
+
 #endif //DEBUG
