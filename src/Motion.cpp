@@ -8,8 +8,8 @@ Motion::Motion() {
 	SetVelocity({0.0, 0.0});
 }
 
-void Motion::UpdatePosition() {
-	SetPosition(PredictNextPosition());
+void Motion::UpdatePosition(double ms) {
+	SetPosition(PredictNextPosition(ms));
 }
 
 void Motion::SetVelocity(coords val) {
@@ -37,19 +37,19 @@ double Motion::GetVelocityY() {
 	return _velocity.y;
 }
 
-coords Motion::PredictNextPosition() {
+coords Motion::PredictNextPosition(double ms) {
 	coords retval;
-	retval.x = PredictNextPositionX();
-	retval.y = PredictNextPositionY();
+	retval.x = PredictNextPositionX(ms);
+	retval.y = PredictNextPositionY(ms);
 	return retval;
 }
 
-double Motion::PredictNextPositionX() {
-	return GetPositionX() + GetVelocityX();
+double Motion::PredictNextPositionX(double ms) {
+	return GetPositionX() + (GetVelocityX() * ms);
 }
 
-double Motion::PredictNextPositionY() {
-	return GetPositionY() + GetVelocityY();
+double Motion::PredictNextPositionY(double ms) {
+	return GetPositionY() + (GetVelocityY() * ms);
 }
 
 double* Motion::GetVelocityXPtr() {
