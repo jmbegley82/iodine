@@ -343,8 +343,11 @@ void System::_Test3() {
 			spr->SetAnimationSet("expl128");
 		else if(rando > 54)
 			spr->SetAnimationSet("poof");
-		else
+		else {
 			spr->SetAnimationSet("pop");
+			spr->SetVelocityX((static_cast<double>(rand()%100)-50.0)/200.0);
+			spr->SetVelocityY((static_cast<double>(rand()%100)-50.0)/200.0);
+		}
 		spr->SetPosition({static_cast<double>(rand()%400),
 			static_cast<double>(rand()%400)});
 		spr->SetOneshot();

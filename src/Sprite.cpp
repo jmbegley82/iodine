@@ -22,13 +22,18 @@ Sprite::~Sprite() {
 }
 
 void Sprite::Tick() {
+	// timeDelta = time elapsed since last Tick
 	double timeDelta = _celFlipDelta + (GetTimeInMsec() - GetLastTickEnd());
+	// update Animation
 	double delay = static_cast<double>(_currentAnim->GetDelayInMsec());
 	while(timeDelta > delay) {
 		NextCel();
 		timeDelta -= delay;
 	}
 	_celFlipDelta = timeDelta;
+	// update position
+	UpdatePosition(timeDelta);
+	// update last tick time
 	Ticker::Tick();
 }
 
