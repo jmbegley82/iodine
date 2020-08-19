@@ -12,10 +12,18 @@ using std::string;
 using std::to_string;
 #endif //DEBUGEXTRA
 
+void *DoNothing(Sprite* obj) {
+	return NULL;
+}
+
 Sprite::Sprite() {
 	_celFlipDelta = 0;
 	_isOneshot = false;
 	_hasExpired = false;
+	//for(int i=0; i<MAX_ACTIONS; ++i) {
+	//	_actions[i] = NULL;
+	//}
+	_actions = NULL;
 }
 
 Sprite::~Sprite() {
@@ -31,6 +39,13 @@ void Sprite::Tick() {
 		timeDelta -= delay;
 	}
 	_celFlipDelta = timeDelta;
+	// do actions
+	if(_actions) _actions(this);
+	//for(int i=0; i<MAX_ACTIONS; ++i) {
+	//	if(_actions[i] != NULL) {
+	//		_actions[i](this);
+	//	}
+	//}
 	// update position
 	UpdatePosition(timeDelta);
 	// update last tick time

@@ -12,6 +12,8 @@
 #include "AnimationSet.h"
 #include "Animation.h"
 
+#define MAX_ACTIONS 3
+
 class Sprite : public Ticker, public Motion, public Introspector {
 public:
 	Sprite();
@@ -37,6 +39,7 @@ private:
 	double _celFlipDelta;
 	bool _isOneshot;
 	bool _hasExpired;
+	void (*_actions)(Sprite*);
 };
 
 #endif //SPRITE_H

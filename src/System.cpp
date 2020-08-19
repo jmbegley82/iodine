@@ -345,8 +345,8 @@ void System::_Test3() {
 			spr->SetAnimationSet("poof");
 		else {
 			spr->SetAnimationSet("pop");
-			spr->SetVelocityX((static_cast<double>(rand()%100)-50.0)/200.0);
-			spr->SetVelocityY((static_cast<double>(rand()%100)-50.0)/200.0);
+			spr->SetVelocityX((static_cast<double>(rand()%100)-50.0)/400.0);
+			spr->SetVelocityY((static_cast<double>(rand()%100)-50.0)/400.0);
 		}
 		spr->SetPosition({static_cast<double>(rand()%400),
 			static_cast<double>(rand()%400)});
