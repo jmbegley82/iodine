@@ -20,7 +20,7 @@ void ZeroDLEntry(dlistEntry* dle) {
 	dle->dst.w = 0;
 	dle->dst.h = 0;
 #else
-	memset(dle, 0, sizeof(dle));
+	memset(dle, 0, sizeof(&dle));
 #endif //DLIST_ORIGINAL
 }
 
