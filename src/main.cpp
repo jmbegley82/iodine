@@ -91,7 +91,7 @@ int main(int argc, char** argv) {
 	System::Command("test");
 	while(!System::TimeToQuit() && System::WindowExists() /*&& GetTimeInMsec() < endtime*/) {
 		System::Tick();
-		SleepMsec(1000/30);
+		SleepMsec(1000/60);
 	}
 	System::DestroyWindow();
 #endif //DEBUGSYSTEM

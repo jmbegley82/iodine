@@ -364,8 +364,8 @@ void System::_Test3() {
 void System::_Test4() {
 	Sprite* spr = new Sprite();
 	spr->SetAnimationSet("ball");
-	spr->SetVelocityX(1);
-	spr->SetVelocityY(1);
+	spr->SetVelocityX(0.25);
+	spr->SetVelocityY(0.25);
 	spr->SetPosition({static_cast<double>(rand()%400),
 		static_cast<double>(rand()%400)});
 	spr->MakeBouncy();

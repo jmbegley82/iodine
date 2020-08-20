@@ -43,7 +43,7 @@ void Sprite::Tick() {
 		}
 	}
 	// update position
-	UpdatePosition(timeDelta);
+	UpdatePosition(GetTimeInMsec() - GetLastTickEnd());
 	// update last tick time
 	Ticker::Tick();
 }
@@ -69,18 +69,20 @@ Texture* Sprite::GetTexture() {
 void Sprite::GetDrawSrcRect(SrcRect* src) {
 	// set contents of src to a rectangle around our current Animation's current Cel
 	// alternatively, set it to something that won't cause a crash if executed
-	src->x = _currentAnim->GetCel(_currentCel)->x;
-	src->y = _currentAnim->GetCel(_currentCel)->y;
-	src->w = _currentAnim->GetCel(_currentCel)->w;
-	src->h = _currentAnim->GetCel(_currentCel)->h;
+	Cel* thisCel = _currentAnim->GetCel(_currentCel);
+	src->x = thisCel->x;
+	src->y = thisCel->y;
+	src->w = thisCel->w;
+	src->h = thisCel->h;
 }
 
 void Sprite::GetDrawDstRect(DstRect* dst) {
 	// set contents of dst to a rectangle around where this will be drawn on the screen
-	unsigned int cx = _currentAnim->GetCel(_currentCel)->cx;
-	unsigned int cy = _currentAnim->GetCel(_currentCel)->cy;
-	unsigned int w = _currentAnim->GetCel(_currentCel)->w;
-	unsigned int h = _currentAnim->GetCel(_currentCel)->h;
+	Cel* thisCel = _currentAnim->GetCel(_currentCel);
+	unsigned int cx = thisCel->cx;
+	unsigned int cy = thisCel->cy;
+	unsigned int w = thisCel->w;
+	unsigned int h = thisCel->h;
 	dst->x = static_cast<int>(GetPositionX() - cx);
 	dst->y = static_cast<int>(GetPositionY() - cy);
 	dst->w = static_cast<int>(w);
