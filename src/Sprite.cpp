@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "System.h"
 #include "Timing.h"
+#include "ActionDemo.h"
 
 #if defined DEBUGEXTRA
 #include "Logger.h"
@@ -19,6 +20,7 @@ Sprite::Sprite() {
 	for(int i=0; i<MAX_ACTIONS; ++i) {
 		_actions[i] = NULL;
 	}
+	_actionCount = 0;
 	//_actions = NULL;
 }
 
@@ -27,7 +29,8 @@ Sprite::~Sprite() {
 
 void Sprite::Tick() {
 	// timeDelta = time elapsed since last Tick
-	double timeDelta = _celFlipDelta + (GetTimeInMsec() - GetLastTickEnd());
+	double lastTickEnd = GetLastTickEnd();
+	double timeDelta = _celFlipDelta + (GetTimeInMsec() - lastTickEnd);
 	// update Animation
 	double delay = static_cast<double>(_currentAnim->GetDelayInMsec());
 	while(timeDelta > delay) {
@@ -43,7 +46,7 @@ void Sprite::Tick() {
 		}
 	}
 	// update position
-	UpdatePosition(GetTimeInMsec() - GetLastTickEnd());
+	UpdatePosition(GetTimeInMsec() - lastTickEnd);
 	// update last tick time
 	Ticker::Tick();
 }
@@ -123,11 +126,26 @@ bool Sprite::HasExpired() {
 	return _hasExpired;
 }
 
-#if defined DEBUG
-
-#include "ActionDemo.h"
-void Sprite::MakeBouncy() {
-	_actions[0] = Bouncer;
+void Sprite::Expire() {
+	_hasExpired = true;
 }
 
-#endif //DEBUG
+void Sprite::MakeBouncy() {
+	if(rand()%2 == 0) {
+		AddAction(Bouncer);
+	} else {
+		AddAction(ExpireAtEdge);
+	}
+}
+
+bool Sprite::AddAction(void (*action)(Sprite*)) {
+	bool retval = false;
+	if(_actionCount >= MAX_ACTIONS) return retval;
+	for(int i=0; i<_actionCount; ++i) {
+		if(_actions[i] == action) {
+			return retval; // can't have the same action twice!
+		}
+	}
+	_actions[_actionCount] = action;
+	return true;
+}

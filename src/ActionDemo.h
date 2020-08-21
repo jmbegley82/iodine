@@ -8,5 +8,6 @@
 #include "Sprite.h"
 
 void Bouncer(Sprite* obj);
+void ExpireAtEdge(Sprite* obj);
 
 #endif //ACTIONDEMO_H

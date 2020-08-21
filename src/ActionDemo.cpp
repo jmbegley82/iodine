@@ -18,3 +18,11 @@ void Bouncer(Sprite* obj) {
 		obj->SetVelocityY(-0.25);
 	}
 }
+
+void ExpireAtEdge(Sprite* obj) {
+	double posx = obj->GetPositionX();
+	double posy = obj->GetPositionY();
+	if(posx <= 0.0 || posx >= 400.0 ||posy <= 0.0 || posy >= 400.0) {
+		obj->Expire();
+	}
+}

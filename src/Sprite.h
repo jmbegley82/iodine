@@ -28,9 +28,11 @@ public:
 	void SetOneshot();
 	bool IsOneshot();
 	bool HasExpired();
+	void Expire();
+	void MakeBouncy();
+	bool AddAction(void (*action)(Sprite*));
 #if defined DEBUG
 	static int Test();
-	void MakeBouncy();
 #endif //DEBUG
 private:
 	AnimationSet* _currentAset;
@@ -41,6 +43,7 @@ private:
 	bool _isOneshot;
 	bool _hasExpired;
 	void (*_actions[MAX_ACTIONS])(Sprite*);
+	unsigned int _actionCount;
 };
 
 #endif //SPRITE_H
