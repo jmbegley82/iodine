@@ -25,9 +25,6 @@ System::System() {
 }
 
 System::~System() {
-#if defined SYSTEM_USE_CONTAINER
-	_animsets.Clear();
-#endif
 	Logger_finish();
 }
 
@@ -54,35 +51,14 @@ void System::Tick() {
 	_system.PollEvents();
 
 	// Tick Sprites
-#if defined SYSTEM_USE_CONTAINER
-	for(int i=0; i<_system._sprites.GetCount(); ++i) {
-		Sprite* spr = _system._sprites.GetByIndex(i);
-		spr->Tick();
-	}
-#else
 	for(SpriteMap::iterator i=_system._sprites.begin(); i!= _system._sprites.end(); ++i) {
 		i->second->Tick();
 	}
-#endif //SYSTEM_USE_CONTAINER
 	// Tick Effects
 	for(LList<Sprite*>::iterator i = _system._effects.GetFirst(); i != NULL; i = i->next) {
 		i->item->Tick();
 	}
 	// Check for and remove Sprites that have expired
-#if defined SYSTEM_USE_CONTAINER
-	bool makeSpritesContiguous = false;
-	for(int i=_system._sprites.GetCount() - 1; i>= 0; --i) {
-		Sprite* spr = _system._sprites.GetByIndex(i);
-		if(spr->HasExpired()) {
-#if defined DEBUGEXTRA
-			Log(string("System::Tick:  Destroy Sprite:  ") + _system._sprites.GetNameByIndex(i));
-#endif //DEBUGEXTRA
-			//_system._sprites.Destroy(spr);
-			_system._sprites.Destroy_unsafe(i);
-			makeSpritesContiguous = true;
-		}
-	}
-#else
 	for(SpriteMap::iterator i=_system._sprites.begin(), i_next=i; i!=_system._sprites.end(); i=i_next) {
 		++i_next;
 		Sprite* spr = i->second;
@@ -94,7 +70,6 @@ void System::Tick() {
 		_system._sprites.erase(i);
 		}
 	}
-#endif //SYSTEM_USE_CONTAINER
 	// (Same for Effects)
 	bool makeEffectsContiguous = false;
 	for(LList<Sprite*>::iterator i = _system._effects.GetLast(); i != NULL; i = i->prev) {
@@ -121,25 +96,14 @@ void System::Tick() {
 		_system._timeOfLastEffect = GetTimeInMsec();
 	}
 	// try to shrink if it's been long enough
-#if defined SYSTEM_USE_CONTAINER
-	if(GetTimeInMsec() - _system._timeOfLastSprite >= 5000.0) {
-		_system._sprites.Shrink();
-		_system._timeOfLastSprite = GetTimeInMsec();
-	}
-#endif //SYSTEM_USE_CONTAINER
 	if(GetTimeInMsec() - _system._timeOfLastEffect >= 5000.0) {
 		//_system._effects.Shrink();
 		//_system._effects.Compact();
 		_system._timeOfLastEffect = GetTimeInMsec();
 	}
 	// Add Sprites' current Cels to Drawlist
-#if defined SYSTEM_USE_CONTAINER
-	for(int i=0; i<_system._sprites.GetCount(); ++i) {
-		Sprite* spr = _system._sprites.GetByIndex(i);
-#else
 	for(SpriteMap::iterator i=_system._sprites.begin(); i!=_system._sprites.end(); ++i) {
 		Sprite* spr = i->second;
-#endif //SYSTEM_USE_CONTAINER
 		SrcRect src;
 		DstRect dst;
 		spr->GetDrawSrcRect(&src);
@@ -193,12 +157,8 @@ int System::Command(const string& cmd) {
 
 AnimationSet* System::GetAnimationSet(const string& name) {
 	AnimationSet* retval = NULL;
-#if defined SYSTEM_USE_CONTAINER
-	retval = _system._animsets.Get(name);
-#else
 	AnimSetMap::iterator i = _system._animsets.find(name);
 	if(i != _system._animsets.end()) retval = i->second;
-#endif //SYSTEM_USE_CONTAINER
 	return retval;
 }
 
@@ -297,73 +257,40 @@ void System::_Test() {
 	anm->LoadAnimation("wr", "data/terra.walkr.anm");
 	AnimationSet* ball = new AnimationSet();
 	ball->LoadAnimation("de", "data/ball.anm");
-#if defined SYSTEM_USE_CONTAINER
-	_animsets.Add("terra", anm);
-	_animsets.Add("ball", ball);
-#else
 	_animsets["terra"] = anm;
 	_animsets["ball"] = ball;
-#endif //SYSTEM_USE_CONTAINER
 	Sprite* spr = new Sprite();
 	spr->SetAnimationSet("terra");
 	spr->SetAnimation("wl");
 	spr->SetPosition({200.0,200.0});
 	spr->AddAction(DbgControl);
-#if defined SYSTEM_USE_CONTAINER
-	_sprites.Add("player", spr);
-#else
 	_sprites["player"] = spr;
-#endif //SYSTEM_USE_CONTAINER
 	anm = new AnimationSet();
 	anm->LoadAnimation("de", "data/poof.anm");
-#if defined SYSTEM_USE_CONTAINER
-	_animsets.Add("poof", anm);
-#else
 	_animsets["poof"] = anm;
-#endif //SYSTEM_USE_CONTAINER
 	spr = new Sprite();
 	spr->SetAnimationSet("poof");
 	spr->SetPosition({100.0,100.0});
 	spr->SetOneshot();
-#if defined SYSTEM_USE_CONTAINER
-	_sprites.Add("testobj", spr);
-#else
 	_sprites["testobj"] = spr;
-#endif //SYSTEM_USE_CONTAINER
 
 	anm = new AnimationSet();
 	anm->LoadAnimation("de", "data/pop.anm");
-#if defined SYSTEM_USE_CONTAINER
-	_animsets.Add("pop", anm);
-#else
 	_animsets["pop"] = anm;
-#endif //SYSTEM_USE_CONTAINER
 	spr = new Sprite();
 	spr->SetAnimationSet("pop");
 	spr->SetPosition({200.0,100.0});
 	spr->SetOneshot();
-#if defined SYSTEM_USE_CONTAINER
-	_sprites.Add("testobj2", spr);
-#else
 	_sprites["testobj2"] = spr;
-#endif //SYSTEM_USE_CONTAINER
 
 	anm = new AnimationSet();
 	anm->LoadAnimation("de", "data/expl128.anm");
-#if defined SYSTEM_USE_CONTAINER
-	_animsets.Add("expl128", anm);
-#else
 	_animsets["expl128"] = anm;
-#endif //SYSTEM_USE_CONTAINER
 	spr = new Sprite();
 	spr->SetAnimationSet("expl128");
 	spr->SetPosition({300.0,100.0});
 	spr->SetOneshot();
-#if defined SYSTEM_USE_CONTAINER
-	_sprites.Add("testobj3", spr);
-#else
 	_sprites["testobj3"] = spr;
-#endif //SYSTEM_USE_CONTAINER
 }
 
 void System::_Test2() {

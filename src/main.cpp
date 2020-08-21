@@ -11,7 +11,6 @@
 #include "Ticker.h"
 #include "Motion.h"
 #include "Geometry.h"
-#include "Container.h"
 #include "Var.h"
 #include "VarSet.h"
 #include "Types.h"
@@ -53,9 +52,6 @@ int main(int argc, char** argv) {
 #if defined DEBUGFILESYSTEM
 	Filesystem_Test();
 #endif //DEBUGFILESYSTEM
-#if defined DEBUGCONTAINER
-	Container_Test();
-#endif //DEBUGCONTAINER
 #if defined DEBUGVAR
 	Var::Test();
 #endif //DEBUGVAR

@@ -10,11 +10,7 @@
 #include "TexCache.h"
 #include "GfxTypes.h"
 #include "Filesystem.h"
-#if defined SYSTEM_USE_CONTAINER
-#include "Container.h"
-#else
 #include <map>
-#endif //SYSTEM_USE_CONTAINER
 #include "Sprite.h"
 #include "AnimationSet.h"
 #include "LList.h"
@@ -22,11 +18,9 @@
 
 using std::string;
 
-#if !defined SYSTEM_USE_CONTAINER
 using std::map;
 typedef map<string,Sprite*> SpriteMap;
 typedef map<string,AnimationSet*> AnimSetMap;
-#endif //SYSTEM_USE_CONTAINER
 
 class System {
 public:
@@ -57,13 +51,8 @@ private:
 #endif //DEBUG
 	TexCache* _texcache;
 	Screen* _screen;
-#if defined SYSTEM_USE_CONTAINER
-	Container<Sprite*> _sprites;
-	Container<AnimationSet*> _animsets;
-#else
 	SpriteMap _sprites;
 	AnimSetMap _animsets;
-#endif //SYSTEM_USE_CONTAINER
 	LList<Sprite*> _effects;
 	double _timeOfLastSprite;
 	double _timeOfLastEffect;

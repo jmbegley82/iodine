@@ -12,7 +12,6 @@ MKDIR_P     ?= mkdir -p
 # -DDEBUGTIMING enables the Timing function tests in Timing.Test.c
 # -DDEBUGGEOMETRY enables the Geometry object tests in Geometry.Test.cpp
 # -DDEBUGFILESYSTEM enables tests in Filesystem.Test.c
-# -DDEBUGCONTAINER enables tests in Container.Test.cpp
 # -DDEBUGVAR enables tests in Var.Test.cpp
 # -DDEBUGVARSET enables tests in VarSet.Test.cpp
 # -DDEBUGSMANIP enables tests in StringManip.Test.cpp
@@ -23,7 +22,6 @@ MKDIR_P     ?= mkdir -p
 # -DDEBUG_NOVIDEO should allow tests to work where SDL can't create video output
 # -DDEBUGSYSTEM enables the System test at the end of main() in main.cpp
 # -DDEBUGEXTRA enables extra output during tests
-# -DSYSTEM_USE_CONTAINER uses Container class in System instead of std::map
 EXTRA_LIBS   ?=
 EXTRA_CFLAGS ?=
 #COMMONFLAGS = -g -DDEBUG -DDEBUGATOM -DDEBUGLOGGER -DDEBUGMOTION -DDEBUGTICKER -DDEBUGTIMING -DDEBUGGEOMETRY \
@@ -31,7 +29,7 @@ EXTRA_CFLAGS ?=
 	-DDEBUGANIMATION -DDEBUGANIMATIONSET -DDEBUGCELSTRING -DDEBUGTEXCACHE -DDEBUGSYSTEM -DNOINSTALL -DDEBUGEXTRA
 # add -fsanitize=address for ASAN
 #COMMONFLAGS ?= -g -DNOINSTALL -DDEBUG -DDEBUGSYSTEM -DDEBUGANIMATION -DDEBUGANIMATIONSET -DDEBUGTEXCACHE -DDEBUGEXTRA
-COMMONFLAGS ?= -g -DNOINSTALL -DDEBUG -DDEBUGCONTAINER -DDEBUGFILESYSTEM -DDEBUGTEXCACHE -DDEBUGSYSTEM -DDEBUGEXTRA
+COMMONFLAGS ?= -g -DNOINSTALL -DDEBUG -DDEBUGFILESYSTEM -DDEBUGTEXCACHE -DDEBUGSYSTEM -DDEBUGEXTRA
 CFLAGS      ?= $(COMMONFLAGS) $(EXTRA_CFLAGS)
 CXXFLAGS    ?= $(COMMONFLAGS) $(EXTRA_CFLAGS)
 SDL_CFLAGS  ?= `pkg-config --cflags sdl2 SDL2_image`
