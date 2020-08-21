@@ -407,8 +407,8 @@ void System::_Test3() {
 void System::_Test4() {
 	Sprite* spr = new Sprite();
 	spr->SetAnimationSet("ball");
-	spr->SetVelocityX(0.25);
-	spr->SetVelocityY(0.25);
+	spr->SetVelocityX(0.125);
+	spr->SetVelocityY(0.125);
 	spr->SetPosition({static_cast<double>(rand()%400),
 		static_cast<double>(rand()%400)});
 	spr->MakeBouncy();
