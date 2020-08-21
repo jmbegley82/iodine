@@ -9,5 +9,6 @@
 
 void Bouncer(Sprite* obj);
 void ExpireAtEdge(Sprite* obj);
+void DbgControl(Sprite* obj);
 
 #endif //ACTIONDEMO_H

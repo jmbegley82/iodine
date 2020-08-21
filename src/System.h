@@ -18,6 +18,7 @@
 #include "Sprite.h"
 #include "AnimationSet.h"
 #include "LList.h"
+#include "VControl.h"
 
 using std::string;
 
@@ -44,7 +45,9 @@ public:
 	static int Command(const string& cmd);
 	static AnimationSet* GetAnimationSet(const string& name);
 	void PollEvents();
+	static VControl* GetP1VControl();
 private:
+	VControl P1;
 	int _Command(const string& cmd);
 #if defined DEBUG
 	void _Test();

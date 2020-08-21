@@ -7,6 +7,7 @@
 #include "System.h"
 #include "Logger.h"
 #include "Timing.h"
+#include "ActionDemo.h"
 
 #if defined DEBUG
 #include <cstdlib>
@@ -18,6 +19,7 @@ System::System() {
 	_timeToQuit = false;
 	_texcache = NULL;
 	_screen = NULL;
+	memset(&P1, 0, sizeof(VControl));
 	_timeOfLastSprite = _timeOfLastEffect = GetTimeInMsec();
 	Logger_init();
 }
@@ -208,7 +210,23 @@ void System::PollEvents() {
 			_timeToQuit = true;
 			break;
 		case SDL_KEYDOWN:
-			if(event.key.keysym.sym == SDLK_RETURN)
+			if(event.key.keysym.sym == SDLK_UP)
+				P1.Up = true;
+			else if(event.key.keysym.sym == SDLK_DOWN)
+				P1.Down = true;
+			else if(event.key.keysym.sym == SDLK_LEFT)
+				P1.Left = true;
+			else if(event.key.keysym.sym == SDLK_RIGHT)
+				P1.Right = true;
+			else if(event.key.keysym.sym == SDLK_z)
+				P1.Button1 = true;
+			else if(event.key.keysym.sym == SDLK_x)
+				P1.Button2 = true;
+			else if(event.key.keysym.sym == SDLK_a)
+				P1.Select = true;
+			else if(event.key.keysym.sym == SDLK_s)
+				P1.Start = true;
+			else if(event.key.keysym.sym == SDLK_RETURN)
 				_timeToQuit = true;
 			else if(event.key.keysym.sym == SDLK_SPACE)
 				_Test2();
@@ -217,10 +235,34 @@ void System::PollEvents() {
 			else if(event.key.keysym.sym == SDLK_b)
 				_Test4();
 			break;
+		case SDL_KEYUP:
+			if(event.key.keysym.sym == SDLK_UP)
+				P1.Up = false;
+			else if(event.key.keysym.sym == SDLK_DOWN)
+				P1.Down = false;
+			else if(event.key.keysym.sym == SDLK_LEFT)
+				P1.Left = false;
+			else if(event.key.keysym.sym == SDLK_RIGHT)
+				P1.Right = false;
+			else if(event.key.keysym.sym == SDLK_z)
+				P1.Button1 = false;
+			else if(event.key.keysym.sym == SDLK_x)
+				P1.Button2 = false;
+			else if(event.key.keysym.sym == SDLK_a)
+				P1.Select = false;
+			else if(event.key.keysym.sym == SDLK_s)
+				P1.Start = false;
+			else if(event.key.keysym.sym == SDLK_RETURN)
+				_timeToQuit = false;
+			break;
 		default:
 			break;
 		}
 	}
+}
+
+VControl* System::GetP1VControl() {
+	return &_system.P1;
 }
 
 int System::_Command(const string& cmd) {
@@ -266,6 +308,7 @@ void System::_Test() {
 	spr->SetAnimationSet("terra");
 	spr->SetAnimation("wl");
 	spr->SetPosition({200.0,200.0});
+	spr->AddAction(DbgControl);
 #if defined SYSTEM_USE_CONTAINER
 	_sprites.Add("player", spr);
 #else
