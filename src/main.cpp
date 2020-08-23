@@ -23,6 +23,7 @@
 #include "CelString.h"
 #include "TexCache.h"
 #include "System.h"
+#include "LList.h"
 
 using std::string;
 
@@ -70,6 +71,8 @@ int main(int argc, char** argv) {
 #if defined DEBUGCELSTRING
 	CelString::Test();
 #endif //DEBUGCELSTRING
+
+	LList_Test();
 
 #if !defined DEBUG_NOVIDEO
 #if defined DEBUGSYSTEM

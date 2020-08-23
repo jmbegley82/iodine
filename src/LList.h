@@ -30,4 +30,8 @@ private:
 	unsigned int _count;
 };
 
+#if defined DEBUG
+int LList_Test();
+#endif //DEBUG
+
 #endif //SPLLIST_H

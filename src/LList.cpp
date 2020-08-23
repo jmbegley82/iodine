@@ -53,13 +53,13 @@ template <class T> Litem<T>* LList<T>::GetByIndex(unsigned int idx) {
 		if(idx < middle) {
 			// start at beginning
 			retval = _first;
-			for(int i=0; i!= idx; ++i) {
+			for(int i=0; i<idx; ++i) {
 				retval = retval->next;
 			}
 		} else {
 			// start at end
 			retval = _last;
-			for(int i=_count; i!=idx; --i) {
+			for(int i=_count; i>idx+1; --i) {
 				retval = retval->prev;
 			}
 		}
@@ -116,3 +116,4 @@ template <class T> void LList<T>::Clear() {
 
 #include "Sprite.h"
 template class LList<Sprite*>;
+template class LList<int>;
