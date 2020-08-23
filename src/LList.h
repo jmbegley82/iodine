@@ -17,6 +17,7 @@ public:
 	~LList(); 
 	Litem<T>* GetFirst();
 	Litem<T>* GetLast();
+	Litem<T>* GetByIndex(unsigned int idx);
 	unsigned int GetCount();
 	Litem<T>* Add(T obj);
 	void Remove(Litem<T>* obj);

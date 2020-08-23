@@ -45,6 +45,28 @@ template <class T> Litem<T>* LList<T>::GetLast() {
 	return _last;
 }
 
+template <class T> Litem<T>* LList<T>::GetByIndex(unsigned int idx) {
+	// TODO: untested
+	Litem<T>* retval = NULL;
+	if(idx < _count) {
+		unsigned int middle = _count/2;
+		if(idx < middle) {
+			// start at beginning
+			retval = _first;
+			for(int i=0; i!= idx; ++i) {
+				retval = retval->next;
+			}
+		} else {
+			// start at end
+			retval = _last;
+			for(int i=_count; i!=idx; --i) {
+				retval = retval->prev;
+			}
+		}
+	}
+	return retval;
+}
+
 template <class T> unsigned int LList<T>::GetCount() {
 	return _count;
 }
