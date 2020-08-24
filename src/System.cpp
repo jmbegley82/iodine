@@ -13,7 +13,24 @@
 #include <cstdlib>
 #endif //DEBUG
 
+#if !defined SYSTEM_NUMTHREADS
+#define SYSTEM_NUMTHREADS 2
+#endif //SYSTEM_NUMTHREADS
+
 static System _system;
+
+#if !defined SYSTEM_TRAINING_WHEELS
+#include <pthread.h>
+
+void* TickEffectsGroup(void* arg) {
+	LList<Sprite*>* group = static_cast<LList<Sprite*>*>(arg);
+	for(LList<Sprite*>::iterator i = group->GetFirst(); i != NULL; i = i->next) {
+		i->item->Tick();
+	}
+	pthread_exit(static_cast<void*>(0));
+}
+
+#endif //SYSTEM_TRAINING_WHEELS
 
 System::System() {
 	_timeToQuit = false;
@@ -55,9 +72,33 @@ void System::Tick() {
 		i->second->Tick();
 	}
 	// Tick Effects
+#if defined SYSTEM_TRAINING_WHEELS
 	for(LList<Sprite*>::iterator i = _system._effects.GetFirst(); i != NULL; i = i->next) {
 		i->item->Tick();
 	}
+#else
+	LList<Sprite*> sprGroup[SYSTEM_NUMTHREADS];
+	pthread_t sprTickThread[SYSTEM_NUMTHREADS];
+	int count = _system._effects.GetCount();
+	LList<Sprite*>::iterator first = _system._effects.GetFirst();
+	LList<Sprite*>::iterator last = _system._effects.GetLast();
+	int thread = 0;
+	//shuffle
+	for(LList<Sprite*>::iterator i = first; i != NULL; i = i->next) {
+		sprGroup[thread].Add(i->item);
+		++thread;
+		if(thread >= SYSTEM_NUMTHREADS)
+			thread = 0;
+	}
+	//deal
+	for(int i=0; i<SYSTEM_NUMTHREADS; ++i) {
+		pthread_create(&sprTickThread[i], NULL, TickEffectsGroup, static_cast<void*>(&sprGroup[i]));
+	}
+	void* ptstatus = NULL;
+	for(int i=0; i<SYSTEM_NUMTHREADS; ++i) {
+		pthread_join(sprTickThread[i], &ptstatus);
+	}
+#endif //SYSTEM_TRAINING_WHEELS
 	// Check for and remove Sprites that have expired
 	for(SpriteMap::iterator i=_system._sprites.begin(), i_next=i; i!=_system._sprites.end(); i=i_next) {
 		++i_next;
