@@ -19,7 +19,16 @@ int LList_Test() {
 		numbers.Add(i);
 	}
 	for(int i=0; i<TESTCOUNT; ++i) {
-		Log(string("LList_Test:  item #") + to_string(i) + " = " + to_string(numbers.GetByIndex(i)->item));
+		Log(string("LList_Test:  numbers:  item #") + to_string(i) + " = " + to_string(numbers.GetByIndex(i)->item));
+	}
+	LList<int> subset = numbers.GetRange(numbers.GetByIndex(2), numbers.GetByIndex(5));
+	//subset hopefully contains {3, 4, 5, 6}
+	LList<int>::iterator itr = subset.GetFirst();
+	int subcount = 0;
+	while(itr != NULL) {
+		Log(string("LList_Test:  subset:   item #") + to_string(subcount) + " = " + to_string(itr->item));
+		itr = itr->next;
+		++subcount;
 	}
 	return 0;
 }

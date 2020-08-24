@@ -18,6 +18,7 @@ public:
 	Litem<T>* GetFirst();
 	Litem<T>* GetLast();
 	Litem<T>* GetByIndex(unsigned int idx);
+	LList<T> GetRange(Litem<T>* start, Litem<T>* end);
 	unsigned int GetCount();
 	Litem<T>* Add(T obj);
 	void Remove(Litem<T>* obj);

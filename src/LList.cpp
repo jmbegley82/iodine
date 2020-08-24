@@ -67,6 +67,18 @@ template <class T> Litem<T>* LList<T>::GetByIndex(unsigned int idx) {
 	return retval;
 }
 
+template <class T> LList<T> LList<T>::GetRange(Litem<T>* start, Litem<T>* end) {
+	LList<T> retval;
+	Litem<T>* itr = start;
+	while(itr != NULL) {
+		retval.Add(itr->item);
+		if(itr->item == end->item)
+			break;
+		itr = itr->next;
+	}
+	return retval;
+}
+
 template <class T> unsigned int LList<T>::GetCount() {
 	return _count;
 }
