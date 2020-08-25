@@ -22,6 +22,43 @@ static System _system;
 #if !defined SYSTEM_TRAINING_WHEELS
 #include <pthread.h>
 
+LList<Sprite*> _fxObjects[SYSTEM_NUMTHREADS];
+pthread_t _fxTickThread[SYSTEM_NUMTHREADS];
+pthread_mutex_t _fxMutex[SYSTEM_NUMTHREADS];
+pthread_cond_t _fxThreadsGo[SYSTEM_NUMTHREADS];
+bool _fxRunning;
+
+void* TickFXThread(void* arg) {
+	int idx = *static_cast<int*>(arg);
+	while(_fxRunning) {
+		pthread_mutex_lock(&_fxMutex[idx]);
+		//while(!_fxThreadsGo) {
+			pthread_cond_wait(&_fxThreadsGo[idx], &_fxMutex[idx]);
+		//}
+		for(LList<Sprite*>::iterator itr = _fxObjects[idx].GetFirst(); itr != NULL; itr = itr->next) {
+			itr->item->Tick();
+		}
+		_fxObjects[idx].Clear();
+		pthread_mutex_unlock(&_fxMutex[idx]);
+	}
+	pthread_exit(static_cast<void*>(0));
+}
+
+void InitFXThreads() {
+	_fxRunning = true;
+	for(int i=0; i<SYSTEM_NUMTHREADS; ++i) {
+		pthread_create(&_fxTickThread[i], NULL, TickFXThread, static_cast<void*>(&i));
+	}
+}
+
+void StopFXThreads() {
+	_fxRunning = false;
+	void* ptstatus = NULL;
+	for(int i=0; i<SYSTEM_NUMTHREADS; ++i) {
+		pthread_join(_fxTickThread[i], &ptstatus);
+	}
+}
+/*
 void* TickEffectsGroup(void* arg) {
 	LList<Sprite*>* group = static_cast<LList<Sprite*>*>(arg);
 	for(LList<Sprite*>::iterator i = group->GetFirst(); i != NULL; i = i->next) {
@@ -29,7 +66,7 @@ void* TickEffectsGroup(void* arg) {
 	}
 	pthread_exit(static_cast<void*>(0));
 }
-
+*/
 #endif //SYSTEM_TRAINING_WHEELS
 
 System::System() {
@@ -54,12 +91,14 @@ void System::Start() {
 #endif //DEBUG_NOVIDEO
 	_system._texcache = new TexCache();
 	_system._screen = new Screen();
+	InitFXThreads();
 }
 
 void System::Stop() {
 	if(_system._texcache) delete _system._texcache;
 	if(_system._screen) delete _system._screen;
 	_system._timeToQuit = true;
+	StopFXThreads();
 	SDL_Quit();
 }
 
@@ -77,6 +116,7 @@ void System::Tick() {
 		i->item->Tick();
 	}
 #else
+	/*
 	LList<Sprite*> sprGroup[SYSTEM_NUMTHREADS];
 	pthread_t sprTickThread[SYSTEM_NUMTHREADS];
 	int count = _system._effects.GetCount();
@@ -98,6 +138,25 @@ void System::Tick() {
 	for(int i=0; i<SYSTEM_NUMTHREADS; ++i) {
 		pthread_join(sprTickThread[i], &ptstatus);
 	}
+	*/
+	LList<Sprite*>::iterator first = _system._effects.GetFirst();
+	LList<Sprite*>::iterator last = _system._effects.GetLast();
+	int thread = 0;
+	for(int i=0; i<SYSTEM_NUMTHREADS; ++i) {
+		pthread_mutex_lock(&_fxMutex[i]);
+	}
+	for(LList<Sprite*>::iterator i = first; i != NULL; i = i->next) {
+		_fxObjects[thread].Add(i->item);
+		++thread;
+		if(thread >= SYSTEM_NUMTHREADS)
+			thread = 0;
+	}
+	for(int i=0; i<SYSTEM_NUMTHREADS; ++i) {
+		pthread_mutex_unlock(&_fxMutex[i]);
+		pthread_cond_signal(&_fxThreadsGo[i]);
+	}
+	//pthread_cond_signal(&_fxThreadsGo);
+	
 #endif //SYSTEM_TRAINING_WHEELS
 	// Check for and remove Sprites that have expired
 	for(SpriteMap::iterator i=_system._sprites.begin(), i_next=i; i!=_system._sprites.end(); i=i_next) {
