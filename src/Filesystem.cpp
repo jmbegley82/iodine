@@ -25,7 +25,7 @@ string _strTemp = "";
 
 const char* GetHomeDir() {
 	if(!_homedir) { 
-#if defined (__linux__) || defined (__OpenBSD__)
+#if defined (__linux__) || defined (__OpenBSD__) || defined (__APPLE__)
 		//_homedir = getenv("HOME");
 		_strHome = string(getenv("HOME")) + "/";
 		_homedir = _strHome.c_str();
@@ -51,7 +51,7 @@ const char* GetInstallDir() {
 
 const char* GetTmpDir() {
 	if(!_tmpdir) {
-#if defined (__linux__) || defined (__OpenBSD__)
+#if defined (__linux__) || defined (__OpenBSD__) || defined (__APPLE__)
 		//_tmpdir = "/tmp";
 		_strTemp = string("/tmp/");
 		_tmpdir = _strTemp.c_str();
